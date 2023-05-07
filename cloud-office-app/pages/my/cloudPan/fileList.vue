@@ -1,0 +1,330 @@
+<template>
+	<view>
+		<u-navbar :is-back="true" title="文件夹" :border-bottom="false" back-icon-color="#000" :background="background"
+			title-color="#000" :height="55">
+			<text slot="right" style="margin-right: 32rpx;color: #4396F7;"
+				@click="mgtBtn">{{isEdit ? "取消" : "管理"}}</text>
+		</u-navbar>
+		<view class="file-box">
+			<view class="" v-for="(item,index) in listData" :key="index" @click="">
+				<view class="file-item" style="border-bottom: 1px solid #F6F9FE;">
+					<view class="checkbox" style="width: 46rpx;" v-if="isEdit" :class="{checked: item.checked}"
+						@click.stop="checkBtn('item',index)">
+					</view>
+					<view class="flex justify-between align-center u-flex-1" @click="goFileList(item.id)">
+
+						<view class="file-item-l">
+							<image src="../../../static/image/my/cloud-file.png" class="file-item-l-icon" mode="">
+							</image>
+							<view class="file-info">
+								<view class="file-name">
+									{{item.name}}
+								</view>
+								<view class="file-size">
+									{{item.size}}M
+								</view>
+							</view>
+
+						</view>
+
+						<view class="file-item-r" @click.stop="handlerItem(index)">
+							<u-icon name="arrow-right" color="#7A7C94"></u-icon>
+						</view>
+					</view>
+				</view>
+				<view class="file-item-handle" v-if="item.select">
+				<!-- 	<view class="file-item-handle-item" @click="editBtn">
+						<u-icon class="file-item-handle-item-icon" name="edit-pen-fill" color="#7A7C94" size="45">
+						</u-icon>
+						<text>更命名</text>
+					</view> -->
+					<view class="file-item-handle-item" @click="delBtn(item.id)">
+						<u-icon name="trash-fill" class="file-item-handle-item-icon" color="#7A7C94" size="45"></u-icon>
+						<text>删除</text>
+					</view>
+				</view>
+			</view>
+
+		</view>
+
+
+
+		<view class="bd-div" v-if="isEdit">
+			<view class="edit-left">
+				<view class="checkboxAll" style="margin-right: 8rpx;" v-if="isEdit" :class="{checked: isAll}"
+					@click.stop="checkBtn('all')">
+				</view>
+				全选
+			</view>
+			<view class="edit-btn" @click="delBtns">
+				删除
+			</view>
+		</view>
+
+
+		<image v-if="!isEdit" src="../../../static/image/tab1/add.png" class="addBtn" mode="" @click="handlerAdd">
+		</image>
+		<u-modal v-model="isShowAlert" :show-cancel-button="true" :show-confirm-button="true" :show-title="true"
+			title="新建文件夹" @confirm="confirmBtn">
+
+			<view class="slot-content text-center" style="padding: 24rpx 32rpx;" slot="default">
+				<view class="inputClass">
+					<input type="text" placeholder="请输入文件夹" v-model="name" />
+
+				</view>
+			</view>
+		</u-modal>
+	</view>
+</template>
+
+<script>
+	import {
+		mapState
+	} from "vuex"
+	export default {
+		data() {
+			return {
+				isAll: false,
+				isEdit: false,
+				name: "",
+				isShowAlert: false,
+				background: {
+					backgroundColor: "#FFFFFF",
+				},
+				currentId: "",
+				listData: []
+			};
+		},
+		computed: {
+			...mapState({
+				userInfo: state => state.user.userInfo,
+
+			})
+		},
+		onLoad() {
+			this.getjia()
+		},
+		methods: {
+			delBtn(id){
+				let params = {
+					file_id: id
+				}
+				this.$http("enterprise.cloud_pan/deldirectory", params, "post").then(res => {
+					if (res.data.code == 1) {
+						this.getjia();
+						this.isEdit = false;
+					}
+				})
+			},
+			delBtns() {
+				let ids = this.listData.filter(item => item.checked).map(items => items.id).join(",");
+				let params = {
+					file_id: ids
+				}
+				this.$http("enterprise.cloud_pan/deldirectory", params, "post").then(res => {
+					if (res.data.code == 1) {
+						this.getjia();
+						this.isEdit = false;
+					}
+				})
+			},
+			checkBtn(type, index) {
+				if (type == "item") {
+					this.listData[index].checked = !this.listData[index].checked;
+					this.isAll = this.listData.every(item => item.checked)
+				} else {
+					this.isAll = !this.isAll;
+					this.listData.forEach(item => {
+						item.checked = this.isAll;
+					})
+				}
+				this.$forceUpdate()
+			},
+			confirmBtn() {
+				let params = {
+					dir_id: this.userInfo.config.dir[0].id,
+					pan_id: this.userInfo.config.pan_info.id,
+					name: this.name
+				}
+				this.$http("enterprise.cloud_pan/mkdir", params, "post").then(res => {
+					if (res.data.code == 1) {
+						this.getjia();
+						this.name = "";
+					}
+				})
+			},
+			//获取目录  1为目录 -1为文件
+			getjia() {
+				console.log(this.userInfo.config, ">>>>>>>>>>>>>")
+				let formData = {
+					dir_id: this.userInfo.config.dir[0].id,
+					pan_id: this.userInfo.config.pan_info.id,
+					page: 1,
+					limit: 10,
+					offset: 0,
+					search: ''
+				}
+
+				this.$http("enterprise.cloud_pan/dir", formData, "get").then(res => {
+					if (res.data.code == 1) {
+						this.listData = res.data.data.rows
+					}
+				})
+			},
+			goFileList(id) {
+				uni.navigateTo({
+					url: "/pages/my/cloudPan/fileList2?id=" + id
+				})
+			},
+			handlerAdd() {
+				this.isShowAlert = true;
+			},
+			goAddPage() {
+
+			},
+			mgtBtn() {
+				this.isEdit = !this.isEdit;
+			},
+			editBtn() {
+				this.isShowAlert = true;
+			},
+			handlerItem(index) {
+				this.listData.forEach(item => {
+					item.select = false;
+				})
+				this.currentId = this.listData[index].id;
+				this.listData[index].select = !this.listData[index].select;
+				this.$forceUpdate()
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.addBtn {
+		position: fixed;
+		bottom: 158rpx;
+		right: 32rpx;
+		width: 110rpx;
+		height: 110rpx;
+	}
+
+	.bd-div {
+		height: 100rpx;
+		width: 100%;
+		position: fixed;
+		background-color: #F6F9FE;
+		padding: 0 32rpx;
+		display: flex;
+		align-items: center;
+		bottom: 0;
+		justify-content: space-between;
+
+		.edit-left {
+			display: flex;
+			align-items: center;
+		}
+
+		.edit-btn {
+			width: 240rpx;
+			height: 80rpx;
+			background: #FF253D;
+			color: #fff;
+			font-size: 28rpx;
+			border-radius: 55rpx;
+			line-height: 80rpx;
+			text-align: center;
+		}
+	}
+
+
+	.checkbox {
+		border-radius: 50%;
+		border: 1px solid #e2e6f0;
+		width: 54rpx;
+		height: 42rpx;
+		margin-right: 14rpx;
+	}
+
+	.checked {
+		background: url(../../../static/image/login/select-a.png) no-repeat;
+		background-size: 100% 100%;
+	}
+
+	.checkboxAll {
+		border-radius: 50%;
+		border: 1px solid #e2e6f0;
+		width: 56rpx;
+		height: 52rpx;
+		margin-right: 14rpx;
+	}
+
+	.inputClass {
+		border: 1px solid #B5BFDA;
+		padding: 24rpx;
+		border-radius: 12rpx;
+	}
+
+	.file-box {
+		margin-top: 24rpx;
+		background: #FFFFFF;
+		border-radius: 24rpx;
+
+		.file-item {
+			display: flex;
+			justify-content: space-between;
+			height: 142rpx;
+			align-items: center;
+			padding: 0 25rpx;
+
+			.file-item-l {
+				display: flex;
+				align-items: center;
+
+				.file-item-l-icon {
+					width: 62rpx;
+					height: 54rpx;
+					margin-right: 24rpx;
+				}
+
+				.file-info {
+					display: flex;
+					flex-direction: column;
+
+					.file-name {
+						font-size: 30rpx;
+						color: #150E33;
+					}
+
+					.file-size {
+						color: #B5BFDA;
+						font-size: 26rpx;
+						margin-top: 20rpx;
+					}
+				}
+			}
+
+
+		}
+
+		.file-item-handle {
+			height: 112rpx;
+			background: #F6F9FE;
+			display: flex;
+			padding: 0 20rpx;
+			justify-content: space-around;
+			align-items: center;
+
+			.file-item-handle-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				font-size: 24rpx;
+
+				.file-item-handle-item-icon {
+					margin-bottom: 10rpx;
+				}
+			}
+		}
+	}
+</style>

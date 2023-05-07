@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/node-modules/uview-ui/components/u-navbar/u-navbar",
+    "u-form": "/node-modules/uview-ui/components/u-form/u-form",
+    "u-form-item": "/node-modules/uview-ui/components/u-form-item/u-form-item",
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
+    "u-picker": "/node-modules/uview-ui/components/u-picker/u-picker",
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
+    "dell-popup": "/components/dell-popup"
+  }
+}

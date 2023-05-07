@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "选择单位",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-search": "/node-modules/uview-ui/components/u-search/u-search"
+  }
+}

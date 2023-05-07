@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/node-modules/uview-ui/components/u-navbar/u-navbar",
+    "u-cell-group": "/node-modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell-item": "/node-modules/uview-ui/components/u-cell-item/u-cell-item",
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
+    "financial-accounting": "/pages/my/setting/components/financialAccounting",
+    "three-services": "/pages/my/setting/components/threeServices"
+  }
+}

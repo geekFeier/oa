@@ -1,0 +1,1 @@
+<view class="memoBox data-v-1aa46c85"><view class="memoTitle data-v-1aa46c85">便签</view><view class="memoMain data-v-1aa46c85"><view class="memoCon data-v-1aa46c85">今天想记录什么</view><view data-event-opts="{{[['tap',[['goAddPage',['$event']]]]]}}" class="btnDiv data-v-1aa46c85" bindtap="__e">创建便签</view></view></view>

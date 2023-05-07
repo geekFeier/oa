@@ -1,0 +1,134 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+page.data-v-46a0c5a0 {
+  background: #FBFCFF;
+  color: #150E33;
+}
+.disable.data-v-46a0c5a0 {
+  color: #dfdfdf !important;
+}
+.header-div.data-v-46a0c5a0 {
+  display: flex;
+  align-items: center;
+  height: 94rpx;
+  justify-content: center;
+  background-color: #fff;
+}
+.header-div .date-text.data-v-46a0c5a0 {
+  font-size: 30rpx;
+}
+.header-div .header-icon.data-v-46a0c5a0 {
+  margin-left: 8rpx;
+}
+.mainBox.data-v-46a0c5a0 {
+  padding: 0 32rpx;
+}
+.mainBox .main-item.data-v-46a0c5a0 {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx 24rpx;
+  margin-top: 24rpx;
+}
+.mainBox .main-item .main-item-header.data-v-46a0c5a0 {
+  display: flex;
+  font-size: 32rpx;
+  justify-content: space-between;
+}
+.mainBox .main-item .main-item-m.data-v-46a0c5a0 {
+  display: flex;
+  margin-top: 32rpx;
+}
+.mainBox .main-item .main-item-m .main-item-m-n.data-v-46a0c5a0 {
+  width: 212rpx;
+  height: 60rpx;
+  font-size: 28rpx;
+  line-height: 60rpx;
+  text-align: center;
+}
+.green.data-v-46a0c5a0 {
+  background: rgba(18, 213, 146, 0.3);
+}
+.pink.data-v-46a0c5a0 {
+  background: rgba(255, 37, 61, 0.3);
+}
+.popup-main .popup-box.data-v-46a0c5a0 {
+  padding: 32rpx 40rpx;
+}
+.popup-main .popup-box .popup-title.data-v-46a0c5a0 {
+  font-weight: bold;
+  font-size: 36rpx;
+}
+.popup-main .popup-bottom.data-v-46a0c5a0 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -34rpx;
+  width: 100%;
+  margin-top: 24rpx;
+}
+.popup-main .popup-bottom .popup-bottom-item.data-v-46a0c5a0 {
+  margin-bottom: 12rpx;
+  color: #7A7C94;
+  font-size: 34rpx;
+  width: 88rpx;
+  height: 88rpx;
+  margin-right: 22rpx;
+  text-align: center;
+  line-height: 88rpx;
+}
+.popup-main .active.data-v-46a0c5a0 {
+  background-color: #4396F7;
+  color: #fff;
+  border-radius: 50%;
+}
+.popup-main .popup-common-title.data-v-46a0c5a0 {
+  font-size: 36rpx;
+  color: #150E33;
+  text-align: center;
+  margin-top: 56rpx;
+}
+.popup-main .active.data-v-46a0c5a0 {
+  background: #4396F7 !important;
+  color: #FFFFFF !important;
+}
+.popup-main .popup-common-btnGroup.data-v-46a0c5a0 {
+  display: flex;
+  padding: 0 50rpx;
+  justify-content: space-between;
+  font-size: 30rpx;
+  margin-top: 50rpx;
+  margin-bottom: 32rpx;
+}
+.popup-main .popup-common-btnGroup .popup-common-btn.data-v-46a0c5a0 {
+  width: 260rpx;
+  height: 80rpx;
+  background: #F6F9FE;
+  border-radius: 12rpx;
+  color: #7A7C94;
+  text-align: center;
+  line-height: 80rpx;
+}
+
