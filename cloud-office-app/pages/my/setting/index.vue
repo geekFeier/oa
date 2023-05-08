@@ -6,8 +6,7 @@
 		<financialAccounting v-if="personType && (personType==1 || personType==2 || personType==3)"></financialAccounting>
 		<threeServices  v-if="personType && (personType==1 || personType==2 || personType==3)"></threeServices>
 		<view class="main-bd">
-			<u-cell-group :border="false">
-				<u-cell-item title="制表人" @click="showTabulate" :value="makename"></u-cell-item>
+			<u-cell-group :border="false"> 
 				<u-cell-item title="清除缓存" @click="clearBtn" :value="all"></u-cell-item>
 				<u-cell-item title="检查更新" @click="goVersion" value="当前已是最新版本">
 
@@ -19,16 +18,7 @@
 		<u-modal v-model="isShowOut" content="你确定退出登录?" @confirm="sureAgree" :show-cancel-button="true"
 			:show-confirm-button="true" :show-title="false">
 		</u-modal>
-		<u-modal v-model="isShowAlert" :show-cancel-button="true" :show-confirm-button="true" :show-title="true"
-			title="设置制表人" @confirm="confirmBtn">
-
-			<view class="slot-content text-center" style="padding: 24rpx 32rpx;" slot="default">
-				<view class="inputClass">
-					<input type="text" placeholder="请输入制表人名称" v-model="name" />
-
-				</view>
-			</view>
-		</u-modal>
+	 
 	</view>
 </template>
 
@@ -42,8 +32,7 @@
 		data() {
 			return {
 				makename: "",
-				name: "",
-				isShowAlert: false,
+				name: "", 
 				isShowOut: false,
 				background: {
 					backgroundColor: "#FFFFFF",
@@ -83,34 +72,8 @@
 						this.makename = res.data.data.config.makename ? res.data.data.config.makename : "";
 					}
 				})
-			},
-			showTabulate() {
-				this.isShowAlert = true;
-				this.name = this.makename;
-			},
-			confirmBtn() {
-				if(!this.name){
-					uni.showToast({
-						title:"请输入制表人名称",
-						icon:"none"
-					})
-					this.isShowAlert = true;
-					return false
-				}
-				let params = {
-					make_name: this.name
-				};
-				this.$http("enterprise.Credentials/setmakename", params, "post").then(res => {
-					if (res.data.code == 1) {
-						uni.showToast({
-							title: "设置成功",
-							icon: "none"
-						})
-						this.getUserInfo();
-						this.isShowAlert = false;
-					}
-				})
-			},
+			}, 
+			 
 			sureAgree() {
 				uni.clearStorage();
 				uni.reLaunch({
