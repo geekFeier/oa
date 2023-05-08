@@ -22,7 +22,7 @@
 				<view class="get-code" v-else>{{codeTime}}s后重新发送</view>
 			</view>
 
-			<view class="form-item form-pass" v-if="modeFlag==1">
+			<view class="form-item form-pass">
 				<image src="../../static/image/login/home.png" mode="" style="width: 40rpx;height: 40rpx;"></image>
 				<input type="text" disabled :value="unitName" placeholder="请选择单位" class="telInput"
 					placeholder-style="color: #B5BFDA;font-size:32rpx" @click="selectUnit" />
@@ -32,7 +32,7 @@
 
 
 			<view class="change-mode">
-				<text style="color: #150E33;" @click="changeMode()">{{modeFlag === 1 ? "企业登录" : "员工登录"}}</text>
+				<text style="color: #150E33;" @click="changeMode()">{{modeFlag === 1 ? "验证码登录" : "密码登录"}}</text>
 
 				<text style="color: #150E33;" @click="registerBtn()">注册账号</text>
 			</view>
