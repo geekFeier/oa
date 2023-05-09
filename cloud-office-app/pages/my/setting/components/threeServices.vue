@@ -1,6 +1,6 @@
 <template>
 	<view class="statementBox">
-		<view class="statementMain">
+		<view class="statementMain"  v-if="!['2','4'].includes(personType)">
 			<view class="common-title">
 				提示设置
 			</view>

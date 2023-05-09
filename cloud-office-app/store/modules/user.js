@@ -17,6 +17,7 @@ const actions = {
 		if (data.is_admin == "admin") {
 			commit("SET_PERSON_TYPE", 1)
 		} else {
+			//  1=总经理，2=部门经理，3=会计，4=职员
 				commit("SET_PERSON_TYPE", data.jobs.job.flag)
 		}
 
