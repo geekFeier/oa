@@ -165,6 +165,7 @@
 	export default {
 		data() {
 			return {
+				isPull:false,
 				listData:[],
 				page:1,
 				limit:10,
@@ -204,7 +205,7 @@
 					return "red"
 				}
 			}
-		},
+		},  
 		onReachBottom() {
 			if(this.swiperCurrent==0){
 				this.page++;
@@ -212,10 +213,33 @@
 			}
 		},
 		onLoad() {
+			this.isPullDown(false)
 			this.getListData();
 			this.getReceiviPersion();
 		},
+		onPullDownRefresh() {
+			this.page = 1
+			this.listData = []
+			this.getListData();
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		methods: {
+			// 禁止下拉刷新
+			isPullDown(isPull) {
+					//获取当前 Webview 窗口对象
+					const pages = getCurrentPages();
+					const page = pages[pages.length - 1];
+					const currentWebview = page.$getAppWebview();
+					//根据状态值来切换禁用/开启下拉刷新
+					currentWebview.setStyle({
+							pullToRefresh: {
+									support: isPull,
+									style: 'circle'
+							}
+					});
+			},
 			getReceiviPersion(){
 				let params = {
 					pageId : 1
@@ -304,9 +328,7 @@
 								reject(false)
 							}
 						})
-					})
-			
-			
+					}) 
 				})
 				promiseArr.push(promiseItem);
 				Promise.all(promiseArr).then(res => {
@@ -370,6 +392,7 @@
 			},
 			tabsChange(index) {
 				this.swiperCurrent = index;
+				this.isPullDown(index=== 1)
 			}
 		}
 	}

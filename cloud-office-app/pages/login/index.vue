@@ -32,7 +32,7 @@
 
 
 			<view class="change-mode">
-				<text style="color: #150E33;" @click="changeMode()">{{modeFlag === 1 ? "验证码登录" : "密码登录"}}</text>
+				<!-- <text style="color: #150E33;" @click="changeMode()">{{modeFlag === 1 ? "验证码登录" : "密码登录"}}</text> -->
 
 				<text style="color: #150E33;" @click="registerBtn()">注册账号</text>
 			</view>
@@ -59,7 +59,7 @@
 					unitwork: ""
 				},
 				codeTime: 60,
-				modeFlag: 2, // 2企业  1用户
+				modeFlag: 1, // 2企业  1用户
 				isClick: true,
 				isHidden: 1
 			}

@@ -1,6 +1,6 @@
 <template>
 	<view class="">
-		<u-navbar :is-back="true" title="其他申请" :border-bottom="false" back-icon-color="#000" :background="background"
+		<u-navbar :is-back="true" title="发文申请" :border-bottom="false" back-icon-color="#000" :background="background"
 			title-color="#000" :height="55">
 		</u-navbar>
 		<u-tabs-swiper bar-height="4" bar-width="95" ref="tabs" :font-size="32" active-color="#4396F7"
@@ -167,6 +167,12 @@
 				]
 			}
 		},
+		onPullDownRefresh() {
+				// console.log('refresh');
+				// setTimeout(function () {
+				// 	uni.stopPullDownRefresh();
+				// }, 1000);
+			},
 		methods: {
 			sureSelectType() {
 				this.showVoucherPopup = false;

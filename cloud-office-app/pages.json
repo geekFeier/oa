@@ -232,7 +232,8 @@
 		}, {
 			"path": "pages/cooperation/applyAllPage/safeguard/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
@@ -250,73 +251,80 @@
 		}, {
 			"path": "pages/cooperation/applyAllPage/sealApply/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/maketTicketApply/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/userCarApply/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/receiveApply/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/payApply/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/otherApply/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/dispatchApply/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/safeguard/detail",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom" 
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/sealApply/detail",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom" 
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/maketTicketApply/detail",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom" 
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/userCarApply/detail",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom" 
 			}
 
 		}, {
 			"path": "pages/cooperation/applyAllPage/receiveApply/detail",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom" 
 			}
 
 		}, {
