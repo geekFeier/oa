@@ -30,9 +30,15 @@
 </template>
 
 <script>
+		import {mapState} from "vuex"
 	export default {
 		data() {
 			return {}
+		},
+		computed: {
+			...mapState({
+				personType: state => state.user.personType,
+			})
 		},
 		methods:{
 			

@@ -46,6 +46,14 @@
 				}
 			};
 		},
+		onPullDownRefresh() {
+			this.page = 1
+			this.listData= []
+			this.getListData()
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		computed: {
 			...mapState({
 				personType: state => state.user.personType,
@@ -54,6 +62,7 @@
 		onLoad() {
 			this.getListData();
 		},
+		
 		methods: {
 			filtersTime(val){
 			  return dayjs(val).format("YYYY-MM-DD HH:mm")

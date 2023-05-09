@@ -303,7 +303,7 @@
 			ringEchart,
 			financialAccounting,
 			threeServices
-		},
+		}, 
 		onShow() {
 			this.getDaiBanList();
 		},

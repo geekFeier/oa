@@ -138,6 +138,13 @@
 				}
 			}
 		},
+		// onPullDownRefresh() { 
+		// 	this.listData= []
+		// 	this.getListData()
+		// 	setTimeout(function () {
+		// 		uni.stopPullDownRefresh();
+		// 	}, 1000);
+		// },
 		methods: {
 			goDetail(item){
 				switch (this.recentlyData.flag) {
@@ -194,8 +201,6 @@
 							this.recentlyItem = res.data.data.itme;
 							this.recentlyUser = res.data.data.itme.user
 						}
-
-
 					}
 				})
 			},
