@@ -9,50 +9,50 @@
 			<view class="con">
 				<u-grid :col="4" :border="false">
 					<u-grid-item @click="goBacklog">
-						<image class="grid-icon" style="width: 50rpx;height: 54rpx;"
-							src="../../../../static/image/tab2/dbsx.png" mode="">
+						<image class="grid-icon" style="width: 50rpx;height: 54rpx;" src="../../../../static/image/tab2/dbsx.png"
+							mode="">
 						</image>
 						<view class="grid-text">待办事项</view>
 					</u-grid-item>
 					<u-grid-item @click="goFile">
-						<image class="grid-icon" style="width: 50rpx;height: 54rpx;"
-							src="../../../../static/image/tab2/wj.png" mode="">
+						<image class="grid-icon" style="width: 50rpx;height: 54rpx;" src="../../../../static/image/tab2/wj.png"
+							mode="">
 						</image>
 						<view class="grid-text">文档/文件</view>
 					</u-grid-item>
-					<u-grid-item @click="goAddTs" >
-						<image class="grid-icon" style="width: 64rpx;height: 54rpx;"
-							src="../../../../static/image/tab2/ts.png" mode="">
+					<u-grid-item @click="goAddTs">
+						<image class="grid-icon" style="width: 64rpx;height: 54rpx;" src="../../../../static/image/tab2/ts.png"
+							mode="">
 						</image>
 						<view class="grid-text">推送</view>
 					</u-grid-item>
 					<u-grid-item>
-						<image class="grid-icon" style="width: 64rpx;height: 54rpx;"
-							src="../../../../static/image/tab2/fqhy.png" mode="">
+						<image class="grid-icon" style="width: 64rpx;height: 54rpx;" src="../../../../static/image/tab2/fqhy.png"
+							mode="">
 						</image>
-						<view class="grid-text">发起会议</view>
+						<view class="grid-text" @click="launchApp">发起会议</view>
 					</u-grid-item>
 					<u-grid-item @click="goGonggao">
-						<image class="grid-icon" style="width: 58rpx;height: 54rpx;"
-							src="../../../../static/image/tab2/gg.png" mode="">
+						<image class="grid-icon" style="width: 58rpx;height: 54rpx;" src="../../../../static/image/tab2/gg.png"
+							mode="">
 						</image>
 						<view class="grid-text">单位公告</view>
 					</u-grid-item>
 				</u-grid>
-
 			</view>
-
-
 		</view>
 	</view>
 </template>
 
 <script>
-	import {mapState} from "vuex"
+	import {
+		mapState
+	} from "vuex"
 	export default {
 		data() {
 			return {
-				isShowPopop: false
+				isShowPopop: false,
+				url: 'https://uniapp.dcloud.io/'
 			}
 		},
 		computed: {
@@ -61,24 +61,24 @@
 			})
 		},
 		methods: {
-			goFile(){
+			goFile() {
 				uni.navigateTo({
-					url:"/pages/cooperation/file/index"
+					url: "/pages/cooperation/file/index"
 				})
 			},
-			goGonggao(){
+			goGonggao() {
 				uni.navigateTo({
-					url:"/pages/my/gonggao/index"
+					url: "/pages/my/gonggao/index"
 				})
 			},
-			goBacklog(){
+			goBacklog() {
 				uni.navigateTo({
-					url:"/pages/workbench/generationOffice/index"
+					url: "/pages/workbench/generationOffice/index"
 				})
 			},
-			goAddTs(){
+			goAddTs() {
 				uni.navigateTo({
-					url:"/pages/my/pushSetting/index"
+					url: "/pages/my/pushSetting/index"
 				})
 			},
 			openPopup() {
@@ -89,6 +89,32 @@
 				uni.navigateTo({
 					url: "/pages/workbench/voucher/list"
 				})
+			},
+			checkApp() {
+				if (!plus.runtime.isApplicationExist({
+						pname: 'com.tencent.wemeet.app'
+					})) {
+					uni.showToast({
+						title: '腾讯会议没有安装'
+					});
+					return false
+				}
+				return true
+			},
+			launchApp() {
+				let _this = this;
+				// 判断平台  
+				if (plus.os.name == 'Android') {
+					if (this.checkApp()) {
+						plus.runtime.launchApplication({
+								pname: 'com.tencent.wemeet.app'
+							},
+							function(e) {
+								console.log('Open system default browser failed: ' + e.message);
+							}
+						);
+					}
+				}
 			},
 			goAddVoucher() {
 				uni.navigateTo({
@@ -122,7 +148,7 @@
 		.statementMain {
 			padding: 32rpx 24rpx;
 			background: #fff;
-				// background-color: pink;
+			// background-color: pink;
 			box-sizing: border-box;
 			border-radius: 24rpx;
 
