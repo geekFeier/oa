@@ -340,6 +340,12 @@ var _default = {
       }]
     };
   },
+  onPullDownRefresh: function onPullDownRefresh() {
+    // console.log('refresh');
+    // setTimeout(function () {
+    // 	uni.stopPullDownRefresh();
+    // }, 1000);
+  },
   methods: {
     sureSelectType: function sureSelectType() {
       this.showVoucherPopup = false;

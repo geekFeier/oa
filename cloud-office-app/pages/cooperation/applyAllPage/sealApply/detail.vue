@@ -144,7 +144,7 @@
 									<!-- <text class="u-info2">07.06 14:54</text> -->
 								</view>
 								<view class="flowBox-item-l-info-bd" style="margin-top: 10rpx; color: #7A7C94;">
-									已抄送{{detailData.audit.cc_persion.length}}人
+									已抄送{{detailData.audit.cc_persion && detailData.audit.cc_persion.length || 0}}人
 								</view>
 								<view class="flowBox-item-l-info-bd-list flex" style="margin-top: 8rpx;">
 									<view

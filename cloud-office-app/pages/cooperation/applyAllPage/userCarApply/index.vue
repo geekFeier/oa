@@ -367,6 +367,7 @@
 					return item.id
 				}).join(",")
 				this.formData.vihicel = JSON.stringify(this.carList)
+				console.log(this.formData,'111----------------')
 				// let verify = Object.values(this.formData).every(item => {
 				// 	return item != "" || item.length > 0
 				// });

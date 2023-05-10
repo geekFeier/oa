@@ -271,9 +271,16 @@
 				this.formData.cc_persion = this.copiedPeople.map(item => {
 					return item.id
 				}).join(",")
-				let verify = Object.values(this.formData).every(item => {
-					return item != "" || item.length > 0
-				});
+				
+				let verifyParams = JSON.parse(JSON.stringify(this.formData))
+				delete verifyParams.remarks
+				delete verifyParams.images
+				let verify = Object.values(verifyParams).every(item => {
+					return item != ""
+				})
+				
+				 
+				
 				if (verify) {
 					this.$http("enterprise.applyfor.Pay_apply/CreateForm", this.formData, "post").then(res => {
 						if (res.data.code == 1) {

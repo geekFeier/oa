@@ -255,6 +255,13 @@ var _default = {
       }
     }
   },
+  // onPullDownRefresh() { 
+  // 	this.listData= []
+  // 	this.getListData()
+  // 	setTimeout(function () {
+  // 		uni.stopPullDownRefresh();
+  // 	}, 1000);
+  // },
   methods: {
     goDetail: function goDetail(item) {
       switch (this.recentlyData.flag) {

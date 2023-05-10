@@ -184,6 +184,14 @@ var _default = {
       }
     };
   },
+  onPullDownRefresh: function onPullDownRefresh() {
+    this.page = 1;
+    this.listData = [];
+    this.getListData();
+    setTimeout(function () {
+      uni.stopPullDownRefresh();
+    }, 1000);
+  },
   computed: _objectSpread({}, (0, _vuex.mapState)({
     personType: function personType(state) {
       return state.user.personType;

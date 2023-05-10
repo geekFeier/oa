@@ -370,42 +370,42 @@
 					})
 					return
 				}
-				for (let item of this.carList) {
-					if(!item.name){
-						uni.showToast({
-							title:"请输入领用名称!",
-							icon:"none"
-						})
-						return
-					}
-					if(!item.specification){
-						uni.showToast({
-							title:"请输入领用规格!",
-							icon:"none"
-						})
-						return
-					}
-					if(!item.unit){
-						uni.showToast({
-							title:"请输入领用单位!",
-							icon:"none"
-						})
-						return
-					}
-					if(!item.num){
-						uni.showToast({
-							title:"请输入领用数量!",
-							icon:"none"
-						})
-						return
-					}if(!item.price){
-						uni.showToast({
-							title:"请输入价格!",
-							icon:"none"
-						})
-						return
-					}
-				}
+				// for (let item of this.carList) {
+				// 	if(!item.name){
+				// 		uni.showToast({
+				// 			title:"请输入领用名称!",
+				// 			icon:"none"
+				// 		})
+				// 		return
+				// 	}
+				// 	if(!item.specification){
+				// 		uni.showToast({
+				// 			title:"请输入领用规格!",
+				// 			icon:"none"
+				// 		})
+				// 		return
+				// 	}
+				// 	if(!item.unit){
+				// 		uni.showToast({
+				// 			title:"请输入领用单位!",
+				// 			icon:"none"
+				// 		})
+				// 		return
+				// 	}
+				// 	if(!item.num){
+				// 		uni.showToast({
+				// 			title:"请输入领用数量!",
+				// 			icon:"none"
+				// 		})
+				// 		return
+				// 	}if(!item.price){
+				// 		uni.showToast({
+				// 			title:"请输入价格!",
+				// 			icon:"none"
+				// 		})
+				// 		return
+				// 	}
+				// }
 				
 				this.formData.images = this.imgData.join(",");
 				this.formData.receivi_user_ids = this.recipientList.map(item => {
@@ -428,6 +428,7 @@
 				// 	})
 				// 	return
 				// }
+				console.log(this.formData,'formData------')
 				this.formData.dateils = JSON.stringify(this.carList)
 			
 					this.$http("enterprise.applyfor.Lingyong/CreateForm", this.formData, "post").then(res => {

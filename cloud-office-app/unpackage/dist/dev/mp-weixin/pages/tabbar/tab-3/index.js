@@ -207,7 +207,13 @@ var _default = {
       return state.user.personType;
     }
   })),
-  onLoad: function onLoad() {},
+  // onShow() {
+  // 	if(!this.userInfo.config){
+  // 		uni.navigateTo({
+  // 			url:"/pages/login/index"
+  // 		})
+  // 	}
+  // },
   methods: {
     /// 求百分比
     GetPercent: function GetPercent(num, total) {

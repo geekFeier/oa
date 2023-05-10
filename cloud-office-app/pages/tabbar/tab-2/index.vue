@@ -37,7 +37,7 @@
 			</view>
 
 
-			<!-- 用车申请 -->
+			<!-- 申请 -->
 			<view class="useCar-box" v-if="recentlyData">
 				<view class="useCar-main">
 					<view class="userCar-header">
@@ -50,7 +50,7 @@
 					<view class="userCar-item" @click="goDetail()">
 						<view class="userCar-item-header">
 							<view class="userCar-item-header-l">
-								{{recentlyUser.username}}提交的用车申请
+								{{recentlyUser.username}}提交的申请
 							</view>
 							<view class="userCar-item-header-r">
 								{{recentlyItem.status == 0 ? "审核中" : (recentlyItem.status  == 1? "审核成功" : "审核失败") }}
@@ -138,13 +138,13 @@
 				}
 			}
 		},
-		// onPullDownRefresh() { 
-		// 	this.listData= []
-		// 	this.getListData()
-		// 	setTimeout(function () {
-		// 		uni.stopPullDownRefresh();
-		// 	}, 1000);
-		// },
+		onPullDownRefresh() { 
+			this.listData= []
+			this.getListData()
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		methods: {
 			goDetail(item){
 				switch (this.recentlyData.flag) {

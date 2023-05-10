@@ -193,7 +193,6 @@ var _default = {
     return {
       makename: "",
       name: "",
-      isShowAlert: false,
       isShowOut: false,
       background: {
         backgroundColor: "#FFFFFF"
@@ -236,34 +235,6 @@ var _default = {
         }
       });
     },
-    showTabulate: function showTabulate() {
-      this.isShowAlert = true;
-      this.name = this.makename;
-    },
-    confirmBtn: function confirmBtn() {
-      var _this2 = this;
-      if (!this.name) {
-        uni.showToast({
-          title: "请输入制表人名称",
-          icon: "none"
-        });
-        this.isShowAlert = true;
-        return false;
-      }
-      var params = {
-        make_name: this.name
-      };
-      this.$http("enterprise.Credentials/setmakename", params, "post").then(function (res) {
-        if (res.data.code == 1) {
-          uni.showToast({
-            title: "设置成功",
-            icon: "none"
-          });
-          _this2.getUserInfo();
-          _this2.isShowAlert = false;
-        }
-      });
-    },
     sureAgree: function sureAgree() {
       uni.clearStorage();
       uni.reLaunch({
@@ -283,12 +254,12 @@ var _default = {
           if (res.confirm) {
             //使用plus.cache.clear 清除应用中的缓存数据 这里清除后还要二十几KB没有清除，达不到全部清除
             plus.cache.clear(function () {
-              var _this3 = this;
+              var _this2 = this;
               uni.showToast({
                 title: '清除成功',
                 icon: 'none',
                 success: function success() {
-                  _this3.getCacheInfo();
+                  _this2.getCacheInfo();
                 }
               });
             });
@@ -297,17 +268,17 @@ var _default = {
       });
     },
     getCacheInfo: function getCacheInfo() {
-      var _this4 = this;
+      var _this3 = this;
       // 使用plus.cache.calculate 获取应用的缓存大小，
       plus.cache.calculate(function (size) {
         //size是多少个字节单位是b
         //你可以做下面相应的处理
         if (size < 1024) {
-          _this4.all = size + 'B';
+          _this3.all = size + 'B';
         } else if (size / 1024 >= 1 && size / 1024 / 1024 < 1) {
-          _this4.all = Math.floor(size / 1024 * 100) / 100 + 'KB';
+          _this3.all = Math.floor(size / 1024 * 100) / 100 + 'KB';
         } else if (size / 1024 / 1024 >= 1) {
-          _this4.all = Math.floor(size / 1024 / 1024 * 100) / 100 + 'M';
+          _this3.all = Math.floor(size / 1024 / 1024 * 100) / 100 + 'M';
         }
       });
     }

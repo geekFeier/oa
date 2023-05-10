@@ -37649,7 +37649,8 @@ var _default = {
   }, {
     "path": "pages/tabbar/tab-2/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/tabbar/tab-3/index",
@@ -37794,7 +37795,8 @@ var _default = {
   }, {
     "path": "pages/cooperation/applyAllPage/safeguard/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/announcement/detail",
@@ -37809,37 +37811,44 @@ var _default = {
   }, {
     "path": "pages/cooperation/applyAllPage/sealApply/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/applyAllPage/maketTicketApply/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/applyAllPage/userCarApply/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/applyAllPage/receiveApply/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/applyAllPage/payApply/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/applyAllPage/otherApply/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/applyAllPage/dispatchApply/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/cooperation/applyAllPage/safeguard/detail",
@@ -37939,7 +37948,8 @@ var _default = {
   }, {
     "path": "pages/my/gonggao/index",
     "style": {
-      "navigationStyle": "custom"
+      "navigationStyle": "custom",
+      "enablePullDownRefresh": true
     }
   }, {
     "path": "pages/my/gonggao/addPage",
@@ -59641,6 +59651,7 @@ var actions = {
     if (data.is_admin == "admin") {
       commit("SET_PERSON_TYPE", 1);
     } else {
+      //  1=总经理，2=部门经理，3=会计，4=职员
       commit("SET_PERSON_TYPE", data.jobs.job.flag);
     }
   },
@@ -59855,8 +59866,10 @@ if (true) {
   // img_url = "http://ixi0r09f.dongtaiyuming.net";
   // url_config = 'http://cloud.yunzanet.com/api/';
   // img_url = "http://cloud.yunzanet.com/"
-  exports.url_config = url_config = 'http://ysbg.qingyukeji.online/api/';
-  exports.img_url = img_url = "http://ysbg.qingyukeji.online/";
+  // url_config = 'http://ysbg.qingyukeji.online/api/';
+  // img_url = "http://ysbg.qingyukeji.online/"
+  exports.url_config = url_config = 'http://39.96.177.195/yun/public/api/';
+  exports.img_url = img_url = "http://39.96.177.195/yun/public/";
 } else {}
 
 /***/ }),

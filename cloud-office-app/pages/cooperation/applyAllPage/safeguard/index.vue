@@ -386,9 +386,13 @@
 					return item.id
 				}).join(",")
 				console.log(this.formData, "asDDDDDDDDDDDDDDDDDDD");
-				let verify = Object.values(this.formData).every(item => {
+				
+				let verifyParams = JSON.parse(JSON.stringify(this.formData))
+				delete verifyParams.remarks
+				let verify = Object.values(verifyParams).every(item => {
 					return item != ""
 				})
+ 
 				if (verify) {
 					this.$http("enterprise.applyfor.Baozhang/CreateForm", this.formData, "post").then(res => {
 						if (res.data.code == 1) {

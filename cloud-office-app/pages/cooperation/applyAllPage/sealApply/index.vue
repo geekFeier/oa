@@ -196,7 +196,7 @@
 					<view class="popup-common-item" v-for="(item,index) in voucherSelectlist" :key="index"
 						@click="selectbtn(index)">
 						<view>{{item.name}}</view>
-						<image :src="currentSelect==index ?  selectSrcA : selectSrc" mode=""
+						<image :src="currentSelect.includes(index) ?  selectSrcA : selectSrc" mode=""
 							style="width: 36rpx;height: 36rpx;"></image>
 					</view>
 				</view>
@@ -230,8 +230,7 @@
 				limit: 10,
 				copiedPeople: [],
 				recipientList: [],
-				imgData: [],
-				currentSelectType: "",
+				imgData: [], 
 				formData: {
 					receivi_person: "",
 					use_time: "",
@@ -244,7 +243,7 @@
 
 				},
 				showSelectTime: false,
-				currentSelect: 0,
+				currentSelect: [0],
 				selectSrc: "../../../../static/image/tab2/select.png",
 				selectSrcA: "../../../../static/image/tab2/selecta.png",
 				showVoucherPopup: false,
@@ -440,7 +439,11 @@
 			},
 			sureSelectType() {
 				this.showVoucherPopup = false;
-				this.formData.stamp = this.voucherSelectlist[this.currentSelect].name
+				let nameArr = []
+				this.currentSelect.forEach(index=>{
+					nameArr.push(this.voucherSelectlist[index].name)
+				})
+				this.formData.stamp = nameArr.join(',')
 			},
 			sureTime(e) {
 				this.formData.use_time = `${e.year}-${e.month}-${e.day}`
@@ -449,8 +452,8 @@
 				this.showSelectTime = true
 			},
 			selectbtn(index) {
-				this.currentSelect = index;
-				this.currentSelectType = this.voucherSelectlist[index].name
+				this.currentSelect.push(index)
+				this.currentSelect = [...new Set(this.currentSelect)]; 
 			},
 			voucherPopupBtn() {
 				this.showVoucherPopup = true;
@@ -469,9 +472,13 @@
 				this.formData.cc_persion = this.copiedPeople.map(item => {
 					return item.id
 				}).join(",")
-				let verify = Object.values(this.formData).every(item => {
+				console.log(this.formData,'----------')
+				let verifyParams = JSON.parse(JSON.stringify(this.formData))
+				delete verifyParams.remarks
+				let verify = Object.values(verifyParams).every(item => {
 					return item != ""
-				});
+				})
+				
 				if (verify) {
 					this.$http("enterprise.applyfor.Yongyin/CreateForm", this.formData, "post").then(res => {
 						if (res.data.code == 1) {

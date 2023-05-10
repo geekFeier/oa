@@ -227,7 +227,7 @@ var _default = {
         unitwork: ""
       },
       codeTime: 60,
-      modeFlag: 2,
+      modeFlag: 1,
       // 2企业  1用户
       isClick: true,
       isHidden: 1
@@ -240,7 +240,6 @@ var _default = {
       this.$navigateTo({
         url: "/pages/login/selectUnit?id=" + this.formData.unitwork + "&name=" + this.unitName
       }).then(function (res) {
-        console.log(res, "aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         _this.formData.unitwork = res.currentIndex;
         _this.unitName = res.currentName;
       });
@@ -276,6 +275,7 @@ var _default = {
             _this2.$store.dispatch("user/GET_TOKEN", res.data.data.userinfo);
             _this2.$http("User/getUser", {}, "post").then(function (res) {
               if (res.data.code == 1) {
+                console.log(11111111111111111, res.data.data);
                 _this2.$store.dispatch("user/GET_USER_INFO", res.data.data);
                 uni.showToast({
                   title: "登录成功",

@@ -318,6 +318,7 @@ var _config = __webpack_require__(/*! @/config/config.js */ 67);
 var _default = {
   data: function data() {
     return {
+      isPull: false,
       listData: [],
       copiedPeople: [],
       recipientList: [],
@@ -366,9 +367,32 @@ var _default = {
     }
   },
   onLoad: function onLoad() {
+    this.isPullDown(false);
     this.getReceiviPersion();
   },
+  onPullDownRefresh: function onPullDownRefresh() {
+    this.page = 1;
+    this.listData = [];
+    this.getListData();
+    setTimeout(function () {
+      uni.stopPullDownRefresh();
+    }, 1000);
+  },
   methods: {
+    // 禁止下拉刷新
+    isPullDown: function isPullDown(isPull) {
+      //获取当前 Webview 窗口对象
+      var pages = getCurrentPages();
+      var page = pages[pages.length - 1];
+      var currentWebview = page.$getAppWebview();
+      //根据状态值来切换禁用/开启下拉刷新
+      currentWebview.setStyle({
+        pullToRefresh: {
+          support: isPull,
+          style: 'circle'
+        }
+      });
+    },
     getReceiviPersion: function getReceiviPersion() {
       var _this = this;
       var params = {
@@ -527,6 +551,7 @@ var _default = {
     },
     tabsChange: function tabsChange(index) {
       this.swiperCurrent = index;
+      this.isPullDown(index === 1);
       if (index == 1) {
         this.page = 1;
         this.listData = [];
