@@ -1,15 +1,41 @@
 <template>
 	<view class="generationOfficeBox">
-		<u-navbar :is-back="true" :border-bottom="false" back-icon-color="#000" :background="background"
-			title-color="#000" :height="55">
+		<u-navbar :is-back="true" :border-bottom="false" back-icon-color="#000" :background="background" title-color="#000"
+			:height="55">
 			<view class="header-div">
 				<text @click="openPopup">{{navTitle}}</text>
 				<u-icon @click="openPopup" name="arrow-down-fill" class="header-icon" size="22"></u-icon>
 			</view>
 		</u-navbar>
 
+		
 		<view class="mainBox">
-			<view class="main-item" v-for="(item,index) in listData" :key="index" @click="goDetail(item.id)">
+			<view class="tit">待办列表</view>
+			<view class="main-item" v-for="(item,index) in listData.filter(item=>item.status == 0)" :key="index + 'daiban'"
+				@click="goDetail(item.id)">
+				<view class="main-item-hd">
+					<view class="circle" :class="item.type | filterColor">
+					</view>
+					<text class="main-item-title">{{item.content}}</text>
+				</view>
+				<view class="main-item-m">
+					<view class="main-item-m-con">
+						{{item.desc}}
+					</view>
+					<view class="main-item-m-bd">
+						<u-icon name="clock"></u-icon>
+						<text style="margin-left: 8rpx;">{{item.end_time}}截止</text>
+					</view>
+				</view>
+			</view>
+
+		<view class="dash">
+			 
+		</view>
+
+			<view class="tit">已办列表</view>
+			<view class="main-item" v-for="(item,index) in listData.filter(item=>item.status == 1)" :key="index + 'yiban'"
+				@click="goDetail(item.id)">
 				<view class="main-item-hd">
 					<view class="circle" :class="item.type | filterColor">
 					</view>
@@ -27,8 +53,6 @@
 			</view>
 		</view>
 
-		<image src="../../../static/image/tab1/add.png" class="addBtn" mode="" @click="goAddPage"></image>
-
 		<popupLayer ref="popupRef" v-model="isShowPopup" :direction="'bottom'">
 			<view class="popup-main">
 				<view class="popup-item" v-for="(item,index) in popupList" :key="index" @click="selectType(index)">
@@ -39,16 +63,9 @@
 						<text class="popup-item-l-name">{{item.name}}</text>
 					</view>
 					<u-icon color="#7A7C94" name="arrow-right"></u-icon>
-
 				</view>
 			</view>
 		</popupLayer>
-
-		<!-- 	<u-popup style="margin-top: 55px;" v-model="isShowPopup" mode="top" border-radius="14">
-		
-		</u-popup>
- -->
-
 	</view>
 </template>
 
@@ -108,7 +125,7 @@
 			}
 		},
 		onLoad() {
-			this.getList();
+			this.getListData();
 			this.navTitle = this.popupList[this.type].name
 		},
 		watch: {
@@ -119,9 +136,17 @@
 		components: {
 			popupLayer
 		},
-		onReachBottom(){
+		onReachBottom() {
 			this.page++;
-			this.getList()
+			this.getListData()
+		},
+		onPullDownRefresh() {
+			this.page = 1
+			this.listData = []
+			this.getListData();
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
 		},
 		methods: {
 			selectType(index) {
@@ -129,34 +154,26 @@
 				this.page = 1;
 				this.isShowPopup = false;
 				this.listData = [];
-				this.getList();
+				this.getListData();
 			},
-			getList() {
+			getListData() {
 				let params = {
 					page: this.page,
 					limit: this.limit,
 					offset: (this.page - 1) * this.limit,
 					status: this.type,
-					type:0
+					type: 0
 				}
+		 
 				this.$http("enterprise.User_todo/index", params, "get").then(res => {
 					if (res.data.code == 1) {
-						this.listData = this.listData.concat(res.data.data.rows);
+						this.$set(this, 'listData', this.listData.concat(res.data.data.rows))
 					}
 				})
 			},
 			goDetail(id) {
 				uni.navigateTo({
 					url: "/pages/workbench/generationOffice/detail?id=" + id
-				})
-			},
-			goAddPage() {
-				this.$navigateTo({
-					url: "/pages/workbench/generationOffice/addPage"
-				}).then(res => {
-					this.page=1;
-					this.listData = [];
-					this.getList();
 				})
 			},
 			openPopup() {
@@ -168,6 +185,17 @@
 </script>
 
 <style lang="scss" scoped>
+	.tit{
+		padding-left: 20rpx;
+		font-size: 30rpx;
+		font-weight: bold;
+	}
+	.dash{
+		height:1px;
+		width:90%;
+		margin:30rpx auto 40rpx;
+		background:#e2e4e7;
+	}
 	.addBtn {
 		position: fixed;
 		bottom: 298rpx;

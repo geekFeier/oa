@@ -47,13 +47,7 @@
 		methods: {
 			sureBtn() {
 				this.formData.images = this.imageData.join(",");
-				if(!this.formData.images){
-					uni.showToast({
-						title:"请上传图片!",
-						icon:"none"
-					})
-					return
-				}else if(!this.formData.content){
+				 if(!this.formData.content){
 					uni.showToast({
 						title:"请输入内容!",
 						icon:"none"

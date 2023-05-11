@@ -71,7 +71,8 @@
 		}, {
 			"path": "pages/workbench/generationOffice/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
