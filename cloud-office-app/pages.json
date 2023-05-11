@@ -806,15 +806,16 @@
                 "navigationStyle": "custom"
             }
             
-        }
-        ,{
+        },
+				{
             "path" : "pages/cooperation/file/index",
             "style" :                                                                                    
             {
                "navigationStyle": "custom"
             }
             
-        },{
+        },
+				{
             "path" : "pages/cooperation/file/addFile",
             "style" :                                                                                    
             {
@@ -827,8 +828,7 @@
             {
                "navigationStyle": "custom"
             }
-            
-        }
+        } 
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -63,7 +63,7 @@
 		methods: {
 			goFile() {
 				uni.navigateTo({
-					url: "/pages/cooperation/file/index"
+					url: "/pages/my/cloudPan/myFile"
 				})
 			},
 			goGonggao() {
