@@ -55,7 +55,7 @@
 				<view class="common-title">
 					待办
 				</view>
-				<view class="carge-item" v-for="(item,index) in daiBanListData" :key="index"
+				<view class="carge-item" v-for="(item,index) in daiBanListData.slice(0,3)" :key="index"
 					@click="goDaiBanDetail(item.id)">
 					<text class="carge-item-title">{{item.content}}</text>
 					<u-icon name="arrow-right" color="#7A7C94" size="28"></u-icon>
@@ -410,7 +410,7 @@
 				}
 				this.$http("enterprise.User_todo/index", params, "get").then(res => {
 					if (res.data.code == 1) {
-						this.daiBanListData = res.data.data.rows;
+						this.daiBanListData = res.data.data.rows || [];
 					}
 				})
 			},
