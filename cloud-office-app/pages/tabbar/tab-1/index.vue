@@ -300,6 +300,14 @@
 
 			};
 		},
+		onPullDownRefresh() {
+			this.currentPage.page = 1
+			this.getDaiBanList()
+			this.getTodoList()
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		components: {
 			memo,
 			lineEchart,

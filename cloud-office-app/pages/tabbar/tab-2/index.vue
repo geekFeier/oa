@@ -134,13 +134,14 @@
 					default:
 						return "申请"
 						break;
-
 				}
 			}
 		},
 		onPullDownRefresh() {
 			this.listData = []
-			this.getListData()
+			this.getListData();
+			this.getUserCarListData();
+			this.getRecentlys();
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
