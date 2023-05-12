@@ -15,10 +15,12 @@
 		<view class="menuBox">
 			<u-grid :col="4" :border="false">
 				<u-grid-item @click="jumpTo('generationOffice')">
-					<!-- <view class="jiaob">1</view> -->
-					<image class="grid-icon" style="width: 50rpx;height: 54rpx;position: relative;"
-						src="../../../static/image/tab1/menu1.png" mode="">
-					</image>
+					<view style="position:relative">
+						<view  class="badge" v-if="todoNum > 0">{{todoNum > 99 ? '99+' : todoNum}}</view> 
+						<image class="grid-icon" style="width: 50rpx;height: 54rpx;position: relative;"
+							src="../../../static/image/tab1/menu1.png" mode="">
+						</image>
+					</view>
 					<view class="grid-text">待办</view>
 				</u-grid-item>
 				<u-grid-item @click="jumpTo('leaveMessage')">
@@ -274,6 +276,7 @@
 	export default {
 		data() {
 			return {
+				todoNum:0,//待办数量
 				ziJinData: {},
 		
 				gathering: {},
@@ -306,6 +309,7 @@
 		}, 
 		onShow() {
 			this.getDaiBanList();
+			this.getTodoList()
 		},
 		onLoad() {
 			console.log(this.personType,"LLLLLLLLLLLLLLLLLLL")
@@ -414,6 +418,21 @@
 					}
 				})
 			},
+			getTodoList(){
+				let params = {
+					page: 1,
+					limit: 100,
+					offset: 0,
+					status: 0,//待办
+					type: 0
+				}
+						 
+				this.$http("enterprise.User_todo/index", params, "get").then(res => {
+					if (res.data.code == 1) {
+						this.todoNum = res.data.data.total || 0
+					}
+				})
+			},
 			getUserInfo() {
 				this.$http("/User/getUser", {}, "post").then(res => {
 					if (res.data.code == 1) {
@@ -483,6 +502,20 @@
 </script>
 
 <style lang="scss" scoped>
+	.badge{
+		position: absolute;
+		right: -18rpx;
+		top:-18rpx;
+		 text-align:center;
+		 border-radius:  50%;
+			height:34rpx;
+		 min-width:34rpx;
+		 line-height: 34rpx;
+		 font-size:24rpx;
+		 color:#fff;
+		 background-color: #f56c6c;
+		 z-index: 999;
+	}
 	page {
 		background: #FBFCFF !important;
 	}

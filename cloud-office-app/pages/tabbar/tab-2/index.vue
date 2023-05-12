@@ -9,8 +9,8 @@
 
 		</view> -->
 
-		<u-navbar :is-back="false" :border-bottom="false" back-icon-color="#000" :background="background"
-			title-color="#000" :height="55">
+		<u-navbar :is-back="false" :border-bottom="false" back-icon-color="#000" :background="background" title-color="#000"
+			:height="55">
 
 			<view class="unit-info">
 				<image class="unit-icon" :src="enterprice.enterprice_image" mode=""></image>
@@ -28,8 +28,7 @@
 					<view class="common-title">
 						公告
 					</view>
-					<view class="carge-item" v-for="(item,index) in listData" :key="index"
-						@click="goAnnouncementDetail(item)">
+					<view class="carge-item" v-for="(item,index) in listData" :key="index" @click="goAnnouncementDetail(item)">
 						<text class="carge-item-title">{{item.content}}</text>
 						<u-icon name="arrow-right" color="#7A7C94" size="28"></u-icon>
 					</view>
@@ -38,34 +37,32 @@
 
 
 			<!-- 申请 -->
-			<view class="useCar-box" v-if="recentlyData">
-				<view class="useCar-main">
+			<view class="useCar-box" v-if="recentlyData.length">
+				<view class="useCar-main" v-for="(item,index) in recentlyData " :key="index">
 					<view class="userCar-header">
 						<view class="userCar-header-l">
-							{{recentlyData.flag | filtersSq}}
+							{{item.flag | filtersSq}}
 						</view>
 						<u-icon name="arrow-right" color="#7A7C94" size="28"></u-icon>
 					</view>
 
-					<view class="userCar-item" @click="goDetail()">
+					<view class="userCar-item" @click="goDetail(item)">
 						<view class="userCar-item-header">
 							<view class="userCar-item-header-l">
-								{{recentlyUser.username}}提交的申请
+								{{item.user && item.user.username}}提交的申请
 							</view>
 							<view class="userCar-item-header-r">
-								{{recentlyItem.status == 0 ? "审核中" : (recentlyItem.status  == 1? "审核成功" : "审核失败") }}
+								审核中
 							</view>
 						</view>
 						<view class="userCar-item-desc">
-							申请事由：{{recentlyItem.content ? recentlyItem.content : recentlyItem.title}}
+							申请事由：{{item.content || '-'}}
 						</view>
 						<view class="userCar-item-desc">
-							申请时间：{{recentlyItem.createtime}}
+							申请时间：{{item.createtime | filterTime}}
 						</view>
 					</view>
 				</view>
-
-				<!-- <img src="../../../static/image/tab1/add.png" class="addBtn" @click="addBtn"> -->
 			</view>
 		</view>
 	</view>
@@ -77,12 +74,11 @@
 	import {
 		mapState
 	} from "vuex"
+	import dayjs from "@/utils/dayjs.min.js";
 	export default {
 		data() {
 			return {
-				recentlyUser: {},
-				recentlyItem: {},
-				recentlyData: {},
+				recentlyData: [],
 				useCarlistData: [],
 				listData: [],
 				page: 1,
@@ -108,27 +104,31 @@
 			this.getRecentlys();
 		},
 		filters: {
+			filterTime(val) {
+				return dayjs(val).format("YYYY年MM月 hh:mm:ss")
+			},
 			filtersSq(val) {
+				// 1.报账     2用印   3开票   4用车  5领用  6支付  7其他 
 				switch (val) {
-					case "yongche":
-						return "用车申请"
-						break;
-					case "yongyin":
-						return "用印申请"
-						break;
-					case "kaipiao":
-						return "开票申请"
-						break;
-					case "baozhang":
+					case 1:
 						return "报账申请"
 						break;
-					case "lingyong":
+					case 2:
+						return "用印申请"
+						break;
+					case 3:
+						return "开票申请"
+						break;
+					case 4:
+						return "用车申请"
+						break;
+					case 5:
 						return "领用申请"
 						break;
-					case "zhifu":
+					case 6:
 						return "支付申请"
 						break;
-					case "qita":
+					case 7:
 						return "其他申请"
 						break;
 					default:
@@ -138,69 +138,73 @@
 				}
 			}
 		},
-		onPullDownRefresh() { 
-			this.listData= []
+		onPullDownRefresh() {
+			this.listData = []
 			this.getListData()
-			setTimeout(function () {
+			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
 		methods: {
-			goDetail(item){
-				switch (this.recentlyData.flag) {
-					case "yongche":
+			goDetail(item) {
+				switch (item.flag) {
+					case 4:
 						uni.navigateTo({
-							url:"/pages/cooperation/applyAllPage/userCarApply/detail?data=" + encodeURIComponent(JSON
-						.stringify(this.recentlyData.itme))
+							url: "/pages/cooperation/applyAllPage/userCarApply/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
 						})
 						break;
-					case "yongyin":
+					case 2:
 						uni.navigateTo({
-							url:"/pages/cooperation/applyAllPage/sealApply/detail??data=" + encodeURIComponent(JSON
-						.stringify(this.recentlyData.itme))
+							url: "/pages/cooperation/applyAllPage/sealApply/detail??data=" + encodeURIComponent(JSON
+								.stringify(item))
 						})
 						break;
-					case "kaipiao":
+					case 3:
 						uni.navigateTo({
-							url:"/pages/cooperation/applyAllPage/maketTicketApply/detai?data=" + encodeURIComponent(JSON
-						.stringify(this.recentlyData.itme))
+							url: "/pages/cooperation/applyAllPage/maketTicketApply/detai?data=" + encodeURIComponent(JSON
+								.stringify(item))
 						})
 						break;
-					case "baozhang":
+					case 1:
 						uni.navigateTo({
-							url:"/pages/cooperation/applyAllPage/safeguard/detail?data=" + encodeURIComponent(JSON
-						.stringify(this.recentlyData.itme))
+							url: "/pages/cooperation/applyAllPage/safeguard/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
 						})
 						break;
-					case "lingyong":
+					case 5:
 						uni.navigateTo({
-							url:"/pages/cooperation/applyAllPage/receiveApply/detail?data=" + encodeURIComponent(JSON
-						.stringify(this.recentlyData.itme))
+							url: "/pages/cooperation/applyAllPage/receiveApply/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
 						})
 						break;
-					case "zhifu":
+					case 6:
 						uni.navigateTo({
-							url:"/pages/cooperation/applyAllPage/payApply/detail?data=" + encodeURIComponent(JSON
-						.stringify(this.recentlyData.itme))
+							url: "/pages/cooperation/applyAllPage/payApply/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
 						})
 						break;
-					case "qita":
+					case 7:
 						uni.navigateTo({
-							url:"/pages/cooperation/applyAllPage/otherApply/detail?data=" + encodeURIComponent(JSON
-						.stringify(this.recentlyData.itme))
+							url: "/pages/cooperation/applyAllPage/otherApply/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
 						})
 						break;
-				
 				}
 			},
 			getRecentlys() {
-				this.$http("enterprise.applyfor.base/recentlys", {}, "get").then(res => {
+				let params = {
+					page: 1,
+					type: 4,
+					status: 0,
+					limit: 100,
+					offset: 0,
+				}
+				this.$http("enterprise.applyfor.Oa/index", params, "get").then(res => {
+					console.log('wo----', res.data)
 					if (res.data.code == 1) {
-						this.recentlyData = res.data.data;
-						if (this.recentlyData) {
-							this.recentlyItem = res.data.data.itme;
-							this.recentlyUser = res.data.data.itme.user
-						}
+
+						this.recentlyData = res.data.data.rows;
 					}
 				})
 			},

@@ -163,7 +163,7 @@
 			},
 			goMyFile() {
 				uni.navigateTo({
-					url: "/pages/my/cloudPan/myFile"
+					url: "/pages/my/cloudPan/fileList"
 				})
 			},
 			editBtn() {

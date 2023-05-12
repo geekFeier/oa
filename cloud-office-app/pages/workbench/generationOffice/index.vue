@@ -32,7 +32,6 @@
 		<view class="dash">
 			 
 		</view>
-
 			<view class="tit">已办列表</view>
 			<view class="main-item" v-for="(item,index) in listData.filter(item=>item.status == 1)" :key="index + 'yiban'"
 				@click="goDetail(item.id)">
