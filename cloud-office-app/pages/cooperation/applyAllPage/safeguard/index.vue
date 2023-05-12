@@ -368,6 +368,7 @@
 				})
 			},
 			goDetail(item) {
+				console.log('报账：',item)
 				this.$navigateTo({
 					url: "/pages/cooperation/applyAllPage/safeguard/detail?data=" + encodeURIComponent(JSON
 						.stringify(item))

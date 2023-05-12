@@ -71,10 +71,10 @@
 <script>
 	import apply from "./components/apply.vue"
 	import cooperation from "./components/cooperation.vue"
+	import dayjs from '@/utils/dayjs';
 	import {
 		mapState
 	} from "vuex"
-	import dayjs from "@/utils/dayjs.min.js";
 	export default {
 		data() {
 			return {
@@ -104,8 +104,8 @@
 			this.getRecentlys();
 		},
 		filters: {
-			filterTime(val) {
-				return dayjs(val).format("YYYY年MM月 hh:mm:ss")
+			filterTime(val) { 
+				return dayjs(val * 1000).format("YYYY-MM-DD hh:mm:ss");
 			},
 			filtersSq(val) {
 				// 1.报账     2用印   3开票   4用车  5领用  6支付  7其他 
@@ -148,6 +148,7 @@
 		},
 		methods: {
 			goDetail(item) {
+				console.log('报账：', item)
 				switch (item.flag) {
 					case 4:
 						uni.navigateTo({
