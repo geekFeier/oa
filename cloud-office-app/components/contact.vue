@@ -89,7 +89,9 @@
 					search: this.keyword
 				}
 				this.$http("enterprise.Jobs/list", params, "get").then(res => {
+					
 					this.treeData = res.data.data.group;
+					console.log(this.treeData);
 				})
 			},
 	
