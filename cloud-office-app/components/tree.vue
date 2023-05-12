@@ -1,23 +1,23 @@
 <template>
 	<view class="tree-view">
-		<!-- 		<view class="cu-bar bg-white search"  style="top:0px;border-radius: 0 0 25px 25px;box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.1);">
+<!-- 				<view class="cu-bar bg-white search"  style="top:0px;border-radius: 0 0 25px 25px;box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.1);">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
 				<input type="text" placeholder="请输入" confirm-type="search" v-model="searchStr" @change="onSearch"></input>
 			</view>
 		</view> -->
 		<view class=" flex-sub" style="position: relative;padding-bottom: 55px;padding-top: 4px;">
-<!-- 			<scroll-view scroll-y class="container" scroll-with-animation="true" enable-back-to-top="true">
+			<scroll-view scroll-y class="container" scroll-with-animation="true" enable-back-to-top="true">
 				<nest-item  v-bind="$attrs" v-on="$listeners" :search="searchStr" :mult="mult" :container.sync="container" :value.sync="item"
 					v-for="(item,index) in treeData" :key="index"></nest-item>
-			</scroll-view> -->
+			</scroll-view>
 		</view>
 	</view>
 </template>
 
 <script>
 	// import tkiTree from '@/components/tki-tree/tki-tree.vue'
-	// import nestItem from '@/components/nest-item/nest-item.vue'
+	import nestItem from '@/components/nest-item/nest-item.vue'
 	import {
 		mapState
 	} from 'vuex'
