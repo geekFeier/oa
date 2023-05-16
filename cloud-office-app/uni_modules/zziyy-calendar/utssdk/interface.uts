@@ -1,0 +1,31 @@
+export type AddParams = {
+	name : string, //日历账号名称
+	title : string, //标题
+	location ?: string, //地址
+	description : string | null, //描述
+	dtstart : number, //开始时间戳毫秒
+	dtend : number, //结束时间戳毫秒
+	reminder : number, //多少分钟前提醒
+}
+export type DeleteParams = {
+	title : string, //标题
+}
+
+export type Results = {
+	code : number,
+	data : string | null,
+	msg : string,
+}
+
+export type AddOptions = {
+	params : AddParams;
+	success : (res : Results) => void;
+	fail : (err : Results) => void;
+	complete : () => void;
+}
+export type DeleteOptions = {
+	params : DeleteParams;
+	success : (res : Results) => void;
+	fail : (err : Results) => void;
+	complete : () => void;
+}

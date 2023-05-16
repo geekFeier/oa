@@ -45,8 +45,14 @@
 
 <script>
 	import {
-		url_config,img_url
+		url_config,
+		img_url
 	} from "@/config/config.js"
+
+	import {
+		calendarAdd
+	} from "@/uni_modules/zziyy-calendar";
+
 	export default {
 		data() {
 			return {
@@ -76,40 +82,73 @@
 			};
 		},
 		methods: {
+			doCalendarAdd() {
+				const time = new Date(this.formData.end_time).getTime() * 1000
+				let params = {
+					name: '云上办公', //日历账号名称
+					title: '日程:' + this.formData.content, //日历标题
+					location: '', //地址
+					description: this.formData.desc, //描述
+					dtstart: time, //开始时间戳毫秒
+					dtend: time, //结束时间戳毫秒
+					reminder: 5, //多少分钟前提醒
+				}
+
+				calendarAdd({
+					params,
+					success: (res) => {
+					
+						console.log('success', res)
+
+					},
+					fail: (res) => {
+						console.log('fail', res)
+					},
+					complete: () => {
+						console.log('complete')
+					},
+				})
+			},
+
 			sureTime(e) {
 				this.formData.end_time = `${e.year}-${e.month}-${e.day} ${e.hour}:${e.minute}:00`
 			},
 			loginBtn() {
 				this.formData.images = this.imgData.join(",");
-				if(!this.formData.join_ids){
+				if (!this.formData.join_ids) {
 					uni.showToast({
-						title:"请添加联系人!",
-						icon:"none"
+						title: "请添加联系人!",
+						icon: "none"
 					})
 					return
-				}else if(!this.formData.end_time){
+				} else if (!this.formData.end_time) {
 					uni.showToast({
-						title:"请添加截止时间!",
-						icon:"none"
+						title: "请添加截止时间!",
+						icon: "none"
 					})
 					return
-				}else if(!this.formData.desc){
+				} else if (!this.formData.desc) {
 					uni.showToast({
-						title:"请输入描述!",
-						icon:"none"
+						title: "请输入描述!",
+						icon: "none"
 					})
 					return
-				}else if(!this.formData.content){
+				} else if (!this.formData.content) {
 					uni.showToast({
-						title:"请输入标题!",
-						icon:"none"
+						title: "请输入标题!",
+						icon: "none"
 					})
 					return
 				}
+				this.doCalendarAdd();
 				this.$http("enterprise.User_todo/CreateTodo", this.formData, "post").then(res => {
 					if (res.data.code == 1) {
+						// uni.showToast({
+						// 	title: "新建成功",
+						// 	icon: "none"
+						// })
 						uni.showToast({
-							title: "新建成功",
+							title: "成功添加计划",
 							icon: "none"
 						})
 						setTimeout(() => {

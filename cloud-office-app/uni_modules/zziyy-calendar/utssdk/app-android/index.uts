@@ -1,0 +1,275 @@
+import {
+	UTSAndroid
+} from "io.dcloud.uts";
+
+import { AddParams, AddOptions, DeleteParams, DeleteOptions, Results } from "../interface.uts"
+
+import ActivityCompat from "androidx.core.app.ActivityCompat";
+import Context from 'android.content.Context';
+import ContentUris from 'android.content.ContentUris';
+import ContentValues from 'android.content.ContentValues';
+import Color from 'android.graphics.Color';
+import Cursor from 'android.database.Cursor';
+import Uri from 'android.net.Uri';
+import CalendarContract from 'android.provider.CalendarContract';
+import Calendar from 'java.util.Calendar';
+import TimeZone from 'java.util.TimeZone';
+import Long from 'java.lang.Long';
+import kotlinLong from 'kotlin.Long';
+import Manifest from "android.Manifest";
+import PackageManager from "android.content.pm.PackageManager";
+import TextUtils from 'android.text.TextUtils';
+
+const CALENDER_URL : string = "content://com.android.calendar/calendars"; //  
+const CALENDER_EVENT_URL : string = "content://com.android.calendar/events"; //  
+const CALENDER_REMINDER_URL : string = "content://com.android.calendar/reminders"; //  
+
+const CALENDARS_NAME : string = "test"; //  
+const CALENDARS_ACCOUNT_NAME : string = "test@qq.com"; // 
+const CALENDARS_ACCOUNT_TYPE : string = "com.android.test"; // 
+const CALENDARS_DISPLAY_NAME : string = "test"; // 
+
+
+class CalendarUtils {
+
+	constructor() {
+
+	}
+	/**
+	* 检查是否已经添加了日历账户，如果没有添加先添加一个日历账户再查询
+	* 获取账户成功返回账户id，否则返回-1
+	*/
+	checkAndAddAccount(context : Context) : number {
+		let oldId = this.checkAccount(context);
+		if (oldId >= 0) {
+			return oldId;
+		} else {
+			let addId = this.addAccount(context);
+			if (addId >= 0) {
+				return this.checkAccount(context);
+			} else {
+				return -1;
+			}
+		}
+	}
+
+	/**
+	 * 检查是否存在现有账户，存在则返回账户id，否则返回-1
+	 */
+	checkAccount(context : Context) : number {
+		let userCursor = context.getContentResolver().query(Uri.parse(CALENDER_URL), null, null, null, null);
+		try {
+			if (userCursor == null) { //查询返回空值
+				return -1;
+			}
+			let count = userCursor.getCount();
+			if (count > 0) { //存在现有账户，取第一个账户的id返回
+				userCursor.moveToFirst();
+				return userCursor.getInt(userCursor.getColumnIndex(CalendarContract.Calendars._ID));
+			} else {
+				return -1;
+			}
+		} finally {
+			if (userCursor != null) {
+				userCursor.close();
+			}
+		}
+	}
+
+
+	/**
+	 * 添加日历账户，账户创建成功则返回账户id，否则返回-1
+	 */
+	addAccount(context : Context) : number {
+		let timeZone = TimeZone.getDefault();
+		let value = new ContentValues();
+		value.put(CalendarContract.Calendars.NAME, CALENDARS_NAME);
+		value.put(CalendarContract.Calendars.ACCOUNT_NAME, CALENDARS_ACCOUNT_NAME);
+		value.put(CalendarContract.Calendars.ACCOUNT_TYPE, CALENDARS_ACCOUNT_TYPE);
+		value.put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, CALENDARS_DISPLAY_NAME);
+		value.put(CalendarContract.Calendars.VISIBLE, '1');
+		value.put(CalendarContract.Calendars.CALENDAR_COLOR, '' + Color.BLUE);
+		value.put(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_OWNER);
+		value.put(CalendarContract.Calendars.SYNC_EVENTS, '1');
+		value.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, timeZone.getID());
+		value.put(CalendarContract.Calendars.OWNER_ACCOUNT, CALENDARS_ACCOUNT_NAME);
+		value.put(CalendarContract.Calendars.CAN_ORGANIZER_RESPOND, '0');
+
+		let calendarUri = Uri.parse(CALENDER_URL);
+		calendarUri = calendarUri.buildUpon()
+			.appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+			.appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, CALENDARS_ACCOUNT_NAME)
+			.appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CALENDARS_ACCOUNT_TYPE)
+			.build();
+
+		let result = context.getContentResolver().insert(calendarUri, value);
+		let id = result == null ? -1 : ContentUris.parseId(result);
+		return id;
+	}
+
+
+	/**
+	 * 添加日历事件
+	 */
+	addEvent(params : AddParams) {
+
+		let title : string = params.title
+		let description : string = params.description + ''
+		let dtstart : string = params.dtstart + ''
+		let reminder : number = params.reminder
+		let location : string = params.location + ''
+		let context : Context = UTSAndroid.getUniActivity()!.getApplicationContext();
+		if (context === null) {
+			return;
+		}
+		console.log("addEvent");
+		let calId : number = this.checkAndAddAccount(context); //获取日历账户的id
+		if (calId < 0) { //获取账户id失败直接返回，添加日历事件失败
+			return;
+		}
+		//添加日历事件
+		let mCalendar = Calendar.getInstance();
+		mCalendar.setTimeInMillis(Long.parseLong(dtstart));//设置开始时间（开始时间的毫秒数）
+		let start = mCalendar.getTime().getTime();
+		mCalendar.setTimeInMillis(start + 10 * 60 * 1000);//设置终止时间，开始时间加10分钟
+		let end = mCalendar.getTime().getTime();
+		let event = new ContentValues();
+		event.put(CalendarContract.Events.TITLE, title);//标题
+		event.put(CalendarContract.Events.EVENT_LOCATION, location) //副标题
+		event.put(CalendarContract.Events.DESCRIPTION, description);
+		event.put(CalendarContract.Events.CALENDAR_ID, "" + calId); //插入账户的id
+		event.put(CalendarContract.Events.DTSTART, "" + start);
+		event.put(CalendarContract.Events.DTEND, "" + end);
+		event.put(CalendarContract.Events.HAS_ALARM, "" + 1);//设置有闹钟提醒
+		event.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Shanghai");//这个是时区，必须有
+		let newEvent = context.getContentResolver().insert(Uri.parse(CALENDER_EVENT_URL), event); //添加事件
+		if (newEvent == null) { //添加日历事件失败直接返回
+			return;
+		}
+		//事件提醒的设定
+		let values = new ContentValues();
+		values.put(CalendarContract.Reminders.EVENT_ID, "" + ContentUris.parseId(newEvent));
+		values.put(CalendarContract.Reminders.MINUTES, "" + reminder); // 提前reminder分钟有提醒，
+		values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+		let uri = context.getContentResolver().insert(Uri.parse(CALENDER_REMINDER_URL), values);
+		if (uri == null) { //添加事件提醒失败直接返回
+			return;
+		}
+	}
+	/**
+	 * 删除日历事件
+	 */
+	deleteEvent(title : string) {
+		let context : Context = UTSAndroid.getUniActivity()!.getApplicationContext();
+		if (context === null) {
+			return;
+		}
+		let eventCursor = context.getContentResolver().query(Uri.parse(CALENDER_EVENT_URL), null, null, null, null);
+		try {
+			if (eventCursor == null) { //查询返回空值
+				return;
+			}
+			if (eventCursor.getCount() > 0) {
+				//遍历所有事件，找到title跟需要查询的title一样的项
+				for (eventCursor.moveToFirst(); !eventCursor.isAfterLast(); eventCursor.moveToNext()) {
+					let eventTitle : string = eventCursor.getString(eventCursor.getColumnIndex("title"));
+					if (!TextUtils.isEmpty(title) && title.equals(eventTitle)) {
+						let id = eventCursor.getLong(eventCursor.getColumnIndex(CalendarContract.Calendars._ID));//取得id
+						let deleteUri = ContentUris.withAppendedId(Uri.parse(CALENDER_EVENT_URL), id);
+						let rows : Int = context.getContentResolver().delete(deleteUri, null, null);
+						if (rows == -1) { //事件删除失败
+							return;
+						}
+					}
+				}
+			}
+		} finally {
+			if (eventCursor != null) {
+				eventCursor.close();
+			}
+		}
+	}
+
+}
+
+/**
+ * 添加日历提醒
+ */
+export function calendarAdd(opts : AddOptions) {
+
+	// 检查相关权限是否已经具备
+	if (ActivityCompat.checkSelfPermission(UTSAndroid.getUniActivity()!, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+		// 不具备权限，申请权限，并且告知用户监听失败
+		ActivityCompat.requestPermissions(UTSAndroid.getUniActivity()!, arrayOf(Manifest.permission.WRITE_CALENDAR), 1001)
+
+		// 因权限缺失导致监听失败
+		const ret : Results = {
+			code: -1,
+			data: "权限",
+			msg: "不具备权限，请申请权限"
+		}
+		opts.fail(ret);
+
+	} else {
+		
+		if (ActivityCompat.checkSelfPermission(UTSAndroid.getUniActivity()!, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+			// 不具备权限，申请权限，并且告知用户监听失败
+			ActivityCompat.requestPermissions(UTSAndroid.getUniActivity()!, arrayOf(Manifest.permission.READ_CALENDAR), 1001)
+		
+			// 因权限缺失导致监听失败
+			const ret : Results = {
+				code: -1,
+				data: "权限",
+				msg: "不具备权限，请申请权限"
+			}
+			opts.fail(ret);
+		}
+		let calendar_utils : CalendarUtils = new CalendarUtils();
+		let params : AddParams = opts.params
+
+
+		calendar_utils.addEvent(params);
+		const ret : Results = {
+			code: 1,
+			data: "成功",
+			msg: "添加提醒成功"
+		}
+		opts.success(ret);
+	}
+
+	opts.complete();
+}
+
+/**
+ * 删除日历提醒
+ */
+export function calendarDelete(opts : DeleteOptions) {
+
+	// 检查相关权限是否已经具备
+	if (ActivityCompat.checkSelfPermission(UTSAndroid.getUniActivity()!, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+		// 不具备权限，申请权限，并且告知用户监听失败
+		ActivityCompat.requestPermissions(UTSAndroid.getUniActivity()!, arrayOf(Manifest.permission.WRITE_CALENDAR), 1001)
+
+		// 因权限缺失导致监听失败
+		const ret : Results = {
+			code: -1,
+			data: "权限",
+			msg: "不具备权限，请申请权限"
+		}
+		opts.fail(ret);
+
+	} else {
+		let calendar_utils : CalendarUtils = new CalendarUtils();
+		let params : DeleteParams = opts.params
+		calendar_utils.deleteEvent(params.title);
+		const ret : Results = {
+			code: 1,
+			data: "成功",
+			msg: "删除提醒成功"
+		}
+		opts.success(ret);
+	}
+
+	opts.complete();
+
+}
