@@ -83,7 +83,8 @@
 		},
 		methods: {
 			doCalendarAdd() {
-				const time = new Date(this.formData.end_time).getTime() * 1000
+				const time = new Date(this.formData.end_time).getTime()
+				console.log(time);
 				let params = {
 					name: '云上办公', //日历账号名称
 					title: '日程:' + this.formData.content, //日历标题

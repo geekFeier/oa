@@ -5,18 +5,18 @@
   },
   "files": {
     "utssdk/app-android/index.uts": {
-      "md5": "c41b428a4f7603f641086ab048b75102"
+      "md5": "e87227ead1b878285e3359037e121593"
     },
     "utssdk/interface.uts": {
-      "md5": "923d903fe8c2902565c151179caca145"
+      "md5": "c68abf293ef5a94b43be3b881d9384a8"
     },
     "package.json": {
       "md5": "c386a161ab5f7dd231f6bf4b1466125c"
     },
     "utssdk/app-android/AndroidManifest.xml": {
-      "md5": "e8bd903b036e1321c9add002371b61a5"
+      "md5": "13bca42df686721f804f50ffedb40b3a"
     },
-    "utssdk/app-android/config.json": {
+    "utssdk/app-android/config.1json": {
       "md5": "e2b257eff8b98abf06058a732fc0be20"
     }
   }
