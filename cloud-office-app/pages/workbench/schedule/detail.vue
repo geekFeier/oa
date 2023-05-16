@@ -41,7 +41,7 @@
 			</view>
 		</view>
 
-		<button v-if="detailData.status == 0" type="default" class="sure_btn" @click="sureBtn">完成留言</button>
+		<button v-if="detailData.status == 0" type="default" class="sure_btn" @click="sureBtn">完成日程</button>
 
 	</view>
 </template>

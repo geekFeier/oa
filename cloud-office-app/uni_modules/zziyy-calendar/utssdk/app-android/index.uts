@@ -196,6 +196,7 @@ class CalendarUtils {
  * 添加日历提醒
  */
 export function calendarAdd(opts : AddOptions) {
+	console.log('---------------')
 
 	// 检查相关权限是否已经具备
 	if (ActivityCompat.checkSelfPermission(UTSAndroid.getUniActivity()!, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
