@@ -170,6 +170,7 @@
 			getLocaltion() {
 				uni.getLocation({
 					geocode: true,
+					type:'gcj02',
 					success: (res) => {
 						console.log(res, "asDDDDDDDDDDDDDDDDDDDDD");
 						if (res.address) {

@@ -1,6 +1,6 @@
 {
     "name" : "云上办公",
-    "appid" : "__UNI__C07A7F0",
+    "appid" : "__UNI__EDBC12B",
     "description" : "",
     "versionName" : "1.0.1",
     "versionCode" : 101,
@@ -28,10 +28,15 @@
                 "permissions" : [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_CHECKIN_PROPERTIES\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_APPWIDGET\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_DEVICE_ADMIN\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_TEXT_SERVICE\"/>",
                     "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
                     "<uses-permission android:name=\"android.permission.CAMERA\"/>",
                     "<uses-permission android:name=\"android.permission.CAPTURE_SECURE_VIDEO_OUTPUT\"/>",
@@ -41,12 +46,10 @@
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
                     "<uses-permission android:name=\"android.permission.INTERNET\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_CALENDAR\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_CALENDAR\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ],
@@ -54,7 +57,11 @@
             },
             /* ios打包配置 */
             "ios" : {
-                "dSYMs" : false
+                "dSYMs" : false,
+                "privacyDescription" : {
+                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "获取用户当前位置进行定位操作",
+                    "NSLocationWhenInUseUsageDescription" : "获取用户当前位置进行定位操作"
+                }
             },
             /* SDK配置 */
             "sdkConfigs" : {
@@ -113,22 +120,7 @@
                 "androidStyle" : "common"
             }
         },
-        "nativePlugins" : {
-            "GuoWei-SelectFileModule" : {
-                "__plugin_info__" : {
-                    "name" : "Android文件选择",
-                    "description" : "目录方式，选择Android手机储存文件，支持多选、过滤",
-                    "platforms" : "Android",
-                    "url" : "https://ext.dcloud.net.cn/plugin?id=4607",
-                    "android_package_name" : "com.yunshangbangong.yunzan",
-                    "ios_bundle_id" : "com.ysbg.yunzan",
-                    "isCloud" : true,
-                    "bought" : 1,
-                    "pid" : "4607",
-                    "parameters" : {}
-                }
-            }
-        }
+        "nativePlugins" : {}
     },
     /* 快应用特有相关 */
     "quickapp" : {},
