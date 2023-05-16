@@ -348,6 +348,12 @@
 			}
 
 		}, {
+			"path": "pages/my/invoice/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		
+		},{
 			"path": "pages/my/setting/index",
 			"style": {
 				"navigationStyle": "custom"
