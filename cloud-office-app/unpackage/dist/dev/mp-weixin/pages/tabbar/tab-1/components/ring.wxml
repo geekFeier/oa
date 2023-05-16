@@ -1,1 +1,0 @@
-<view class="ringBox data-v-1231530a"><qiun-data-charts vue-id="33f80c2a-1" opts="{{echartOpt}}" type="ring" chartData="{{chartData}}" errorShow="{{false}}" background="none" tooltipShow="{{false}}" class="data-v-1231530a" bind:__l="__l"></qiun-data-charts></view>

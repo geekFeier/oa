@@ -116,6 +116,7 @@
 
 			}, 1000)
 			this.getInfo();
+			uni.showLoading()
 			this.getLocaltion();
 			timer = setInterval(() => {
 				this.getLocaltion();
@@ -172,6 +173,7 @@
 					geocode: true,
 					type:'gcj02',
 					success: (res) => {
+						uni.hideLoading()
 						console.log(res, "asDDDDDDDDDDDDDDDDDDDDD");
 						if (res.address) {
 							this.address =
@@ -194,6 +196,7 @@
 
 					},
 					fail: (err) => {
+						uni.hideLoading()
 						uni.showToast({
 							title: "获取定位权限失败",
 							icon: "none"
