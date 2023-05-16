@@ -107,6 +107,7 @@
 					<u-cell-item title="意见反馈" @click="jumpTo('feedback')"></u-cell-item>
 					<u-cell-item title="联系我们" :value="userInfo.config.phone ? userInfo.config.phone : ''"
 						@click="phoneCall"></u-cell-item>
+					<u-cell-item title="开发票" @click="jumpTo('invoice')"></u-cell-item>
 					<u-cell-item title="设置" @click="jumpTo('setting')"></u-cell-item>
 					<!-- <u-cell-item title="资产负载表" @click="zcfz()"></u-cell-item> -->
 				</u-cell-group>

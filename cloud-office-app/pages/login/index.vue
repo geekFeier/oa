@@ -1,8 +1,6 @@
 <template>
 	<view class="loginBox">
-		<view style="width: 100rpx;height:100rpx;top:200rpx;position:  relative;background-color: green;" >
-			<u-badge numberType="ellipsis"  shape="circle" max="99" :value="10" :absolute="true" :offset="[-10,-10]">10</u-badge>
-		</view>
+	
 		<u-navbar title="登录" :is-back="true" title-color="#150E33"></u-navbar>
 		<view class="loginMain">
 			<image src="../../static/image/launch_icon.png" mode="" class="login_logo"></image>

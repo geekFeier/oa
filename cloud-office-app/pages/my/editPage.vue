@@ -5,6 +5,11 @@
 		</u-navbar>
 		<view class="mainBox">
 			<u-form ref="uForm">
+				<u-form-item label="手机号" label-width="150">
+					<u-input v-model="formData.mobile" type="input" placeholder="请输入手机号" />
+				</u-form-item>
+			</u-form>
+			<u-form ref="uForm">
 				<u-form-item label="昵称" label-width="150">
 					<u-input v-model="formData.username" type="input" placeholder="请输入昵称" />
 				</u-form-item>
@@ -40,7 +45,8 @@
 				},
 				imageData:"",
 				formData: {
-					username:""
+					mobile:'',
+					username:"",
 				}
 			};
 		},
@@ -51,6 +57,7 @@
 		},
 		onLoad(){
 			this.imageData =  this.userInfo.avatar.indexOf("data:image/")>=0 ? "" : this.userInfo.avatar; 
+			this.formData.mobile = this.userInfo.mobile;
 			this.formData.username = this.userInfo.username;
 		},
 		methods: {
@@ -62,7 +69,7 @@
 				})
 			},
 			sureBtn() {
-				if((this.imageData && this.imageData.length) && this.formData.username){
+				if((this.imageData && this.imageData.length) && this.formData.username && this.formData.mobile){
 					this.formData.avatar = this.imageData;
 					this.$http("User/saveUser",this.formData,"post").then(res=>{
 						if(res.data.code==1){
