@@ -24,7 +24,7 @@
 						<image class="grid-icon" style="width: 64rpx;height: 54rpx;" src="../../../../static/image/tab2/ts.png"
 							mode="">
 						</image>
-						<view class="grid-text">推送</view>
+						<view class="grid-text">信息</view>
 					</u-grid-item>
 					<u-grid-item>
 						<image class="grid-icon" style="width: 64rpx;height: 54rpx;" src="../../../../static/image/tab2/fqhy.png"
@@ -78,7 +78,7 @@
 			},
 			goAddTs() {
 				uni.navigateTo({
-					url: "/pages/my/pushSetting/index"
+					url: "/pages/workbench/leaveMessage/index"
 				})
 			},
 			openPopup() {
