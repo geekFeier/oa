@@ -16,10 +16,8 @@
 						<view class="file-item" v-if="!filePath" @click="uploadFile">
 							<image class="file-item-icon" src="../../../static/image/my/cloud.png" mode=""></image>
 						</view>
-						<view class="file-item" v-if="filePath"
-							:style="{'background': filePath? 'url(../../../static/image/othe.png) no-repeat':'','background-size':'100% 100%'}"
-							@click="uploadFile">
-							<!-- <image   class="file-item-icon"  src="../../../static/image/othe.png" mode=""></image> -->
+						<view class="file-item" v-else @click="uploadFile">
+							<image class="file-item-icon" src="../../../static/image/othe.png" mode=""></image>
 						</view>
 					</view>
 
@@ -64,18 +62,19 @@
 		methods: {
 			uploadFile() {
 				const plugin = uni.requireNativePlugin('GuoWei-SelectFileModule')
-				console.log(123,"")
 				console.log(plugin,"11111111111111111")
 				plugin.chooseFile(
 				    {
 				        count: 1,
-				        extension: ["docx", "xlsx", "pptx"],
+				        // extension: ["docx", "xlsx","xls", "pptx",'pdf','doc','png','jpg','jpeg','bmp'],
 				        rootDirName: '根目录',
 				        themeColor: '#00ff00',
 				        folderIconColor: '#ff0000',
 				        fileIconColor: '#0000ff'
 				    }, 
 				    result => {
+						console.log('result.files[0].url')
+						console.log(result.files[0].url)
 						let pathTemp = result.files[0].url;
 						this.filePath = pathTemp;
 						//this.uploadFileFun(pathTemp)
@@ -93,15 +92,16 @@
 			},
 			uploadFileFun() {
 				uni.showLoading({
-					title:"上传中!"
+					title:"上传中..."
 				})
+				console.log(this.cateId,this.userInfo.config.pan_info.id)
 				uni.uploadFile({
 					url: url_config + "enterprise.cloud_pan/file_upload",
 					name: "file",
 					filePath: this.filePath,
 					formData: {
-						dir_id: this.cateId,
-						pan_id: this.userInfo.config.pan_info.id,
+						dir_id: this.cateId,//目录id
+						pan_id: this.userInfo.config.pan_info.id,//TODO:?
 					},
 					header: {
 						token: uni.getStorageSync("token") || ""
@@ -134,6 +134,9 @@
 					fail: (err) => {
 						uni.hideLoading()
 						console.log(err, "上传失败");
+					},
+					complete:() =>{
+						uni.hideLoading()
 					}
 				})
 			},
@@ -146,12 +149,15 @@
 				// 	})
 				// 	return
 				// }
-				this.uploadFile();
+				this.uploadFileFun();
+				 
 				// this.$http("enterprise.cloud_pan/file_upload", params, "post").then(res => {
 				// 	if (res.data.code == 1) {
 
 				// 	}
 				// })
+				
+				
 				console.log(666666)
 			}
 		}

@@ -6,29 +6,43 @@
 		
 		<view class="main-bd">
 			<u-form :model="form" ref="uForm">
-				<u-form-item label-width="190" label="发票类型">
-					<u-radio-group v-model="form.ftype">
+				<u-form-item label-width="150" label="发票类型">
+					<!-- <u-radio-group v-model="form.ftype">
 						<u-radio v-for="(item, index) in ftypeList" :key="item.name" :name="item.value">
 							{{item.name}}
 						</u-radio>
-					</u-radio-group>
+					</u-radio-group> -->
+					企业
 				</u-form-item>
-				<u-form-item label-width="190" label="开票类型">
-					<u-radio-group v-model="form.ktype">
+				<u-form-item label-width="150" label="开票类型">
+				<!-- 	<u-radio-group v-model="form.ktype">
 						<u-radio v-for="(item, index) in ktypeList" :key="item.name" :name="item.value"
 							:disabled="item.disabled">
 							{{item.name}}
 						</u-radio>
-					</u-radio-group>
+					</u-radio-group> -->
+					电子
 				</u-form-item>
-				<u-form-item label-width="190" label="发票抬头">
-					<u-input type="input" v-model="form.title" placeholder="请输入发票抬头" />
+				<u-form-item label-width="150" label="发票抬头">
+					<u-input type="input" v-model="form.title" placeholder="请输入发票抬头(必填)" />
 				</u-form-item>
-				<u-form-item label-width="190" label="纳税人识别号">
-					<u-input type="input" v-model="form.serial_no" placeholder="请输入纳税人识别号" />
+				<u-form-item label-width="150" label="税号">
+					<u-input type="input" v-model="form.serial_no" placeholder="请输入纳税人识别号(必填)" />
 				</u-form-item>
-				<u-form-item label-width="190" label="邮箱">
-					<u-input type="input" v-model="form.email" placeholder="请输入邮箱" />
+				<u-form-item label-width="150" label="公司地址">
+					<u-input type="input" v-model="form.email" placeholder="请输入公司地址" />
+				</u-form-item>
+				<u-form-item label-width="150" label="电话号码">
+					<u-input type="input" v-model="form.email" placeholder="请输入电话号码" />
+				</u-form-item>
+				<u-form-item label-width="150" label="开户银行">
+					<u-input type="input" v-model="form.email" placeholder="请输入开户银行" />
+				</u-form-item>
+				<u-form-item label-width="150" label="银行账号">
+					<u-input type="input" v-model="form.email" placeholder="请输入银行账号" />
+				</u-form-item>
+				<u-form-item label-width="150" label="邮箱">
+					<u-input type="input" v-model="form.email" placeholder="请输入邮箱(必填)" />
 				</u-form-item>
 			</u-form>
 		</view>
@@ -55,18 +69,23 @@
 				ftypeList: [{
 					name: '企业',
 					value: '1'
-				}, {
-					name: '个人及政府事业单位',
-					value: '2'
-				}],
+				}
+				// , {
+				// 	name: '个人及政府事业单位',
+				// 	value: '2',
+				// 	disabled: true
+				// },
+				],
 				ktypeList: [{
 					name: '电子',
 					value: '1'
-				}, {
-					name: '纸质',
-					value: '2',
-					disabled: true
-				}],
+				}
+				// , {
+				// 	name: '纸质',
+				// 	value: '2',
+				// 	disabled: true
+				// },
+				],
 				form: {
 					ftype: '1',
 					ktype: '1',

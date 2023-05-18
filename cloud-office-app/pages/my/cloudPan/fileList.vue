@@ -12,7 +12,6 @@
 						@click.stop="checkBtn('item',index)">
 					</view>
 					<view class="flex justify-between align-center u-flex-1" @click="goFileList(item.id)">
-
 						<view class="file-item-l">
 							<image src="../../../static/image/my/cloud-file.png" class="file-item-l-icon" mode="">
 							</image>
@@ -24,9 +23,7 @@
 									{{item.size}}M
 								</view>
 							</view>
-
 						</view>
-
 						<view class="file-item-r" @click.stop="handlerItem(index)">
 							<u-icon name="arrow-right" color="#7A7C94"></u-icon>
 						</view>
