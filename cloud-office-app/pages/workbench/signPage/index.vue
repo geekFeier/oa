@@ -22,8 +22,8 @@
 					<view class="mainBox-item-bd">
 						<image v-if="isDutyed" style="width: 24rpx;height: 24rpx;margin-right: 8rpx;"
 							src="../../../static/image/login/select-a.png" mode=""></image>
-					
-								{{ isDutyed ? dutyedText : '未打卡'}}
+
+						{{ isDutyed ? dutyedText : '未打卡'}}
 					</view>
 				</view>
 				<view class="mainBox-item">
@@ -33,8 +33,8 @@
 					<view class="mainBox-item-bd">
 						<image v-if="isOffDutyed" style="width: 24rpx;height: 24rpx;margin-right: 8rpx;"
 							src="../../../static/image/login/select-a.png" mode=""></image>
-					<!-- 	{{enterinfo.today.evening_sign_status!=-1 ? enterinfo.today.evening_sign_status : '未打卡'}} -->
-					{{ isOffDutyed ? dutyedOffText : '未打卡'}}
+						<!-- 	{{enterinfo.today.evening_sign_status!=-1 ? enterinfo.today.evening_sign_status : '未打卡'}} -->
+						{{ isOffDutyed ? dutyedOffText : '未打卡'}}
 					</view>
 				</view>
 			</view>
@@ -79,6 +79,7 @@
 		mapState
 	} from "vuex";
 	import dayjs from "@/utils/dayjs.min.js";
+
 	var timer;
 	var timer2;
 	var EARTH_RADIUS = 6378137.0; //单位M
@@ -103,8 +104,8 @@
 				},
 				distance: 0,
 				address: "",
-				dutyedText:"",
-				dutyedOffText:""
+				dutyedText: "",
+				dutyedOffText: ""
 			};
 		},
 		onLoad() {
@@ -116,21 +117,36 @@
 
 			}, 1000)
 			this.getInfo();
-			uni.showLoading()
-			this.getLocaltion();
-			timer = setInterval(() => {
+			// uni.showLoading()
+			console.log(uni.getAppAuthorizeSetting().locationAuthorized)
+			if (uni.getAppAuthorizeSetting().locationAuthorized == "authorized") {
 				this.getLocaltion();
-			}, 3000)
+				timer = setInterval(() => {
+					this.getLocaltion();
+				}, 3000)
+			} else if(uni.getAppAuthorizeSetting().locationAuthorized == "denied"){
+				uni.showModal({
+					title: "请前往系统设置打开定位权限",
+					success() {
+						uni.openAppAuthorizeSetting();
+					}
+				})
+			}else{
+				timer = setInterval(() => {
+					this.getLocaltion();
+				}, 3000)
+			}
+
 		},
 		onUnload() {
 			clearInterval(timer)
 			clearInterval(timer2)
 		},
 		onShow() {},
-		watch:{
-			enterinfo:{
-				deep:true,
-				handler(val){
+		watch: {
+			enterinfo: {
+				deep: true,
+				handler(val) {
 					this.enterinfo = val;
 				}
 			}
@@ -140,25 +156,25 @@
 				userInfo: state => state.user.userInfo
 			}),
 			isDutyed() {
-				if (this.is_sign && Number(this.is_sign.morning_sign_status) != -1 ) {
+				if (this.is_sign && Number(this.is_sign.morning_sign_status) != -1) {
 					this.dutyedText = this.is_sign.morning_sign_time;
 					return true
-				}else{
+				} else {
 					return false
 				}
 			},
 			isOffDutyed() {
-				if (this.is_sign && Number(this.is_sign.evening_sign_status) != -1 ) {
+				if (this.is_sign && Number(this.is_sign.evening_sign_status) != -1) {
 					this.dutyedOffText = this.is_sign.evening_sign_time;
 					return true
-				}else{
+				} else {
 					return false
 				}
 			},
 			isDuty() {
 				let hours = 12;
-				if(this.enterinfo.e_morning_off_work_time){
-					hours = Number(this.enterinfo.e_morning_off_work_time.substring(0,2))
+				if (this.enterinfo.e_morning_off_work_time) {
+					hours = Number(this.enterinfo.e_morning_off_work_time.substring(0, 2))
 				}
 				if (this.currentHour >= hours) {
 					return false
@@ -171,7 +187,7 @@
 			getLocaltion() {
 				uni.getLocation({
 					geocode: true,
-					type:'gcj02',
+					type: 'gcj02',
 					success: (res) => {
 						uni.hideLoading()
 						console.log(res, "asDDDDDDDDDDDDDDDDDDDDD");
