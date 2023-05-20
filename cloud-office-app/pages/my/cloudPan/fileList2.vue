@@ -8,7 +8,7 @@
 		<view class="file-box">
 			<view class="" v-for="(item,index) in listData" :key="index" @click="">
 				<view class="file-item" style="border-bottom: 1px solid #F6F9FE;">
-					<view class="checkbox" style="width: 44rpx;min-width: 38rpx;" v-if="isEdit" :class="{checked: item.checked}"
+					<view class="checkbox" style="width: 46rpx;min-width: 44rpx;" v-if="isEdit" :class="{checked: item.checked}"
 						@click.stop="checkBtn('item',index)">
 					</view>
 					<view class="flex justify-between align-center u-flex-1">
