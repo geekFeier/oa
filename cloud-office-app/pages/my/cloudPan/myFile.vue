@@ -21,16 +21,16 @@
 				</view>
 			</view> -->
 			<view class="file-box">
-				<view class="file-item" @click="goFileList" style="border-bottom: 1px solid #F6F9FE;">
+				<view class="file-item" v-for="(item,index) in listData" :key="index" @click="goMyFile(item.pan_id,item.id)" style="border-bottom: 1px solid #F6F9FE;">
 					<view class="file-item-l">
 						<image src="../../../static/image/my/cloud-file.png" class="file-item-l-icon" mode=""></image>
 						<view class="file-info">
 							<view class="file-name">
-								云盘文档
+								{{item.name}}
 							</view>
-							<view class="file-size">
+							<!-- view class="file-size">
 								{{userInfo.config.dir[0].size}}M
-							</view>
+							</view> -->
 						</view>
 
 					</view>
@@ -39,7 +39,7 @@
 						<u-icon name="arrow-right" color="#7A7C94"></u-icon>
 					</view>
 				</view>
-				<view class="file-item"  @click="goFileList">
+				<!-- <view class="file-item"  @click="goFileList">
 					<view class="file-item-l">
 						<image src="../../../static/image/my/file.png" class="file-item-l-icon" mode=""></image>
 						<view class="file-info">
@@ -56,7 +56,7 @@
 					<view class="file-item-r">
 						<u-icon name="arrow-right" color="#7A7C94"></u-icon>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 	</view>
@@ -72,7 +72,11 @@
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
+				listData:[],
 			};
+		},
+		onLoad() {
+			this.getFileList()
 		},
 		computed: {
 			...mapState({
@@ -81,6 +85,14 @@
 			})
 		},
 		methods: {
+			getFileList(id) {
+				 this.$http("enterprise.cloud_pan/getSelfDir", {}, "get").then(res => {
+				 	if (res.data.code == 1) {
+						console.log('目录列表',res.data)
+				 		this.listData = res.data.data
+				 	}
+				 })
+			},
 			GetPercent(num, total) {
 			    /// <summary>
 			    /// 求百分比
@@ -99,11 +111,11 @@
 					url:"/pages/my/vip/dilatation/index"
 				})
 			},
-			goFileList() {
+			goMyFile(pan_id,dir_id) {
 				uni.navigateTo({
-					url: "/pages/my/cloudPan/fileList"
+					url: `/pages/my/cloudPan/fileList?pan_id=${pan_id}&dir_id=${dir_id}`
 				})
-			}
+			},
 		}
 	}
 </script>

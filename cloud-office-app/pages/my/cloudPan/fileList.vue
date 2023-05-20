@@ -8,7 +8,7 @@
 		<view class="file-box">
 			<view class="" v-for="(item,index) in listData" :key="index" @click="">
 				<view class="file-item" style="border-bottom: 1px solid #F6F9FE;">
-					<view class="checkbox" style="width: 46rpx;" v-if="isEdit" :class="{checked: item.checked}"
+					<view class="checkbox" style="width: 44rpx;min-width: 38rpx;" v-if="isEdit" :class="{checked: item.checked}"
 						@click.stop="checkBtn('item',index)">
 					</view>
 					<view class="flex justify-between align-center u-flex-1" @click="goFileList(item.id)">
@@ -89,7 +89,9 @@
 					backgroundColor: "#FFFFFF",
 				},
 				currentId: "",
-				listData: []
+				listData: [],
+				pan_id:'',
+				dir_id:''
 			};
 		},
 		computed: {
@@ -98,7 +100,9 @@
 
 			})
 		},
-		onLoad() {
+		onLoad(e) {
+			this.pan_id = e.pan_id
+			this.dir_id = e.dir_id
 			this.getjia()
 		},
 		methods: {
@@ -139,8 +143,8 @@
 			},
 			confirmBtn() {
 				let params = {
-					dir_id: this.userInfo.config.dir[0].id,
-					pan_id: this.userInfo.config.pan_info.id,
+					dir_id: this.dir_id,
+					pan_id: this.pan_id,
 					name: this.name
 				}
 				this.$http("enterprise.cloud_pan/mkdir", params, "post").then(res => {
@@ -152,25 +156,25 @@
 			},
 			//获取目录  1为目录 -1为文件
 			getjia() {
-				console.log(this.userInfo.config, ">>>>>>>>>>>>>")
+			
 				let formData = {
-					dir_id: this.userInfo.config.dir[0].id,
-					pan_id: this.userInfo.config.pan_info.id,
+					dir_id: this.dir_id,
+					pan_id: this.pan_id,
 					page: 1,
 					limit: 10,
 					offset: 0,
 					search: ''
 				}
-
+	console.log(formData, ">>>>>>>>>>>>>")
 				this.$http("enterprise.cloud_pan/dir", formData, "get").then(res => {
 					if (res.data.code == 1) {
 						this.listData = res.data.data.rows
 					}
 				})
 			},
-			goFileList(id) {
+			goFileList(dir_id) {
 				uni.navigateTo({
-					url: "/pages/my/cloudPan/fileList2?id=" + id
+					url: `/pages/my/cloudPan/fileList2?pan_id=${this.pan_id}&dir_id=${dir_id}` 
 				})
 			},
 			handlerAdd() {
@@ -287,6 +291,7 @@
 				.file-info {
 					display: flex;
 					flex-direction: column;
+					flex:1;
 
 					.file-name {
 						font-size: 30rpx;

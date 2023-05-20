@@ -8,7 +8,7 @@
 		<view class="file-box">
 			<view class="" v-for="(item,index) in listData" :key="index" @click="">
 				<view class="file-item" style="border-bottom: 1px solid #F6F9FE;">
-					<view class="checkbox" style="width: 46rpx;" v-if="isEdit" :class="{checked: item.checked}"
+					<view class="checkbox" style="width: 44rpx;min-width: 38rpx;" v-if="isEdit" :class="{checked: item.checked}"
 						@click.stop="checkBtn('item',index)">
 					</view>
 					<view class="flex justify-between align-center u-flex-1">
@@ -21,7 +21,7 @@
 									{{item.name}}
 								</view>
 								<view class="file-size">
-									2021-01-12 12:21:41
+									{{item.createtime}}
 								</view>
 							</view>
 
@@ -44,7 +44,7 @@
 						</u-icon>
 						<text>编辑</text>
 					</view>
-					<view class="file-item-handle-item">
+					<view class="file-item-handle-item" @click="delBtn(item.id)">
 						<u-icon name="trash-fill" class="file-item-handle-item-icon" color="#7A7C94" size="45"></u-icon>
 						<text>删除</text>
 					</view>
@@ -88,8 +88,9 @@
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
-				listData: [],
-				cateid:'',//传过来的目录id
+				listData: [], 
+				dir_id: this.dir_id,
+				pan_id: this.pan_id,
 			};
 		},
 		computed: {
@@ -100,19 +101,31 @@
 		},
 		onLoad(e) {
 			console.log(e.id)
-			this.cateid = e.id
+			this.dir_id = e.dir_id
+			this.pan_id = e.pan_id
 			this.getlu();
 			uni.$on("changeFileList",()=>{
 				this.getlu();
 			})
 		},
 		methods: {
+			delBtn(id){
+				let params = {
+					file_id: id
+				}
+				this.$http("enterprise.cloud_pan/delfile", params, "post").then(res => {
+					if (res.data.code == 1) {
+						this.getjia();
+						this.isEdit = false;
+					}
+				})
+			},
 			delBtns() {
 				let ids = this.listData.filter(item => item.checked).map(items => items.id).join(",");
 				let params = {
 					file_id: ids
 				}
-				this.$http("enterprise.cloud_pan/deldirectory", params, "post").then(res => {
+				this.$http("enterprise.cloud_pan/delfile", params, "post").then(res => {
 					if (res.data.code == 1) {
 						this.getlu();
 						this.isEdit = false;
@@ -133,15 +146,15 @@
 			},
 			//获取目录  1为目录 -1为文件
 			getlu(){
-				console.log(this.userInfo.config,">>>>>>>>>>>>>")
 				let formData = {
-					dir_id:this.cateid,
-					pan_id:this.userInfo.config.pan_info.id,
+					dir_id:this.dir_id,
+					pan_id:this.pan_id,
 					page:1,
 					limit:10,
 					offset:0,
 					search:''
 				}
+				console.log('~~~~~~~',formData)
 				
 				this.$http("enterprise.cloud_pan/dir", formData, "get").then(res => {
 					if (res.data.code == 1) {
@@ -152,7 +165,7 @@
 			handlerAdd() {
 				// this.isShowAlert = true;
 				uni.navigateTo({
-					url:"/pages/my/cloudPan/addFile?id="+this.cateid
+					url:"/pages/my/cloudPan/addFile?id="+this.dir_id
 				})
 			},
 			goAddPage() {

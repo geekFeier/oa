@@ -53,29 +53,19 @@
 				</view>
 			</view>
 
-			<view class="file-box" @click="goMyFile">
-				<view class="file-item">
+			<view class="file-box">
+				<view class="file-item" v-for="(item,index) in listData" :key="index" @click="goMyFile(item.pan_id,item.id)">
 					<image src="../../../static/image/my/file.png" class="file-img" mode=""></image>
 					<view class="file-r">
 						<view class="file-r-name">
-							云端文档
+							{{item.name}}
 						</view>
-						<view class="file-r-size">
+					<!-- 	<view class="file-r-size">
 							{{userInfo.config.dir[0].size}}M
-						</view>
+						</view> -->
 					</view>
 				</view>
-				<view class="file-item">
-					<image src="../../../static/image/my/cloud-file.png" class="file-img" mode=""></image>
-					<view class="file-r">
-						<view class="file-r-name">
-							本地文档
-						</view>
-						<view class="file-r-size">
-							{{userInfo.config.dir[0].size}}M
-						</view>
-					</view>
-				</view>
+				
 			</view>
 
 			<!-- 		<view class="recent-doc-box">
@@ -123,6 +113,7 @@
 	export default {
 		data() {
 			return {
+				listData:[],
 				percentage: "55"
 			};
 		},
@@ -142,7 +133,18 @@
 		// 		})
 		// 	}
 		// },
+		onLoad() {
+			this.getFileList()
+		},
 		methods: {
+			getFileList(id) { 
+				 this.$http("enterprise.cloud_pan/getSelfDir", {}, "get").then(res => {
+				 	if (res.data.code == 1) {
+						console.log('目录列表',res.data)
+				 		this.listData = res.data.data
+				 	}
+				 })
+			},
 			 /// 求百分比
 			GetPercent(num, total) {
 			    /// <summary>
@@ -162,9 +164,9 @@
 					url:"/pages/my/vip/dilatation/index"
 				})
 			},
-			goMyFile() {
+			goMyFile(pan_id,dir_id) {
 				uni.navigateTo({
-					url: "/pages/my/cloudPan/fileList"
+					url: `/pages/my/cloudPan/fileList?pan_id=${pan_id}&dir_id=${dir_id}`
 				})
 			},
 			editBtn() {
