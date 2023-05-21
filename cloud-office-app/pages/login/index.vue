@@ -54,8 +54,8 @@
 				currentSelect: "",
 				unitName: "",
 				formData: {
-					mobile: "15822524412",
-					password: "123456",
+					mobile: "",
+					password: "",
 					captcha: "",
 					unitwork: ""
 				},
