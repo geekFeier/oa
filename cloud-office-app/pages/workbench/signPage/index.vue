@@ -70,6 +70,10 @@
 			<image class="success-img" src="../../../static/image/tab1/success.png" mode=""></image>
 
 		</view>
+		
+		<view>
+			{{currentLatitude}}:{{currentLongitude}}
+		</view>
 
 	</view>
 </template>
@@ -80,6 +84,8 @@
 	} from "vuex";
 	import dayjs from "@/utils/dayjs.min.js";
 
+	import Gps from '@/uni_modules/json-gps/js_sdk/gps.js';
+	const gps = new Gps()
 	var timer;
 	var timer2;
 	var EARTH_RADIUS = 6378137.0; //单位M
@@ -117,26 +123,12 @@
 
 			}, 1000)
 			this.getInfo();
-			// uni.showLoading()
-			console.log(uni.getAppAuthorizeSetting().locationAuthorized)
-			if (uni.getAppAuthorizeSetting().locationAuthorized == "authorized") {
-				this.getLocaltion();
-				timer = setInterval(() => {
-					this.getLocaltion();
-				}, 3000)
-			} else if(uni.getAppAuthorizeSetting().locationAuthorized == "denied"){
-				uni.showModal({
-					title: "请前往系统设置打开定位权限",
-					success() {
-						uni.openAppAuthorizeSetting();
-					}
-				})
-			}else{
-				timer = setInterval(() => {
-					this.getLocaltion();
-				}, 3000)
-			}
-
+			uni.showLoading({
+				title: "获取定位中"
+			});
+			timer = setInterval(() => {
+				this.getLocaltion()
+			}, 1000)
 		},
 		onUnload() {
 			clearInterval(timer)
@@ -185,41 +177,52 @@
 		},
 		methods: {
 			getLocaltion() {
-				uni.getLocation({
-					geocode: true,
-					type: 'gcj02',
-					success: (res) => {
-						uni.hideLoading()
-						console.log(res, "asDDDDDDDDDDDDDDDDDDDDD");
-						if (res.address) {
-							this.address =
-								`${res.address.district}${res.address.street}${res.address.streetNum}`
-						}
-						this.currentLatitude = res.latitude;
-						this.currentLongitude = res.longitude;
-						this.distance = Math.floor(this.getGreatCircleDistance(res.latitude, res.longitude,
-							this.enterinfo.latitude, this.enterinfo.longitude));
-						if (Number(this.enterinfo.sign_distance) == -1) {
-							this.isCanPunch = false
-						} else {
-							if (this.distance > Number(this.enterinfo.sign_distance)) {
-								this.isCanPunch = false
-							} else if (this.distance <= Number(this.enterinfo.sign_distance)) {
-								this.isCanPunch = true;
-							}
-						}
-						this.$forceUpdate()
 
-					},
-					fail: (err) => {
-						uni.hideLoading()
-						uni.showToast({
-							title: "获取定位权限失败",
-							icon: "none"
-						})
-						clearInterval(timer)
+				gps.getLocation({
+					type: 'gcj02'
+				}).then(res => {
+					console.log(res)
+					// if (res.address) {
+					// 	this.address =
+					// 		`${res.address.district}${res.address.street}${res.address.streetNum}`
+					// }
+					this.currentLatitude = res.latitude;
+					this.currentLongitude = res.longitude;
+					this.distance = Math.floor(this.getGreatCircleDistance(res.latitude, res.longitude,
+						this.enterinfo.latitude, this.enterinfo.longitude));
+					if (Number(this.enterinfo.sign_distance) == -1) {
+						this.isCanPunch = false
+					} else {
+						if (this.distance > Number(this.enterinfo.sign_distance)) {
+							this.isCanPunch = false
+						} else if (this.distance <= Number(this.enterinfo.sign_distance)) {
+							this.isCanPunch = true;
+						}
 					}
+					this.$forceUpdate()
+
+					uni.hideLoading();
 				})
+
+
+				// uni.getLocation({
+				// 	geocode: true,
+				// 	type: 'gcj02',
+				// 	success: (res) => {
+				// 		uni.hideLoading()
+				// 		console.log(res, "asDDDDDDDDDDDDDDDDDDDDD");
+
+
+				// 	},
+				// 	fail: (err) => {
+				// 		uni.hideLoading()
+				// 		uni.showToast({
+				// 			title: "获取定位权限失败",
+				// 			icon: "none"
+				// 		})
+				// 		clearInterval(timer)
+				// 	}
+				// })
 			},
 			/* 计算距离（米） */
 			getGreatCircleDistance(lat1, lng1, lat2, lng2) {
