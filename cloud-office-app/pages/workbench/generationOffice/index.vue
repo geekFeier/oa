@@ -135,7 +135,7 @@
 		components: {
 			popupLayer
 		},
-		onReachBottom() {
+		onReachBottom:function(){
 			this.page++;
 			this.getListData()
 		},

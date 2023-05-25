@@ -38,7 +38,7 @@
 					<view class="form-item-title">
 						收款账号
 					</view>
-					<view class="form-item-value">{{detailData.receivi_account}}</view>
+					<view class="form-item-value u-line-2">{{detailData.receivi_account}}</view>
 				</view>
 				<view class="form-item">
 					<view class="form-item-title">

@@ -162,7 +162,7 @@
 				</view>
 				<view class="popup-box">
 					<view class="popup-title">
-						2021
+						{{formData.year}}
 					</view>
 					<view class="popup-bottom">
 						<view class="popup-bottom-item" @click="selectDate(index)"

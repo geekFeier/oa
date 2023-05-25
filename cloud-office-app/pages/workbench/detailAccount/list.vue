@@ -11,12 +11,16 @@
 
 
 		<view class="mainBox">
-			<view class="main-itema" v-for="(item,index) in listData" :key="index">
+			<view class="title">
+				科目名称： {{listData.kemu_name}}
+			</view>
+			<view class="main-itema" v-for="(item,index) in listData" :key="index" v-if="index!=='kemu_name'">
+
 				<view class="view-top" v-if="item.credentials_id" @click="getmaytime(item.credentials_id)">
 					<view class="view-time">
 						{{item.createtime}}
 					</view>
-					<u-icon name="arrow-right" color="#B5BFDA" ></u-icon>
+					<u-icon name="arrow-right" color="#B5BFDA"></u-icon>
 				</view>
 				<view class="main-item">
 					<view class="main-item-l">
@@ -34,7 +38,7 @@
 						<view class="main-item-r-line">
 							<view class="main-item-r-line-l">
 								贷方
-					
+
 							</view>
 							<view class="main-item-r-line-r">
 								{{Math.abs(item.lender)}}
@@ -48,12 +52,12 @@
 							</view> -->
 							<view class="main-item-r-line-l" v-if="Math.abs(item.balance) == 0">
 								余额 <view class="main-item-one-m" :class="{blue : Math.abs(item.balance) == 0}">
-								平
+									平
 								</view>
 							</view>
 							<view class="main-item-r-line-l" v-else>
 								余额 <view class="main-item-one-m" :class="{blue:item.balance > 0,red:item.balance < 0}">
-								{{item.balance > 0 ? "借" : "贷"}}
+									{{item.balance > 0 ? "借" : "贷"}}
 								</view>
 							</view>
 							<view class="main-item-r-line-r">
@@ -64,7 +68,7 @@
 				</view>
 			</view>
 
-<!-- 			<view class="common-title">
+			<!-- 			<view class="common-title">
 				2021年08期
 			</view>
 			<view class="main-header-div">
@@ -167,9 +171,9 @@
 				</view>
 			</view>
 		 -->
-		
-		
-		
+
+
+
 		</view>
 
 		<u-popup v-model="isShowPopup" mode="bottom" border-radius="56">
@@ -179,7 +183,7 @@
 				</view>
 				<view class="popup-box">
 					<view class="popup-title">
-						2021
+												{{formData.years}}
 					</view>
 					<view class="popup-bottom">
 						<view class="popup-bottom-item" @click="selectDate(index)"
@@ -212,7 +216,7 @@
 				to_month: "",
 				isShowPopup: false,
 				listData: [],
-				monthArr:'',//
+				monthArr: '', //
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
@@ -245,9 +249,9 @@
 			this.getday() //获取日期
 		},
 		methods: {
-			getmaytime(id){
+			getmaytime(id) {
 				uni.navigateTo({
-					url:'../voucher/detail?id=' + id
+					url: '../voucher/detail?id=' + id
 				})
 			},
 			getday() {
@@ -262,8 +266,8 @@
 							this.formData.month = currentData[0].month
 							this.formData.to_month = currentData[0].month
 						} else {
-							this.formData.to_month = dayjs().month()+1;
-							this.formData.month = dayjs().month()+1;
+							this.formData.to_month = dayjs().month() + 1;
+							this.formData.month = dayjs().month() + 1;
 						}
 						this.monthArr = currentData.map(item => {
 							return this.formatNum(item.month)
@@ -321,7 +325,8 @@
 				}
 				this.$http("enterprise.subject_balance/dateils", this.formData, "get").then(res => {
 					if (res.data.code == 1) {
-						this.listData  =res.data.data.credentils;
+						this.kemu_name = res.data.data.kemu_name
+						this.listData = res.data.data.credentils;
 						// this.listData = res.data.data.rows;
 						// this.totalData = res.data.data.totalData;
 					}
@@ -382,19 +387,25 @@
 	.mainBox {
 		font-size: 32rpx;
 		padding: 0 32rpx;
-		.main-itema{
+		.title{
+			margin-top: 10rpx;
+		}
+
+		.main-itema {
 			margin-top: 32rpx;
 			padding: 32rpx 24rpx;
 			background-color: #fff;
 			border-radius: 16rpx;
-			.view-top{
+
+			.view-top {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
 				padding: 0 0 30rpx 0;
-				
+
 			}
 		}
+
 		.main-item {
 			display: flex;
 			// margin-top: 32rpx;

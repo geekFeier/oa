@@ -4,7 +4,7 @@
 			title-color="#000" :height="55">
 		</u-navbar>
 		<view class="mainBox">
-			<image v-for="(item,index) in imageData" :key="index" @click="previewImg" :src="item"
+			<image v-for="(item,index) in imageData" :key="index" @click="previewImg(index)" :src="item"
 				style="width: 180rpx;height: 180rpx;margin-bottom: 12rpx;margin-right: 24rpx;" mode=""></image>
 		</view>
 	</view>
@@ -24,8 +24,9 @@
 			this.imageData = JSON.parse(e.imgData)
 		},
 		methods: {
-			previewImg() {
+			previewImg(index) {
 				uni.previewImage({
+					current: index,
 					urls: this.imageData
 				})
 			},

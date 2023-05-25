@@ -157,9 +157,10 @@
 					<view class="main-item-m-text">
 						报账金额：{{item.money}}
 					</view>
-					<view class="main-item-m-text">
-						备注：{{item.receivi_account}}
+					<view class="main-item-m-text u-line-1">
+						备注：{{item.remarks}}
 					</view>
+
 				</view>
 				<view class="main-item-b">
 					<view class="main-item-b-l">
@@ -228,7 +229,7 @@
 				}
 			}
 		},
-		onReachBottom() {
+		onReachBottom:function(){
 			if (this.swiperCurrent == 0) {
 				this.page++;
 				this.getListData();

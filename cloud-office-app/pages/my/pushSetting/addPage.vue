@@ -5,10 +5,8 @@
 		</u-navbar>
 
 		<view class="mainBox">
-			<u-form-item label="选择岗位" label-width="150" right-icon="arrow-right"
-				:right-icon-style="{color:'#7d7f97'}">
-				<u-input disabled v-model="job_name" @click="selectJobName" type="input"
-					placeholder="请选择" />
+			<u-form-item label="选择岗位" label-width="150" right-icon="arrow-right" :right-icon-style="{color:'#7d7f97'}">
+				<u-input disabled v-model="job_name" @click="selectJobName" type="input" placeholder="请选择" />
 			</u-form-item>
 			<u-form-item label="推送标题" label-width="150">
 				<u-input v-model="formData.title" type="input" placeholder="请输入推送标题" />
@@ -27,7 +25,7 @@
 
 
 
-			<button type="default" class="addBtn" @click="addBtn">保存并发布</button>
+			<button type="default" class="addBtn" :disabled="loading" @click="addBtn">保存并发布</button>
 		</view>
 		<!-- 增值税种类 -->
 		<dellPopup :popupList="popupList" title="请选择岗位" v-model="job_name" :itemId.sync="formData.job_id"
@@ -41,24 +39,25 @@
 	export default {
 		data() {
 			return {
-				page:1,
-				limit:10,
-				isShowPopup:false,
-				job_name:"",
-				popupList:[],
-			
-				formData:{
+				page: 1,
+				limit: 10,
+				isShowPopup: false,
+				job_name: "",
+				loading: false,
+				popupList: [],
+
+				formData: {
 					content: "",
 					url: "",
-					job_id:"",
-					title:""
+					job_id: "",
+					title: ""
 				},
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
 			}
 		},
-		components:{
+		components: {
 			dellPopup
 		},
 		onLoad() {
@@ -77,10 +76,11 @@
 					this.popupList = res.data.data.rows;
 				})
 			},
-			selectJobName(){
+			selectJobName() {
 				this.isShowPopup = true;
 			},
 			addBtn() {
+				let vm = this
 				if (this.formData.title == '') {
 					uni.showToast({
 						title: "请填写标题",
@@ -102,6 +102,10 @@
 					})
 					return
 				}
+				
+				if (vm.loading) return
+				vm.loading = true
+
 				this.$http("enterprise.Smspush/push", this.formData, "post").then(res => {
 					if (res.data.code == 1) {
 						uni.showToast({
@@ -109,6 +113,7 @@
 							icon: "none"
 						})
 						setTimeout(() => {
+							vm.loading = false
 							this.$navigateBack(true)
 						}, 500)
 					}

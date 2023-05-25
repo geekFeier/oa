@@ -90,7 +90,9 @@
 					offset: (this.page - 1) * this.limit,
 					search: this.keyword
 				}
+				console.log('---',params)
 				this.$http("enterprise.Credentials/index", params, "get").then(res => {
+					console.log('aaa---------',res)
 					if (res.data.code == 1) {
 						this.listData = this.listData.concat(res.data.data.rows);
 					}

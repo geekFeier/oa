@@ -103,7 +103,13 @@
 								url: "/pages/login/index"
 							})
 						}, 400)
+					} else{
+						uni.showToast({
+							title:res.data.msg,
+							icon:"none"
+						})
 					}
+
 				})
 			},
 			ceshiChooseSuccess(val) {

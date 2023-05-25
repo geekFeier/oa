@@ -222,7 +222,7 @@
 			this.getListData();
 			this.getReceiviPersion();
 		},
-		onReachBottom() {
+		onReachBottom:function(){
 			if(this.swiperCurrent==0){
 				this.page++;
 				this.getListData();

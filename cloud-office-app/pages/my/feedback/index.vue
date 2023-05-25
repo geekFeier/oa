@@ -63,9 +63,9 @@
 
 			},
 			sureBtn(){
-				if (this.value == '') {
+				if (this.value == ''||this.value.length<3) {
 					uni.showToast({
-						title: "请输入反馈内容",
+						title: "请输入反馈内容且最少三个字",
 						icon: "none"
 					})
 					return

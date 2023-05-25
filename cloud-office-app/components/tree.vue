@@ -1,6 +1,6 @@
 <template>
 	<view class="tree-view">
-<!-- 				<view class="cu-bar bg-white search"  style="top:0px;border-radius: 0 0 25px 25px;box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.1);">
+		<!-- 				<view class="cu-bar bg-white search"  style="top:0px;border-radius: 0 0 25px 25px;box-shadow: 0 0.5px 3px rgba(0, 0, 0, 0.1);">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
 				<input type="text" placeholder="请输入" confirm-type="search" v-model="searchStr" @change="onSearch"></input>
@@ -8,8 +8,9 @@
 		</view> -->
 		<view class=" flex-sub" style="position: relative;padding-bottom: 55px;padding-top: 4px;">
 			<scroll-view scroll-y class="container" scroll-with-animation="true" enable-back-to-top="true">
-				<nest-item  v-bind="$attrs" v-on="$listeners" :search="searchStr" :mult="mult" :container.sync="container" :value.sync="item"
-					v-for="(item,index) in treeData" :key="index"></nest-item>
+				<!-- 	<nest-item  v-bind="$attrs" v-on="$listeners" :search="searchStr" :mult="mult" :container.sync="container" :value.sync="item"
+					v-for="(item,index) in treeData" :key="index"></nest-item> -->
+				<nest-item :value="item" v-for="(item,index) in treeData" :key="index"></nest-item>
 			</scroll-view>
 		</view>
 	</view>
@@ -51,9 +52,9 @@
 			// nestItem
 		},
 		props: {
-			searchStr:{
-				type:String,
-				default:""
+			searchStr: {
+				type: String,
+				default: ""
 			},
 			treeData: {
 				type: Array,
@@ -106,14 +107,22 @@
 		mounted() {
 			console.log(this.searchStr, 'UUUUUUUUUUUUUUUUUUUUUUUUUU')
 			this.initIndexList()
-			
+
 		},
 		onLoad() {
-			uni.$on('changeSelect',()=>{
-				console.log(val,"aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			uni.$on('changeSelect', () => {
+				console.log(val, "aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			})
 		},
 		methods: {
+			onChangeRadioArr(e) {
+				console.log(111111, e);
+			},
+
+			changeRadioArr(val) {
+				console.log(val)
+			},
+
 			initIndexList() {
 				// this.indexCopy = JSON.parse(JSON.stringify(this.treeAndPerson))
 				this.indexCopy = [{
@@ -146,7 +155,7 @@
 			 */
 			onSearch(e) {
 				let s = this.searchStr;
-				console.log(s,"SDAdadadadadadadadadadadadadadadadadada");
+				console.log(s, "SDAdadadadadadadadadadadadadadadadadada");
 				this.lastStr = this.searchStr
 				console.log("搜索！！！", e);
 				this.treeData.forEach(e => {

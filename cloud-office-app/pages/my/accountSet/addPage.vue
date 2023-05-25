@@ -8,7 +8,7 @@
 		<view class="hd-form">
 			<u-form ref="uForm">
 				<u-form-item label="账套名称" label-width="150">
-					<u-input v-model="formData.name" type="input" placeholder="请输入账套名称" />
+					<u-input v-model="formData.name" maxlength='11' type="input" placeholder="请输入账套名称" />
 				</u-form-item>
 				<u-form-item label="单位名称" label-width="150">
 					<u-input v-model="formData.enterprise_unit" type="input" placeholder="请输入单位名称" />

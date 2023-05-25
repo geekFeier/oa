@@ -86,7 +86,7 @@
 		onLoad() {
 			this.getList();
 		},
-		onReachBottom(){
+		onReachBottom:function(){
 			this.page++;
 			this.getList()
 		},

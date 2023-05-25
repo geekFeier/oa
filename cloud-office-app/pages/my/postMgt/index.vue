@@ -25,7 +25,7 @@
 			return {
 				listData: [],
 				page: 1,
-				limit: 10,
+				limit: 20,
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
@@ -34,7 +34,7 @@
 		onLoad() {
 			this.getListData();
 		},
-		onReachBottom() {
+		onReachBottom:function() {
 			this.page++;
 			this.getListData()
 		},

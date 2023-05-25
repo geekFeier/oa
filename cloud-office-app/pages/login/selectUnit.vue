@@ -31,7 +31,7 @@
 				currentIndex: 0,
 				formData: {
 					page: 1,
-					limit: 10,
+					limit: 70,
 					offset: 0,
 					search: ""
 				}
@@ -99,7 +99,7 @@
 	}
 
 	.mainBox {
-		padding: 0 32rpx;
+		padding: 0 32rpx 100rpx;
 		box-sizing: border-box;
 		margin-top: 48rpx;
 
@@ -112,6 +112,7 @@
 				color: #150E33;
 				font-size: 32rpx;
 				margin-left: 16rpx;
+				width: 600rpx;
 			}
 		}
 	}

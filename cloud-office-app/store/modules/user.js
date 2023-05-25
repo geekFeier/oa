@@ -13,19 +13,23 @@ const actions = {
 		commit
 	}, data) {
 		commit("SET_USER_INFO", data)
-		commit("SET_enterprise", data.enterprise);
+		commit("SET_enterprise", data.enterprise || {});
 		if (data.is_admin == "admin") {
 			commit("SET_PERSON_TYPE", 1)
 		} else {
 			//  1=总经理，2=部门经理，3=会计，4=职员
-				commit("SET_PERSON_TYPE", data.jobs.job.flag)
+			// commit("SET_PERSON_TYPE", data.jobs.job.flag)
+			if (data.jobs) {
+				commit("SET_PERSON_TYPE", data.jobs.job.flag || '')
+			}
+
 		}
 
 	},
 	GET_TOKEN({
 		commit
 	}, data) {
-		commit("SET_TOKEN", data.token)
+		commit("SET_TOKEN", data.token || '')
 	}
 }
 

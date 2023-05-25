@@ -1,6 +1,7 @@
 <template>
 	<view class="">
-		<qiun-data-charts type="line" :opts="echartOpt1" :chartData="chartData1" background="none" />
+		<qiun-data-charts v-if="chartData1['categories'].length" type="line" :opts="echartOpt1" :chartData="chartData1"
+			background="none" />
 	</view>
 </template>
 
@@ -9,12 +10,11 @@
 	export default {
 		data() {
 			return {
-				jingYingXData:[],
-				profitData:[],
-				incomeData:[],
+				jingYingXData: [],
+				profitData: [],
+				incomeData: [],
 				chartData1: {
-					"categories": [
-					],
+					"categories": [],
 					"series": []
 				},
 				echartOpt1: {
@@ -126,36 +126,37 @@
 						}
 					}
 				},
-				
+
 			}
 		},
 		mounted() {
 			this.getJingYingData();
 		},
-		methods:{
+		methods: {
 			getJingYingData() {
 				this.$http("enterprise.dashboard.dashboard/enterprise_operate?years=" + dayjs().year() + "&month=" +
-				dayjs().month() + 1, {}, "post").then(res => {
+					dayjs().month() + 1, {}, "post").then(res => {
 					// this.jingYingData = res.data.data;
-					let data = res.data.data.months;
-					for(let key in data){
-						this.jingYingXData.push(key);
-						this.incomeData.push(data[key].income);
-						this.profitData.push(data[key].profit);
-					}
-					this.chartData1.categories = this.jingYingXData;
-					this.chartData1.series = [{
-							"name": "收入",
-							"data": this.incomeData
-						},
-						{
-							"name": "利润",
-							"data": this.profitData
+					if (res.data.data) {
+						let data = res.data.data.months;
+						for (let key in data) {
+							this.jingYingXData.push(key);
+							this.incomeData.push(data[key].income);
+							this.profitData.push(data[key].profit);
 						}
-				
-					]
+						this.chartData1.categories = this.jingYingXData;
+						this.chartData1.series = [{
+								"name": "收入",
+								"data": this.incomeData
+							},
+							{
+								"name": "利润",
+								"data": this.profitData
+							}
+						]
+					}
 				})
-			},	
+			},
 		}
 	}
 </script>

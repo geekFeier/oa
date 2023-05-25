@@ -459,7 +459,8 @@
 		}, {
 			"path": "pages/my/workersSet/transferAuth",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 100
 			}
 
 		}, {
@@ -471,7 +472,8 @@
 		}, {
 			"path": "pages/my/approvalProcess/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				 "onReachBottomDistance": 150
 			}
 
 		}, {

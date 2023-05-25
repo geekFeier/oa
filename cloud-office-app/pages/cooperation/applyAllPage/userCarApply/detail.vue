@@ -175,7 +175,7 @@
 								<view class="flowBox-item-l-info-bd" style="margin-top: 10rpx; color: #7A7C94;">
 									已抄送{{detailData.audit.cc_persion.length}}人
 								</view>
-								<view class="flowBox-item-l-info-bd-list flex" style="margin-top: 8rpx;">
+								<view class="flowBox-item-l-info-bd-list flex  " style="width: 540rpx; margin-top: 8rpx;align-items: flex-start;">
 									<view
 										class="flowBox-item-l-info-bd-item flex flex-direction flex-wrap justify-center align-center"
 										v-for="(item,index) in detailData.audit.cc_persion"

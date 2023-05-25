@@ -50,13 +50,13 @@
 					<view class="hr-div" />
 				</view>
 				<view class="form-item-group">
-					<view class="form-item">
+					<view class="form-item u-flex justify-start">
 						<view class="form-item-label">借方合计</view>
-						￥<input type="text" disabled v-model="debtorStatic" />
+						<text>￥{{debtorStatic}} </text>
 					</view>
-					<view class="form-item">
+					<view class="form-item u-flex justify-start">
 						<view class="form-item-label">贷方合计</view>
-						￥<input type="text" disabled v-model="creditStatic" />
+						￥{{creditStatic}}
 					</view>
 				</view>
 
@@ -219,13 +219,14 @@
 			this.formData.documents_images = detail.documents_images;
 			this.formData.remarks = detail.remarks;
 			this.formData.key = detail.id;
+			this.formData.code = detail.code
 			this.credentials = detail.childs.map(item => {
 				return {
 					abstract: item.abstract,
 					subject_headings: item.subject_headings,
 					balance_status: item.balance_status == -1 ? true : false,
 					kemu_id: item.kemu_id,
-					money: item.balance_status == -1 ? item.borrower:item.lender,
+					money: item.balance_status == -1 ? item.borrower : item.lender,
 					hesuan_children: item.childs.map(_item => {
 						return {
 							name: _item.childs.name,
@@ -320,14 +321,15 @@
 							title: "编辑成功",
 							icon: "none"
 						})
-						uni.$emit("changeVocherList",true)
+						uni.$emit("changeVocherList", true)
 						setTimeout(() => {
 							uni.navigateBack({
 								delta: 2
 							})
 						}, 500)
 					} else {
-						this.formData.documents_images = this.formData.documents_images ? this.formData.documents_images.split(',')  : [];
+						this.formData.documents_images = this.formData.documents_images ? this.formData
+							.documents_images.split(',') : [];
 						this.credentials.forEach(item => {
 							item.balance_status = item.balance_status == -1 ? true : false;
 						})
@@ -424,9 +426,10 @@
 
 			.form-item {
 				display: flex;
+				width: 50%;
 
 				.form-item-label {
-					width: 280rpx;
+					width: 180rpx;
 					margin-right: 10rpx;
 				}
 

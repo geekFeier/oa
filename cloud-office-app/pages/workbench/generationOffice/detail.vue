@@ -36,7 +36,8 @@
 
 			<view class="detailBox-bd">
 				<view class="" v-for="(item,index) in detailData.record" :key="index">
-					{{item.title.substring(0,item.title.length-5)}} <text style="color: #12D592;margin-left: 6rpx;">{{item.title.substring(item.title.length-5)}}</text>
+					{{item.title.substring(0,item.title.length-5)}} <text
+						style="color: #12D592;margin-left: 6rpx;">{{item.title.substring(item.title.length-5)}}</text>
 				</view>
 			</view>
 		</view>
@@ -57,7 +58,9 @@
 					backgroundColor: "#FFFFFF",
 				},
 				currentId: "",
-				detailData: {}
+				detailData: {},
+				loading: false
+
 			};
 		},
 		onLoad(e) {
@@ -65,22 +68,28 @@
 			this.getDetail();
 		},
 		methods: {
-			previewImg(){
+			previewImg() {
 				uni.previewImage({
-					urls:this.imgData
+					urls: this.imgData
 				})
 			},
 			sureBtn() {
 				let params = {
 					id: this.currentId
 				}
-				this.$http("enterprise.User_todo/complete?id="+this.currentId, {}, "post",2).then(res => {
+				if (this.loading) {
+					return
+				}
+				this.loading = true
+
+				this.$http("enterprise.User_todo/complete?id=" + this.currentId, {}, "post", 2).then(res => {
 					if (res.data.code == 1) {
 						uni.showToast({
 							title: "完成",
 							icon: "none"
 						})
 						setTimeout(() => {
+							this.loading = false
 							this.$navigateBack(true)
 						}, 500)
 					}

@@ -71,9 +71,9 @@
 
 		</view>
 		
-		<view>
+	<!-- 	<view>
 			{{currentLatitude}}:{{currentLongitude}}
-		</view>
+		</view> -->
 
 	</view>
 </template>

@@ -144,7 +144,7 @@
 							icon: "none"
 						})
 						setTimeout(() => {
-							this.$navigateBack(true)
+							 this.$navigateBack()
 						}, 500)
 					}
 				})

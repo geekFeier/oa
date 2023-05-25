@@ -6,7 +6,7 @@
 
 		<view class="mainBox">
 			<view class="main-item" v-for="(item,index) in listData" :key="index" @click="goDetail(item.id)">
-				<view class="main-item-hd">
+				<view class="main-item-hd u-line-2">
 					<view class="circle" :class="item.type | filterColor">
 					</view>
 					<text class="main-item-title">{{item.content}}</text>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-
 	export default {
 		data() {
 			return {
@@ -86,7 +85,7 @@
 		onLoad() {
 			this.getList();
 		},
-		onReachBottom(){
+		onReachBottom: function() {
 			this.page++;
 			this.getList()
 		},
@@ -103,7 +102,7 @@
 					limit: this.limit,
 					offset: (this.page - 1) * this.limit,
 					status: "",
-					type:1
+					type: 1
 				}
 				this.$http("enterprise.User_todo/index", params, "get").then(res => {
 					if (res.data.code == 1) {
@@ -120,7 +119,7 @@
 				this.$navigateTo({
 					url: "/pages/workbench/leaveMessage/addpage"
 				}).then(res => {
-					this.page=1;
+					this.page = 1;
 					this.listData = [];
 					this.getList();
 				})

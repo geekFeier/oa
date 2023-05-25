@@ -12,7 +12,7 @@
 			<view class="main-item" @click="goDetail(item)" v-for="(item,index) in listData" :key="index">
 				<view class="main-item-hd">
 					<view class="main-item-hd-l">
-						发起人：<text style="color: #150E33;">{{item.user.username}}</text>
+						发起人：<text style="color: #150E33;">{{item.user[0].username}}</text>
 					</view>
 					<view class="main-item-hd-r">
 						<text>查看详情</text>
@@ -50,7 +50,7 @@
 		onLoad() {
 			this.getListData();
 		},
-		onReachBottom() {
+		onReachBottom:function(){
 			this.page++;
 			this.getListData()
 		},

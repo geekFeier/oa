@@ -58,7 +58,19 @@ function request(url, data, method = 'get', contentType = 1, Authorization) {
 					uni.redirectTo({
 						url: "/pages/login/index"
 					})
-				} else {}
+				}  else {
+					console.log(res)
+					uni.showToast({
+						icon: 'none',
+						title: '系统异常,请重新登录',
+						duration: 1500
+					});
+					uni.reLaunch({
+						url:'/pages/login/index'
+					})
+					// reject(res)
+				}
+
 
 				if (res.data.code == 20006) {
 					let pages = getCurrentPages();

@@ -10,8 +10,8 @@
 		<view style="padding: 0 32rpx;">
 			<view class="headerBox">
 				<view class="headerBox-l">
-					<image :src="selfData.avatar"
-						style="width: 120rpx;height: 120rpx;border-radius: 50%;" mode=""></image>
+					<image :src="selfData.avatar" style="width: 120rpx;height: 120rpx;border-radius: 50%;" mode="">
+					</image>
 					<view class="headerBox-l-info">
 						<view class="headerBox-l-info-name">
 							{{selfData.username}}
@@ -36,8 +36,8 @@
 						{{item.mobile}}
 					</view>
 				</view>
-				<view v-if="item.jobs" class="main-item-r" >
-					<text>{{item.jobs.job.name}}</text>
+				<view v-if="item.jobs" class="main-item-r">
+					<text v-if="item.jobs.job">{{item.jobs.job.name}}</text>
 					<u-icon name="arrow-right" style="margin-left: 16rpx;" color="#999AAD"></u-icon>
 				</view>
 			</view>
@@ -49,50 +49,57 @@
 	export default {
 		data() {
 			return {
-				selfData:{},
-				listData:[],
+				selfData: {},
+				listData: [],
 				page: 1,
-				limit: 10,
+				limit: 20,
 				background: {
 					backgroundColor: "#FFFFFF",
 				}
 			};
 		},
-		onLoad() {
+		onShow() {
+			this.page = 1
+			this.listData = []
 			this.getListData();
 		},
+		onReachBottom: function() {
+			this.page++
+			console.log(333)
+			this.getListData()
+		},
 		methods: {
-			transferAuthBtn(){
+			transferAuthBtn() {
 				uni.navigateTo({
-					url:"/pages/my/workersSet/transferAuth"
+					url: "/pages/my/workersSet/transferAuth"
 				})
 			},
-			getListData(){
+			getListData() {
 				let params = {
 					page: this.page,
 					limit: this.limit,
 					offset: (this.page - 1) * this.limit,
 				}
-				this.$http("enterprise.Staff/index",params,"get").then(res=>{
-					console.log(res,"aAAAAAAAAAA");
-					if(res.data.code==1){
-						this.listData = res.data.data.rows;
+				this.$http("enterprise.Staff/index", params, "get").then(res => {
+					console.log(res, "aAAAAAAAAAA");
+					if (res.data.code == 1) {
+						 this.listData = [...this.listData,...res.data.data.rows];
 						this.selfData = res.data.data.self
 					}
 				})
 			},
-			goEdit(item){
+			goEdit(item) {
 				this.$navigateTo({
-					url:"/pages/my/workersSet/addPage?flag=2&data="+JSON.stringify(item)
-				}).then(res=>{
-					this.getListData();
+					url: "/pages/my/workersSet/addPage?flag=2&data=" + JSON.stringify(item)
+				}).then(res => {
+					// this.getListData();
 				})
 			},
 			addBtn() {
 				this.$navigateTo({
 					url: "/pages/my/workersSet/addPage?flag=1"
-				}).then(res=>{
-					this.getListData();
+				}).then(res => {
+					// this.getListData();
 				})
 			}
 		}

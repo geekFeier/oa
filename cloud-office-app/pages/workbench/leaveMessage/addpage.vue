@@ -45,7 +45,8 @@
 
 <script>
 	import {
-		url_config,img_url
+		url_config,
+		img_url
 	} from "@/config/config.js"
 	export default {
 		data() {
@@ -70,6 +71,7 @@
 				isShowTime: false,
 				value: "",
 				title: "",
+				loading: false,
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
@@ -81,32 +83,36 @@
 			},
 			loginBtn() {
 				this.formData.images = this.imgData.join(",");
-				if(!this.formData.join_ids){
+				if (!this.formData.join_ids) {
 					uni.showToast({
-						title:"请添加联系人!",
-						icon:"none"
+						title: "请添加联系人!",
+						icon: "none"
 					})
 					return
-				}else if(!this.formData.end_time){
+				} else if (!this.formData.end_time) {
 					uni.showToast({
-						title:"请添加截止时间!",
-						icon:"none"
+						title: "请添加截止时间!",
+						icon: "none"
 					})
 					return
-				}else if(!this.formData.desc){
+				} else if (!this.formData.desc) {
 					uni.showToast({
-						title:"请输入留言内容!",
-						icon:"none"
+						title: "请输入留言内容!",
+						icon: "none"
 					})
 					return
-				}else if(!this.formData.content){
+				} else if (!this.formData.content) {
 					uni.showToast({
-						title:"请输入标题!",
-						icon:"none"
+						title: "请输入标题!",
+						icon: "none"
 					})
 					return
 				}
-				
+				if (this.loading) {
+					return
+				}
+				this.loading = true
+
 				this.$http("enterprise.User_todo/CreateTodo", this.formData, "post").then(res => {
 					if (res.data.code == 1) {
 						uni.showToast({
@@ -114,6 +120,7 @@
 							icon: "none"
 						})
 						setTimeout(() => {
+							this.loading = false
 							this.$navigateBack(true)
 						}, 500)
 					}

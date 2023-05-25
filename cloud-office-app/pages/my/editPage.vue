@@ -64,6 +64,7 @@
 			getUserInfo() {
 				this.$http("/User/getUser", {}, "post").then(res => {
 					if (res.data.code == 1) {
+						uni.setStorageSync('userInfo',res.data.data)
 						this.$store.dispatch("user/GET_USER_INFO", res.data.data);
 					}
 				})
@@ -98,6 +99,7 @@
 				})
 			},
 			uploadImgs(file) {
+				let vm =this
 				uni.showLoading({
 					title: "上传中"
 				})
@@ -111,7 +113,7 @@
 					success: (res) => {
 						let _res = JSON.parse(res.data);
 						if (_res.code == 1) {
-							this.imageData = `${img_url}${_res.data.url}`;
+							vm.imageData = _res.data.fullurl;
 							uni.hideLoading()
 							uni.showToast({
 								title:"上传成功",

@@ -6,9 +6,9 @@
 		<view class="mainBox">
 			<view class="user-box">
 				<view class="user-box-l">
-					<image class="user-box-l-img" :src="detailData.user.avatar" mode=""></image>
+					<image class="user-box-l-img" :src="detailData.user[0].avatar" mode=""></image>
 					<view class="user-box-l-text">
-						发起人：<text style="color: #150E33;">{{detailData.user.username}}</text>
+						发起人：<text style="color: #150E33;">{{detailData.user[0].username}}</text>
 					</view>
 				</view>
 				<view class="user-box-r">

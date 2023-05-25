@@ -116,7 +116,7 @@
 						<view class="popup-bottom-item" @click="selectDate(index)"
 							:class="{active:num==index+1,disable:monthArr.indexOf(item)<0}"
 							v-for="(item,index) in seasonList" :key="index">
-							{{item}}
+							{{item}}期
 						</view>
 					</view>
 				</view>
@@ -139,13 +139,13 @@
 				</view>
 				<view class="popup-box">
 					<view class="popup-title">
-						2021
+						{{formData.years}}
 					</view>
 					<view class="popup-bottom justify-around">
 						<view class="popup-bottom-item" style="width: 110rpx;height: 110rpx;"
 							@click="selectDate2(index)" :class="{active:num==index+1}"
 							v-for="(item,index) in saisonList" :key="index">
-							{{item}}期
+							{{item}}
 						</view>
 					</view>
 				</view>
@@ -297,7 +297,7 @@
 					type: 2
 					// month: "",
 					// level: 0,
-					// to_year: "",
+					to_year: "",
 					// to_month: ""
 				},
 			};
@@ -305,7 +305,7 @@
 		onLoad() {
 			this.formData.years = dayjs().year();
 			// this.formData.month = dayjs().month() + 1;
-			// this.formData.to_year = dayjs().year();
+			this.formData.to_year = dayjs().year();
 			// this.formData.to_month = dayjs().month() + 1;
 			this.getday() //获取日期
 		},

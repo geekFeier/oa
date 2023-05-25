@@ -83,7 +83,7 @@
 				</view>
 				<view class="popup-box">
 					<view class="popup-title">
-						2021
+						{{formData.years}}
 					</view>
 					<view class="popup-bottom justify-around">
 						<view class="popup-bottom-item" style="width: 110rpx;height: 110rpx;"

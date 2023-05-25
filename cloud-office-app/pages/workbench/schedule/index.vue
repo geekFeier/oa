@@ -79,6 +79,7 @@
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
+				loading: false
 			};
 		},
 		methods: {
@@ -98,7 +99,7 @@
 				calendarAdd({
 					params,
 					success: (res) => {
-					
+
 						console.log('success', res)
 
 					},
@@ -141,6 +142,11 @@
 					})
 					return
 				}
+				if (this.loading) {
+					return
+				}
+				this.loading = true
+
 				this.doCalendarAdd();
 				this.$http("enterprise.User_todo/CreateTodo", this.formData, "post").then(res => {
 					if (res.data.code == 1) {
@@ -153,6 +159,7 @@
 							icon: "none"
 						})
 						setTimeout(() => {
+							this.loading = false
 							this.$navigateBack(true)
 						}, 500)
 					}

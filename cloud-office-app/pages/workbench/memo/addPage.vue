@@ -11,7 +11,7 @@
 				<u-input type="textarea" v-model="formData.content" :height="50" :auto-height="true"
 					placeholder="写点什么...." />
 			</view>
-			<htz-image-upload style="margin-top: 15px;" mediaType="image" :max="9" name="file" :chooseNum="1"
+			<htz-image-upload style="margin-top: 15px;" mediaType="image" :max="9" name="file" :chooseNum="9"
 				v-model="imageData" @chooseSuccess="ceshiChooseSuccess">
 			</htz-image-upload>
 
@@ -24,7 +24,8 @@
 <script>
 	import dayjs from "@/utils/dayjs.min.js";
 	import {
-		url_config,img_url
+		url_config,
+		img_url
 	} from "@/config/config.js"
 	export default {
 		data() {
@@ -47,10 +48,10 @@
 		methods: {
 			sureBtn() {
 				this.formData.images = this.imageData.join(",");
-				 if(!this.formData.content){
+				if (!this.formData.content) {
 					uni.showToast({
-						title:"请输入内容!",
-						icon:"none"
+						title: "请输入内容!",
+						icon: "none"
 					})
 					return
 				}
@@ -88,7 +89,7 @@
 								if (_res.code == 1) {
 									resolve(true)
 									this.imageData.push(`${img_url}${_res.data.url}`)
-								
+
 								} else {
 									reject(false)
 								}

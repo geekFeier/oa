@@ -7,17 +7,20 @@
 				<view class="enterpriseCloud-title">
 					{{userInfo.config.pan_info.last_name}}
 				</view>
-				<progress class="progress-div" :percent="GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)" stroke-width="10" backgroundColor="#EEF2FF" />
+				<progress class="progress-div"
+					:percent="GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)" stroke-width="10"
+					backgroundColor="#EEF2FF" />
 				<view class="status-div">
 					<text class="status-l">{{userInfo.config.pan_info.use}}M/{{userInfo.config.pan_info.size}}M</text>
-					<text class="status-r">已使用{{GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)}}</text>
+					<text
+						class="status-r">已使用{{GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)}}</text>
 				</view>
 			</view>
 		</view>
 
 		<view class="mainBox">
 			<view class="common-title">
-			    购买空间
+				购买空间
 			</view>
 			<view class="g-box">
 				<view class="g-item" @click="selectBtn(1,index,item.id,item)" :class="{active:currentIndex==index}"
@@ -71,7 +74,7 @@
 			</u-cell-item>
 
 		</view>
-				<button type="default" class="addBtn" @click="submitBtn(currentYear.price)">¥{{currentYear.price}}立即支付</button>
+		<button type="default" class="addBtn" @click="submitBtn(currentYear.price)">¥{{currentYear.price}}立即支付</button>
 	</view>
 </template>
 
@@ -83,7 +86,7 @@
 	export default {
 		data() {
 			return {
-				value:'',
+				value: '',
 				type: 1,
 				currentIndex: 0,
 				currentIndex2: 0,
@@ -91,72 +94,73 @@
 					backgroundColor: "#FFFFFF",
 				},
 				vid: 20,
-				nowDate:"",
-				endDate:"",
+				nowDate: "",
+				endDate: "",
 				oneData: [],
 				twoData: [],
-				currentYear:{},
-				copiedPeople:''
+				currentYear: {},
+				copiedPeople: ''
 			};
 		},
 		computed: {
 			...mapState({
 				userInfo: state => state.user.userInfo,
-		
+
 			})
 		},
 		onLoad() {
 			this.getvid();
 			this.nowDate = dayjs().format("YYYY-MM-DD");
+			this.endDate = dayjs().add(180, 'day').format("YYYY-MM-DD")
 		},
 		methods: {
 			//立即支付
-			submitBtn(price){
+			submitBtn(price) {
 				let paytype = ''
-				if(this.type == 1){
+				if (this.type == 1) {
 					paytype = "wechat"
-				}else{
+				} else {
 					paytype = "alipay"
 				}
 				let params = {
-					pay_type:paytype,
-					vid:this.vid,
-					name:'',
-					phone:''
+					pay_type: paytype,
+					vid: this.vid,
+					name: '',
+					phone: ''
 				}
 				this.$http("user/capacity", params, "post").then(res => {
 					if (res.data.code == 1) {
-						if(this.type == 1){
+						if (this.type == 1) {
 							let makpay = JSON.parse(res.data.data)
-						console.log(makpay.appid,"?????????")
-						uni.requestPayment({
-							"provider": "wxpay",
-							"orderInfo": {
-								"appid": makpay.appid, // 微信开放平台 - 应用 - AppId，注意和微信小程序、公众号 AppId 可能不一致
-								"noncestr": makpay.noncestr, // 随机字符串
-								"package": makpay.package, // 固定值
-								"partnerid": makpay.partnerid, // 微信支付商户号
-								"prepayid": makpay.prepayid, // 统一下单订单号 
-								"timestamp": makpay.timestamp, // 时间戳（单位：秒）
-								"sign": makpay.sign // 签名，这里用的 MD5 签名
-							},
-							success(res) {
-								uni.showToast({
-									title: '支付成功',
-									icon: 'none'
-								})
-								setTimeout(function() {
-									uni.navigateTo({
-										url: "/pages/my/vip/success"
+							console.log(makpay.appid, "?????????")
+							uni.requestPayment({
+								"provider": "wxpay",
+								"orderInfo": {
+									"appid": makpay.appid, // 微信开放平台 - 应用 - AppId，注意和微信小程序、公众号 AppId 可能不一致
+									"noncestr": makpay.noncestr, // 随机字符串
+									"package": makpay.package, // 固定值
+									"partnerid": makpay.partnerid, // 微信支付商户号
+									"prepayid": makpay.prepayid, // 统一下单订单号 
+									"timestamp": makpay.timestamp, // 时间戳（单位：秒）
+									"sign": makpay.sign // 签名，这里用的 MD5 签名
+								},
+								success(res) {
+									uni.showToast({
+										title: '支付成功',
+										icon: 'none'
 									})
-									uni.$emit("changeUserInfo", true)
-								}, 1200)
-							},
-							fail(e) {
-								console.log(e);
-							}
-						})
-						}else{
+									setTimeout(function() {
+										uni.navigateTo({
+											url: "/pages/my/vip/success"
+										})
+										uni.$emit("changeUserInfo", true)
+									}, 1200)
+								},
+								fail(e) {
+									console.log(e);
+								}
+							})
+						} else {
 							let alizfb = res.data.data
 							uni.requestPayment({
 								provider: 'alipay',
@@ -181,43 +185,44 @@
 								}
 							});
 						}
-						
-						
-						
+
+
+
 					}
 				})
 			},
 			GetPercent(num, total) {
-			    num = parseFloat(num);
-			    total = parseFloat(total);
-			    if (isNaN(num) || isNaN(total)) {
-			        return "-";
-			    }
-			    return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00)+"%";
+				num = parseFloat(num);
+				total = parseFloat(total);
+				if (isNaN(num) || isNaN(total)) {
+					return "-";
+				}
+				return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00) + "%";
 			},
 			changeType(type) {
 				this.type = type;
 			},
-			needFapiao(){
-					this.$navigateTo({
-						url: "/pages/my/vip/invoicePage?contny=" + JSON.stringify(this.copiedPeople)
-					}).then(res => {
-						this.copiedPeople =JSON.parse(res.name);
-						console.log(this.copiedPeople,">>>>>>>>>>")
-					})
+			needFapiao() {
+				this.$navigateTo({
+					url: "/pages/my/vip/invoicePage?contny=" + JSON.stringify(this.copiedPeople)
+				}).then(res => {
+					this.copiedPeople = JSON.parse(res.name);
+					console.log(this.copiedPeople, ">>>>>>>>>>")
+				})
 			},
-			selectBtn(flag, index, id,item) {
+			selectBtn(flag, index, id, item) {
 				if (flag == 1) {
 					console.log(555)
 					this.currentIndex = index;
 					this.vid = id;
 					this.getInfoList();
+					this.getInfoList(2);
 				} else if (flag == 2) {
 					console.log(6666)
 					this.vid = id;
 					this.currentIndex2 = index;
 					this.currentYear = item
-						this.endDate = dayjs().add(this.currentYear.num,'year').format("YYYY-MM-DD")
+					this.endDate = dayjs().add(this.currentYear.num, 'day').format("YYYY-MM-DD")
 				}
 			},
 			getvid() {
@@ -228,13 +233,16 @@
 					}
 				})
 			},
-			getInfoList() {
+			getInfoList(type) {
 				this.$http("user/capacity?vid=" + this.vid, {}, "get").then(res => {
 					if (res.data.code == 1) {
 						this.oneData = res.data.data.one;
 						this.twoData = res.data.data.two;
 						this.currentYear = res.data.data.two[0];
-						this.endDate = dayjs().add(this.currentYear.num,'year').format("YYYY-MM-DD");
+						if (type !== 2) {
+							this.endDate = dayjs().add(this.currentYear.num, 'day').format("YYYY-MM-DD");
+						}
+
 					}
 				})
 			}
@@ -254,7 +262,7 @@
 		margin-bottom: 40rpx;
 		border-radius: 49px;
 	}
-	
+
 	page {
 		background: #FBFCFF;
 	}

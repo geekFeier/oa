@@ -10,7 +10,7 @@
 	export default {
 		data() {
 			return {
-				count:"",
+				count: "",
 				chartData: {},
 				echartOpt: {
 					"type": "ring",
@@ -105,23 +105,25 @@
 				}
 				this.$http("enterprise.dashboard.dashboard/Money", params, "get").then(res => {
 					console.log(res, "sDAAAAAAAAA11111111111111");
-					let data = res.data.data;
-					this.count = data.borrow - data.loan;
-					this.chartData = {
-						"series": [{
-							"data": [{
-									"name": "借",
-									"value": data.borrow
-								},
-								{
-									"name": "贷",
-									"value": data.loan
-								},
+					if (res.data.data) {
+						let data = res.data.data;
+						this.count = data.borrow - data.loan;
+						this.chartData = {
+							"series": [{
+								"data": [{
+										"name": "借",
+										"value": data.borrow
+									},
+									{
+										"name": "贷",
+										"value": data.loan
+									},
 
-							]
-						}]
+								]
+							}]
+						}
 					}
-					this.echartOpt.title.name= this.count.toString();
+					this.echartOpt.title.name = this.count.toString();
 					this.$forceUpdate()
 				})
 			}
