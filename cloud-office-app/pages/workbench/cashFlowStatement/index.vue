@@ -294,7 +294,7 @@
 				formData: {
 					years: "",
 					num: 8,
-					type: 2
+					type: 2,
 					// month: "",
 					// level: 0,
 					to_year: "",

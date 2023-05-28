@@ -14,14 +14,16 @@
 					<u-input v-model="formData.username" type="input" placeholder="请输入昵称" />
 				</u-form-item>
 			</u-form>
-			<view class="form-item" >
+			<view class="form-item">
 				<view class="form-item-label">头像</view>
 				<view v-if="!imageData" class="img-div" @click="uploadImg()">
 					<u-icon name="plus" color="#B5BFDA" size="80">
 					</u-icon>
 				</view>
-				
-				<image style="width: 280rpx;height: 280rpx;border-radius: 24rpx;margin-left: 50%; transform: translateX(-50%);margin-top: 32rpx;" v-if="imageData"  @click="uploadImg()" :src="imageData" mode=""></image>
+
+				<image
+					style="width: 280rpx;height: 280rpx;border-radius: 24rpx;margin-left: 50%; transform: translateX(-50%);margin-top: 32rpx;"
+					v-if="imageData" @click="uploadImg()" :src="imageData" mode=""></image>
 			</view>
 		</view>
 		<button type="default" class="sure_btn" @click="sureBtn">保存</button>
@@ -43,20 +45,20 @@
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
-				imageData:"",
+				imageData: "",
 				formData: {
-					mobile:'',
-					username:"",
+					mobile: '',
+					username: "",
 				}
 			};
 		},
-		computed:{
+		computed: {
 			...mapState({
-				userInfo:state=>state.user.userInfo
+				userInfo: state => state.user.userInfo
 			})
 		},
-		onLoad(){
-			this.imageData =  this.userInfo.avatar.indexOf("data:image/")>=0 ? "" : this.userInfo.avatar; 
+		onLoad() {
+			this.imageData = this.userInfo.avatar.indexOf("data:image/") >= 0 ? "" : this.userInfo.avatar;
 			this.formData.mobile = this.userInfo.mobile;
 			this.formData.username = this.userInfo.username;
 		},
@@ -64,30 +66,47 @@
 			getUserInfo() {
 				this.$http("/User/getUser", {}, "post").then(res => {
 					if (res.data.code == 1) {
-						uni.setStorageSync('userInfo',res.data.data)
+						uni.setStorageSync('userInfo', res.data.data)
 						this.$store.dispatch("user/GET_USER_INFO", res.data.data);
+
 					}
 				})
 			},
 			sureBtn() {
-				if((this.imageData && this.imageData.length) && this.formData.username && this.formData.mobile){
+				if ((this.imageData && this.imageData.length) && this.formData.username && this.formData.mobile) {
 					this.formData.avatar = this.imageData;
-					this.$http("User/saveUser",this.formData,"post").then(res=>{
-						if(res.data.code==1){
-							uni.showToast({
-								title:"修改成功",
-								icon:"none"
-							})
-							this.getUserInfo();
+					this.$http("User/saveUser", this.formData, "post").then(res => {
+						if (res.data.code == 1) {
+
+							if (this.userInfo.mobile !== this.formData.mobile) {
+								uni.showToast({
+									title: "修改成功,请重新登录",
+									icon: "none"
+								})
+								this.$store.commit('user/GET_TOKEN', {})
+								this.$store.commit('user/GET_USER_INFO', {})
+								uni.clearStorage();
+								setTimeout(() => {
+									uni.reLaunch({
+										url: "/pages/login/index"
+									})
+								}, 500)
+							} else {
+								uni.showToast({
+									title: "修改成功",
+									icon: "none"
+								})
+								this.getUserInfo();
+							}
 						}
 					})
-				}else{
+				} else {
 					uni.showToast({
-						title:"请填写信息!",
-						icon:"none"
+						title: "请填写信息!",
+						icon: "none"
 					})
 				}
-				
+
 			},
 			uploadImg() {
 				uni.chooseImage({
@@ -99,7 +118,7 @@
 				})
 			},
 			uploadImgs(file) {
-				let vm =this
+				let vm = this
 				uni.showLoading({
 					title: "上传中"
 				})
@@ -116,13 +135,13 @@
 							vm.imageData = _res.data.fullurl;
 							uni.hideLoading()
 							uni.showToast({
-								title:"上传成功",
+								title: "上传成功",
 							})
 						} else {
 							uni.hideLoading()
 							uni.showToast({
-								title:"上传失败",
-								icon:"none"
+								title: "上传失败",
+								icon: "none"
 							})
 						}
 						// promiseArr.push();

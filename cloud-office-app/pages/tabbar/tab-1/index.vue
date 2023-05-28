@@ -17,8 +17,7 @@
 			<u-grid :col="4" :border="false">
 				<u-grid-item @click="jumpTo('generationOffice')">
 					<view style="position:relative">
-						<view class="jiaob">{{todoNum > 99 ? '99+' : todoNum}}</view>
-						<!-- <view  class="badge">{{todoNum > 99 ? '99+' : todoNum}}</view> -->
+						<view class="badge">{{countData.daiban > 99 ? '99+' : countData.daiban}}</view>
 						<image class="grid-icon" style="width: 50rpx;height: 54rpx;position: relative;"
 							src="../../../static/image/tab1/menu1.png" mode="">
 						</image>
@@ -26,10 +25,12 @@
 					<view class="grid-text">待办</view>
 				</u-grid-item>
 				<u-grid-item @click="jumpTo('leaveMessage')">
-					<view class="jiaob"> {{countData.liuyan > 99 ? '99+' : (countData.liuyan || 0)}}</view>
-					<image class="grid-icon" style="width: 50rpx;height: 54rpx;"
-						src="../../../static/image/tab1/menu2.png" mode="">
-					</image>
+					<view style="position:relative">
+						<view class="badge"> {{countData.liuyan > 99 ? '99+' : (countData.liuyan || 0)}}</view>
+						<image class="grid-icon" style="width: 50rpx;height: 54rpx;"
+							src="../../../static/image/tab1/menu2.png" mode="">
+						</image>
+					</view>
 					<view class="grid-text">留言</view>
 				</u-grid-item>
 				<u-grid-item @click="goSchedule">
@@ -280,13 +281,10 @@
 	export default {
 		data() {
 			return {
-				todoNum: 0, //待办数量
 				ziJinData: {
 					borrow: 0,
 					loan: null
 				},
-
-
 				gathering: {
 					count: 0,
 					money: 0
@@ -326,8 +324,7 @@
 		},
 		onPullDownRefresh() {
 			this.currentPage.page = 1
-			this.getDaiBanList()
-			this.getTodoList()
+			this.getDaiBanList() 
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
@@ -340,8 +337,7 @@
 			threeServices
 		},
 		onShow() {
-			this.getDaiBanList();
-			this.getTodoList()
+			this.getDaiBanList(); 
 			this.getListData();
 			this.getUserInfo();
 			this.getYingFuData();
@@ -473,22 +469,7 @@
 						this.daiBanListData = res.data.data.rows || [];
 					}
 				})
-			},
-			getTodoList() {
-				let params = {
-					page: 1,
-					limit: 100,
-					offset: 0,
-					status: 0, //待办
-					type: 0
-				}
-
-				this.$http("enterprise.User_todo/index", params, "get").then(res => {
-					if (res.data.code == 1) {
-						this.todoNum = res.data.data.total || 0
-					}
-				})
-			},
+			}, 
 			getUserInfo() {
 				this.$http("/User/getUser", {}, "post").then(res => {
 					if (res.data.code == 1) {

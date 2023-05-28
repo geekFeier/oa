@@ -129,7 +129,11 @@
 		data() {
 			return {
 				listData: [],
-				percentage: "55"
+				percentage: "55",
+				enterprice: {},
+				personType: {},
+				userInfo: {},
+
 			};
 		},
 		computed: {

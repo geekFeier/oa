@@ -97,7 +97,7 @@
 				})
 			},
 			loginBtn() {
-				lif(!this.formData.code) return uni.showToast({
+				if(!this.formData.code) return uni.showToast({
 					title: "请输入验证码",
 					icon: "none"
 				})
