@@ -198,10 +198,10 @@
 						领用事由：{{item.content}}
 					</view>
 
-					<view class="main-item-m-text2">
-						<text>领用明细(1)：</text>
+					<view class="main-item-m-text2" v-for="(_item,index) in item.dateils">
+						<text>领用明细({{index+1}})：</text>
 						<view class="main-item-m-text2-r">
-							<view class="main-item-text2-r-item " v-for="(_item,index) in item.dateils">
+							<view class="main-item-text2-r-item ">
 								<view class="main-item-text2-r-item-t">
 									<text>名称：{{_item.name}}</text>
 									<text>数量：{{_item.num}}</text>
@@ -216,15 +216,15 @@
 					</view>
 
 				</view>
-			<view class="main-item-b">
-				<view class="main-item-b-l">
-					<image class="main-item-b-l-img" :src="item.user.avatar" mode=""></image>
-					<text>由{{item.user.username}}提交</text>
+				<view class="main-item-b">
+					<view class="main-item-b-l">
+						<image class="main-item-b-l-img" :src="item.user.avatar" mode=""></image>
+						<text>由{{item.user.username}}提交</text>
+					</view>
+					<view class="main-item-b-r" :class="item.status | filterStatus">
+						{{item.status == 0 ? "审核中" : (item.status == 1? "审核成功" : "审核失败") }}
+					</view>
 				</view>
-				<view class="main-item-b-r" :class="item.status | filterStatus">
-					{{item.status == 0 ? "审核中" : (item.status == 1? "审核成功" : "审核失败") }}
-				</view>
-			</view>
 			</view>
 		</view>
 
@@ -234,12 +234,13 @@
 
 <script>
 	import {
-		url_config,img_url
+		url_config,
+		img_url
 	} from "@/config/config.js"
 	export default {
 		data() {
 			return {
-					isPull:false,
+				isPull: false,
 				listData: [],
 				page: 1,
 				limit: 10,
@@ -294,10 +295,10 @@
 					return "red"
 				}
 			},
-		
+
 		},
-		onReachBottom() {
-			if(this.swiperCurrent==0){
+		onReachBottom:function(){
+			if (this.swiperCurrent == 0) {
 				this.page++;
 				this.getListData();
 			}
@@ -311,32 +312,32 @@
 			this.page = 1
 			this.listData = []
 			this.getListData();
-			setTimeout(function () {
+			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
 		methods: {
 			// 禁止下拉刷新
 			isPullDown(isPull) {
-					//获取当前 Webview 窗口对象
-					const pages = getCurrentPages();
-					const page = pages[pages.length - 1];
-					const currentWebview = page.$getAppWebview();
-					//根据状态值来切换禁用/开启下拉刷新
-					currentWebview.setStyle({
-							pullToRefresh: {
-									support: isPull,
-									style: 'circle'
-							}
-					});
+				//获取当前 Webview 窗口对象
+				const pages = getCurrentPages();
+				const page = pages[pages.length - 1];
+				const currentWebview = page.$getAppWebview();
+				//根据状态值来切换禁用/开启下拉刷新
+				currentWebview.setStyle({
+					pullToRefresh: {
+						support: isPull,
+						style: 'circle'
+					}
+				});
 			},
-			getReceiviPersion(){
+			getReceiviPersion() {
 				let params = {
-					pageId : 1
+					pageId: 1
 				}
-				this.$http("enterprise.applyfor.base/getReceiviPersion?pageId=5",params,"post").then(res=>{
-				
-					if(res.data.code==1){
+				this.$http("enterprise.applyfor.base/getReceiviPersion?pageId=5", params, "post").then(res => {
+
+					if (res.data.code == 1) {
 						this.copiedPeople = res.data.data.ccPerson;
 						this.recipientList = res.data.data.receiviPerson;
 					}
@@ -344,7 +345,7 @@
 			},
 			tabsChange(index) {
 				this.swiperCurrent = index;
-				this.isPullDown(index=== 1)
+				this.isPullDown(index === 1)
 			},
 			addCarBtn() {
 				this.carList.push({
@@ -363,10 +364,10 @@
 				})
 			},
 			submitBtn() {
-				if(!this.formData.content){
+				if (!this.formData.content) {
 					uni.showToast({
-						title:"请输入领用事由!",
-						icon:"none"
+						title: "请输入领用事由!",
+						icon: "none"
 					})
 					return
 				}
@@ -406,7 +407,7 @@
 				// 		return
 				// 	}
 				// }
-				
+
 				this.formData.images = this.imgData.join(",");
 				this.formData.receivi_user_ids = this.recipientList.map(item => {
 					return item.id
@@ -414,10 +415,10 @@
 				this.formData.cc_persion = this.copiedPeople.map(item => {
 					return item.id
 				}).join(",")
-				if(!this.formData.receivi_user_ids){
+				if (!this.formData.receivi_user_ids) {
 					uni.showToast({
-						title:"请选择接收人!",
-						icon:"none"
+						title: "请选择接收人!",
+						icon: "none"
 					})
 					return
 				}
@@ -428,26 +429,26 @@
 				// 	})
 				// 	return
 				// }
-				console.log(this.formData,'formData------')
+				console.log(this.formData, 'formData------')
 				this.formData.dateils = JSON.stringify(this.carList)
-			
-					this.$http("enterprise.applyfor.Lingyong/CreateForm", this.formData, "post").then(res => {
-						if (res.data.code == 1) {
-							this.formData = {};
-							this.recipientList = [];
-							this.copiedPeople = [];
-							this.imgData = [];
-							this.carList = [];
-							uni.showToast({
-								title: "申请成功",
-								icon: "none"
-							})
-							this.listData = [];
-							this.page = 1;
-							this.getListData();
-						}
-					})
-				
+
+				this.$http("enterprise.applyfor.Lingyong/CreateForm", this.formData, "post").then(res => {
+					if (res.data.code == 1) {
+						this.formData = {};
+						this.recipientList = [];
+						this.copiedPeople = [];
+						this.imgData = [];
+						this.carList = [];
+						uni.showToast({
+							title: "申请成功",
+							icon: "none"
+						})
+						this.listData = [];
+						this.page = 1;
+						this.getListData();
+					}
+				})
+
 			},
 			getListData() {
 				let params = {
@@ -515,7 +516,7 @@
 								let _res = JSON.parse(res.data);
 								if (_res.code == 1) {
 									resolve(true)
-										this.imgData.push(`${img_url}${_res.data.url}`)
+									this.imgData.push(`${img_url}${_res.data.url}`)
 								} else {
 									reject(false)
 								}

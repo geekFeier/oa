@@ -50,13 +50,13 @@
 					<view class="hr-div" />
 				</view>
 				<view class="form-item-group">
-					<view class="form-item">
+					<view class="form-item u-flex justify-start">
 						<view class="form-item-label">借方合计</view>
-						￥<input type="text" disabled v-model="debtorStatic" />
+						<text>￥{{debtorStatic}} </text>
 					</view>
-					<view class="form-item">
+					<view class="form-item u-flex justify-start">
 						<view class="form-item-label">贷方合计</view>
-						￥<input type="text" disabled v-model="creditStatic" />
+						￥ {{creditStatic}}
 					</view>
 				</view>
 
@@ -68,9 +68,11 @@
 						</view>
 					</view>
 				</u-form-item>
-
+				<u-form-item label="凭证编号" label-width="150" :border-bottom="false">
+					<u-input v-model="formData.code" type="input" placeholder="请输入凭证编号" />
+				</u-form-item>
 				<u-form-item label="备注" label-width="150" :border-bottom="false">
-					<u-input v-model="formData.remarks" type="input" placeholder="请输入备注信息" />
+					<u-input v-model="formData.remarks" type="text" placeholder="请输入备注信息" />
 				</u-form-item>
 			</u-form>
 
@@ -188,10 +190,11 @@
 					years: "",
 					month: "",
 					day: "",
+					code: "",
 					key: "",
 					remarks: ""
 				},
-				newmonth:0
+				newmonth: 0
 			};
 		},
 		watch: {
@@ -220,10 +223,10 @@
 			this.flag = e.flag ? e.flag : 1;
 		},
 		methods: {
-			getday(){
+			getday() {
 				this.$http("enterprise.Date_query/EndAudit", "post").then(res => {
 					if (res.data.code == 1) {
-						if(res.data.data.month){
+						if (res.data.data.month) {
 							this.newmonth = res.data.data.month
 						}
 					}
@@ -243,7 +246,7 @@
 				this.$navigateTo({
 					url: "/pages/my/subject/selectPage"
 				}).then(res => {
-					console.log(res,">>>>>>>>")
+					console.log(res, ">>>>>>>>")
 					this.credentials[index].kemu_id = res.id;
 					this.credentials[index].subject_headings = res.name;
 					this.credentials[index].balance_status = res.balance_status == -1 ? true : false;
@@ -292,8 +295,8 @@
 				// this.$forceUpdate()
 			},
 			sureBtn() {
-				console.log(this.formData.month,"KKKKKKKKKKK")
-				if(Number(this.formData.month) <= this.newmonth){
+				console.log(this.formData.month, "KKKKKKKKKKK")
+				if (Number(this.formData.month) <= this.newmonth) {
 					uni.showToast({
 						title: "该月份不能新增凭证",
 						icon: "none"
@@ -323,15 +326,18 @@
 				}
 				this.formData.documents_images = this.formData.documents_images ? this.formData.documents_images.join(
 					",") : "";
-					
-					
-					let adday = this.credentials
+
+
+				let adday = this.credentials
+				let jieNum = 0
+				let daiNum = 0
+
 				adday.forEach(item => {
 					item.balance_status = item.balance_status ? -1 : 1;
 				})
 				this.formData.credentials = JSON.stringify(adday);
 				uni.showLoading({
-					title:'正在提交中...',
+					title: '正在提交中...',
 				})
 				this.$http("enterprise.Credentials/CreateCrdentials", this.formData, "post").then(res => {
 					if (res.data.code == 1) {
@@ -444,9 +450,10 @@
 
 			.form-item {
 				display: flex;
+				width: 50%;
 
 				.form-item-label {
-					width: 280rpx;
+					width: 180rpx;
 					margin-right: 10rpx;
 				}
 

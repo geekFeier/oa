@@ -7,7 +7,7 @@
 		<view class="hd-form">
 			<u-form ref="uForm">
 				<u-form-item label="岗位名称" label-width="150">
-					<u-input v-model="formData.name" type="input" placeholder="请输入岗位名称" />
+					<u-input v-model="formData.name" maxlength='11' type="input" placeholder="请输入岗位名称" />
 				</u-form-item>
 				<u-form-item label="岗位权限" label-width="150" right-icon="arrow-right"
 					:right-icon-style="{color:'#7d7f97'}">
@@ -106,7 +106,8 @@
 					textAlign: "center",
 				},
 				page: 1,
-				limit: 10
+				limit: 10,
+				loading: false,
 			};
 		},
 		components: {
@@ -146,33 +147,44 @@
 			sureBtn() {
 				if (!this.formData.name) {
 					uni.showToast({
-						title:"请输入岗位名称!",
-						icon:"none"
+						title: "请输入岗位名称!",
+						icon: "none"
 					})
 					return
 				}
 				if (!this.formData.flag) {
 					uni.showToast({
-						title:"请选择岗位权限!",
-						icon:"none"
+						title: "请选择岗位权限!",
+						icon: "none"
 					})
 					return
 				}
 				if (!this.formData.remark) {
 					uni.showToast({
-						title:"请输入权限描述!",
-						icon:"none"
+						title: "请输入权限描述!",
+						icon: "none"
 					})
 					return
 				}
+				if (this.loading) {
+					return
+
+				}
+				uni.showLoading({
+					title: '提交中'
+				})
+				this.loading = true
+
 				if (this.flag == 1) {
 					this.$http("enterprise.Jobs/CreateJob", this.formData, "post").then(res => {
+						uni.hideLoading()
 						if (res.data.code == 1) {
 							uni.showToast({
 								title: "新增成功",
 								icon: "none"
 							})
 							setTimeout(() => {
+								this.loading = false
 								this.$navigateBack(true)
 							}, 500)
 						}
@@ -181,12 +193,14 @@
 					this.formData.job_id = this.formData.id;
 					this.formData.weigh = "0";
 					this.$http("enterprise.Jobs/UpdateJob", this.formData, "post").then(res => {
+						uni.hideLoading()
 						if (res.data.code == 1) {
 							uni.showToast({
 								title: "编辑成功",
 								icon: "none"
 							})
 							setTimeout(() => {
+								this.loading = false
 								this.$navigateBack(true)
 							}, 500)
 						}

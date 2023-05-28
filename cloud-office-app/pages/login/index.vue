@@ -1,6 +1,6 @@
 <template>
 	<view class="loginBox">
-	
+
 		<u-navbar title="登录" :is-back="true" title-color="#150E33"></u-navbar>
 		<view class="loginMain">
 			<image src="../../static/image/launch_icon.png" mode="" class="login_logo"></image>
@@ -48,6 +48,10 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
+
 	export default {
 		data() {
 			return {
@@ -66,6 +70,15 @@
 			}
 		},
 		mounted() {},
+		computed: {
+			...mapState({
+				userInfo: state => state.user.userInfo,
+				enterprice: state => state.user.enterprise,
+				personType: state => state.user.personType,
+
+			})
+		},
+
 		methods: {
 			selectUnit() {
 				this.$navigateTo({
@@ -100,13 +113,18 @@
 						password: this.formData.password,
 						unitwork: this.formData.unitwork
 					}
+					uni.showLoading({
+						title: '登录中'
+					})
+
 					this.$http("user/login", params, "post", 2, true).then(res => {
+						uni.hideLoading()
 						if (res.data.code == 1) {
 
 							this.$store.dispatch("user/GET_TOKEN", res.data.data.userinfo);
 							this.$http("User/getUser", {}, "post").then(res => {
 								if (res.data.code == 1) {
-									console.log(11111111111111111,res.data.data)
+									console.log(11111111111111111, res.data.data)
 									this.$store.dispatch("user/GET_USER_INFO", res.data.data);
 									uni.showToast({
 										title: "登录成功",
@@ -168,30 +186,26 @@
 			},
 
 			getCode() {
-					uni.showToast({
-									title:"请配置验证码信息",
-									icon:"none"
-								})
-				// if (this.isClick) {
-				// 	this.isClick = false;
-				// 	const telphone = /^1[3456789]\d{9}$/; // 手机号
-				// 	if (!telphone.test(this.formData.mobile)) {
-				// 		uni.showToast({
-				// 			title: '请检查您的手机号码',
-				// 			icon: 'none',
-				// 		})
-				// 		this.isClick = true;
-				// 		return false;
-				// 	} else {
-				// 		let params = {
-				// 			mobile: this.formData.mobile,
-				// 			event: "mobilelogin"
-				// 		}
-				// 		this.$http("sms/send", params, "post", 1, true).then(res => {
-				// 			this.downTime();
-				// 		})
-				// 	}
-				// }
+				if (this.isClick) {
+					this.isClick = false;
+					const telphone = /^1[3456789]\d{9}$/; // 手机号
+					if (!telphone.test(this.formData.mobile)) {
+						uni.showToast({
+							title: '请检查您的手机号码',
+							icon: 'none',
+						})
+						this.isClick = true;
+						return false;
+					} else {
+						let params = {
+							mobile: this.formData.mobile,
+							event: "mobilelogin"
+						}
+						this.$http("Sms/send", params, "post", 1, true).then(res => {
+							this.downTime();
+						})
+					}
+				}
 			},
 			// 发送验证码倒计时
 			downTime() {

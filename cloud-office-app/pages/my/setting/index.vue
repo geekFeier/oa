@@ -3,12 +3,13 @@
 		<u-navbar :is-back="true" title="个人设置" :border-bottom="false" back-icon-color="#000" :background="background"
 			title-color="#000" :height="55">
 		</u-navbar>
-		<financialAccounting v-if="personType && (personType==1 || personType==2 || personType==3)"></financialAccounting>
-		<threeServices  v-if="personType && (personType==1 || personType==2 || personType==3)"></threeServices>
+		<financialAccounting v-if="personType && (personType==1 || personType==2 || personType==3)">
+		</financialAccounting>
+		<threeServices v-if="personType && (personType==1 || personType==2 || personType==3)"></threeServices>
 		<view class="main-bd">
-			<u-cell-group :border="false"> 
+			<u-cell-group :border="false">
 				<u-cell-item title="清除缓存" @click="clearBtn" :value="all"></u-cell-item>
-				<u-cell-item title="检查更新" @click="goVersion" value="当前已是最新版本">
+				<u-cell-item title="检查更新" @click="goVersion" value="">
 
 				</u-cell-item>
 			</u-cell-group>
@@ -18,7 +19,7 @@
 		<u-modal v-model="isShowOut" content="你确定退出登录?" @confirm="sureAgree" :show-cancel-button="true"
 			:show-confirm-button="true" :show-title="false">
 		</u-modal>
-	 
+
 	</view>
 </template>
 
@@ -32,12 +33,14 @@
 		data() {
 			return {
 				makename: "",
-				name: "", 
+				name: "",
 				isShowOut: false,
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
-				all: "0"
+				all: "0",
+				userInfo: {}
+
 			};
 		},
 		components: {
@@ -46,23 +49,30 @@
 		},
 		computed: {
 			...mapState({
-				userInfo: state => state.user.userInfo,
+				// userInfo: state => state.user.userInfo,
 				personType: state => state.user.personType,
 			})
 		},
 		onLoad(e) {
-			// this.getUserInfo();
+			// #ifdef APP-PLUS
+			this.getCacheInfo()
+			// #endif
+
+
 			if (e.flag == 2) {
 				this.makename = "";
 			} else {
-				this.makename = this.userInfo.config.makename ? this.userInfo.config.makename : "";
+				// this.makename = this.userInfo.config.makename ? this.userInfo.config.makename : "";
 			}
 
 		},
+		onShow() {
+			this.getUserInfo();
+		},
 		methods: {
-			goVersion(){
+			goVersion() {
 				uni.navigateTo({
-					url:"/pages/my/versionUpdate"
+					url: "/pages/my/versionUpdate"
 				})
 			},
 			getUserInfo() {
@@ -72,19 +82,29 @@
 						this.makename = res.data.data.config.makename ? res.data.data.config.makename : "";
 					}
 				})
-			}, 
-			 
+			},
+
 			sureAgree() {
+				this.$store.commit('user/GET_TOKEN', {})
+				this.$store.commit('user/GET_USER_INFO', {})
+				// this.$store.commit('user',{})
 				uni.clearStorage();
-				uni.reLaunch({
-					url: "/pages/login/index"
-				})
+				setTimeout(() => {
+					uni.reLaunch({
+						url: "/pages/login/index"
+					})
+				}, 500)
 			},
 			loginOutBtn() {
 				this.isShowOut = true;
 			},
 			clearBtn() {
+				let vm = this
 				//可以询问用户是否删除
+				if (this.all == 0) return uni.showToast({
+					title: '暂无缓存可清除',
+					icon: "none"
+				})
 				uni.showModal({
 					title: '提示',
 					content: '确定清除缓存吗?',
@@ -97,7 +117,7 @@
 									title: '清除成功',
 									icon: 'none',
 									success: () => {
-										this.getCacheInfo();
+										vm.getCacheInfo();
 									}
 								})
 							});

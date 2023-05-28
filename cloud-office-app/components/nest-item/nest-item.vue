@@ -94,14 +94,14 @@ type:1
 				default: false
 			}
 		},
-		inject: {
+		// inject: {
 			container: {
 				type: Array,
 				default: () => {
 					return []
 				}
 			},
-		},
+		// },
 		data() {
 			return {
 
@@ -143,25 +143,7 @@ type:1
 				this.$forceUpdate()
 			},
 			onClick() {
-				
-				if (this.value.checked) {
-					this.value.checked = false
-					remove(this.container, e => e.id == this.value.id)
-				} else {
-					
-					this.value.checked = true
-					if (this.mult) {
-						this.container.push(this.value)
-					} else {
-						this.container.forEach(e => e.checked = false)
-						remove(this.container, e => true)
-						this.container.push(this.value)
-					}
-				}
-				console.log(this.container, "+++++++++++++++++++++++++11111111");
-				this.$emit("update:value", this.value);
-				this.$emit("changeRadioArr",this.container)
-				this.$forceUpdate()
+				uni.$emit("onChangeChecked",this.value)  //触发contact.vue onChangeChecked方法
 			},
 			openChild() {
 				this.value.open = this.value.open ? false : true
@@ -182,18 +164,10 @@ type:1
 		watch: {
 			"$attrs.allChecked": {
 				handler(val) {
-					console.log(val,"+++++++++++++++++++++++++++++++*********************");
-					// console.log(this.container,"--------------------------");
-					this.container.splice(0, this.container.length);
 					if (this.value.staff && this.value.staff.length) {
 						this.value.staff.forEach((item, index) => {
 							this.$set(this.value.staff[index], 'checked', val);
-							this.$emit("changeAllChecked",val);
-							// if (val) {
-							// 	this.container.push(this.value.staff[index])
-							// } else {
-							// 	this.container.splice(0, this.container.length)
-							// }
+							 this.$forceUpdate()
 						})
 					}
 					this.$forceUpdate()

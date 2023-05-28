@@ -28,9 +28,20 @@
 				<view class="form-item2-title">
 					照片
 				</view>
-				<image src="../../../../static/image/tab2/addImg.png" style="width: 50rpx;height: 40rpx;" mode="">
-				</image>
+				<image @click="uploadBtn" src="../../../../static/image/tab2/addImg.png"
+					style="width: 50rpx;height: 40rpx;" mode="">
 			</view>
+
+			<view class="form-item2-main">
+				<view class="form-item2-main-div" v-if="imgData.length>0" v-for="(item,index) in imgData" :key="index">
+					<image :src="item" style="width: 110rpx;height: 110rpx;" mode=""></image>
+					<view class="form-item2-main-close" @click="closeImg(index)">
+						x
+					</view>
+				</view>
+			</view>
+
+
 
 			<view class="form-item3">
 				<view class="form-item3-main">
@@ -115,6 +126,11 @@
 </template>
 
 <script>
+	import {
+		url_config,
+		img_url
+	} from '@/config/config.js'
+
 	export default {
 		data() {
 			return {
@@ -123,6 +139,8 @@
 					time: "",
 					type: ""
 				},
+				imgData: [],
+
 				showSelectTime: false,
 				currentSelect: 0,
 				selectSrc: "../../../../static/image/tab2/select.png",
@@ -168,12 +186,70 @@
 			}
 		},
 		onPullDownRefresh() {
-				// console.log('refresh');
-				// setTimeout(function () {
-				// 	uni.stopPullDownRefresh();
-				// }, 1000);
-			},
+			// console.log('refresh');
+			// setTimeout(function () {
+			// 	uni.stopPullDownRefresh();
+			// }, 1000);
+		},
 		methods: {
+			uploadBtn() {
+				uni.chooseImage({
+					count: 9,
+					success: (res) => {
+						this.uploadImgs(res.tempFilePaths)
+					}
+				})
+			},
+			uploadImgs(files) {
+				uni.showLoading({
+					title: "上传中"
+				})
+				let promiseArr = [];
+				let promiseItem = files.forEach(item => {
+					new Promise((resolve, reject) => {
+						uni.uploadFile({
+							url: url_config + "/Common/upload",
+							name: "file",
+							filePath: item,
+							header: {
+								token: uni.getStorageSync("token") || ""
+							},
+							success: (res) => {
+								let _res = JSON.parse(res.data);
+								if (_res.code == 1) {
+									resolve(true)
+									this.imgData.push(`${img_url}${_res.data.url}`)
+								} else {
+									reject(false)
+								}
+								// promiseArr.push();
+							},
+							fail: (err) => {
+								reject(false)
+							}
+						})
+					})
+
+
+				})
+				promiseArr.push(promiseItem);
+				Promise.all(promiseArr).then(res => {
+					uni.hideLoading()
+					uni.showToast({
+						title: "上传成功",
+					})
+				}).catch(err => {
+					uni.hideLoading()
+					uni.showToast({
+						title: "上传失败",
+						icon: "none"
+					})
+				})
+			},
+			closeImg(index) {
+				this.imgData.splice(index, 1)
+			},
+
 			sureSelectType() {
 				this.showVoucherPopup = false;
 				this.formData.type = this.currentSelectType
@@ -397,6 +473,34 @@
 			}
 		}
 
+	}
+
+	.form-item2-main {
+		padding: 0 24rpx;
+		margin-bottom: 24rpx;
+		background: #fff;
+		display: flex;
+		flex-wrap: wrap;
+
+
+		.form-item2-main-div {
+			position: relative;
+			margin-bottom: 12rpx;
+			margin-right: 24rpx;
+		}
+
+		.form-item2-main-close {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 30rpx;
+			height: 30rpx;
+			background-color: #f5222d;
+			line-height: 30rpx;
+			text-align: center;
+			color: #fff;
+			font-size: 24rpx;
+		}
 	}
 
 	.popup-main {

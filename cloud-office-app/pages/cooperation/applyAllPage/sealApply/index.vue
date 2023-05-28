@@ -16,18 +16,24 @@
 				<u-input v-model="formData.receivi_person" type="textarea" :auto-height="true" :clearable="false"
 					placeholder="请输入经手人" />
 			</view>
-			<view class="form-item">
-				<view class="form-item-title">
+			<view class="form-item flex align-center">
+				<view class="form-item-title" style="margin-right: 40rpx;">
+
 					日期
 				</view>
-				<u-input @click="showSelectPopup" disabled v-model="formData.use_time" type="select" :clearable="false"
-					placeholder="请选择" />
+				<uni-datetime-picker :start="startDate" type="date" :clear-icon="false" v-model="formData.use_time"
+					@maskClick="maskClick" />
+
+				<!-- <u-input @click="showSelectPopup" disabled v-model="formData.use_time" type="select" :clearable="false"
+									placeholder="请选择" /> -->
+
 			</view>
 			<view class="form-item">
 				<view class="form-item-title">
 					用印文件名称
 				</view>
-				<u-input v-model="formData.use_file_name" type="text" :clearable="false" placeholder="请输入用印文件名称" />
+				<u-input v-model="formData.use_file_name" type="text" maxlength='11' :clearable="false"
+					placeholder="请输入用印文件名称" />
 			</view>
 			<view class="form-item">
 				<view class="form-item-title">
@@ -224,13 +230,14 @@
 	} from "@/config/config.js"
 	export default {
 		data() {
-			return {isPull:false,
+			return {
+				isPull: false,
 				listData: [],
 				page: 1,
 				limit: 10,
 				copiedPeople: [],
 				recipientList: [],
-				imgData: [], 
+				imgData: [],
 				formData: {
 					receivi_person: "",
 					use_time: "",
@@ -283,7 +290,9 @@
 					{
 						name: "提交记录"
 					},
-				]
+				],
+				startDate: 0
+
 			}
 		},
 		filters: {
@@ -298,46 +307,48 @@
 			}
 		},
 		onLoad() {
+			this.startDate = new Date().getTime()
+
 			this.isPullDown(false)
 			this.getListData();
 			this.getReceiviPersion();
 		},
-		onReachBottom() {
-			if(this.swiperCurrent==0){
+		onReachBottom: function() {
+			if (this.swiperCurrent == 0) {
 				this.page++;
 				this.getListData();
 			}
 		},
-	onPullDownRefresh() {
-		this.page = 1
-		this.listData = []
-		this.getListData();
-		setTimeout(function () {
-			uni.stopPullDownRefresh();
-		}, 1000);
-	},
-	methods: {
-		// 禁止下拉刷新
-		isPullDown(isPull) {
+		onPullDownRefresh() {
+			this.page = 1
+			this.listData = []
+			this.getListData();
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
+		methods: {
+			// 禁止下拉刷新
+			isPullDown(isPull) {
 				//获取当前 Webview 窗口对象
 				const pages = getCurrentPages();
 				const page = pages[pages.length - 1];
 				const currentWebview = page.$getAppWebview();
 				//根据状态值来切换禁用/开启下拉刷新
 				currentWebview.setStyle({
-						pullToRefresh: {
-								support: isPull,
-								style: 'circle'
-						}
+					pullToRefresh: {
+						support: isPull,
+						style: 'circle'
+					}
 				});
-		},
-			getReceiviPersion(){
+			},
+			getReceiviPersion() {
 				let params = {
-					pageId : 1
+					pageId: 1
 				}
-				this.$http("enterprise.applyfor.base/getReceiviPersion?pageId=2",params,"post").then(res=>{
-					console.log(res,"saDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-					if(res.data.code==1){
+				this.$http("enterprise.applyfor.base/getReceiviPersion?pageId=2", params, "post").then(res => {
+					console.log(res, "saDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+					if (res.data.code == 1) {
 						this.copiedPeople = res.data.data.ccPerson;
 						this.recipientList = res.data.data.receiviPerson;
 					}
@@ -380,6 +391,7 @@
 					this.recipientList = res;
 				})
 			},
+			maskClick() {},
 			uploadBtn() {
 				uni.chooseImage({
 					count: 9,
@@ -440,7 +452,7 @@
 			sureSelectType() {
 				this.showVoucherPopup = false;
 				let nameArr = []
-				this.currentSelect.forEach(index=>{
+				this.currentSelect.forEach(index => {
 					nameArr.push(this.voucherSelectlist[index].name)
 				})
 				this.formData.stamp = nameArr.join(',')
@@ -453,7 +465,7 @@
 			},
 			selectbtn(index) {
 				this.currentSelect.push(index)
-				this.currentSelect = [...new Set(this.currentSelect)]; 
+				this.currentSelect = [...new Set(this.currentSelect)];
 			},
 			voucherPopupBtn() {
 				this.showVoucherPopup = true;
@@ -472,13 +484,13 @@
 				this.formData.cc_persion = this.copiedPeople.map(item => {
 					return item.id
 				}).join(",")
-				console.log(this.formData,'----------')
+				console.log(this.formData, '----------')
 				let verifyParams = JSON.parse(JSON.stringify(this.formData))
 				delete verifyParams.remarks
 				let verify = Object.values(verifyParams).every(item => {
 					return item != ""
 				})
-				
+
 				if (verify) {
 					this.$http("enterprise.applyfor.Yongyin/CreateForm", this.formData, "post").then(res => {
 						if (res.data.code == 1) {
@@ -504,7 +516,7 @@
 			},
 			tabsChange(index) {
 				this.swiperCurrent = index;
-				this.isPullDown(index=== 1)
+				this.isPullDown(index === 1)
 			}
 		}
 	}

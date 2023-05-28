@@ -2,7 +2,8 @@
 	<view class="tabBox">
 		<view class="headerBox">
 			<view class="unit-info">
-				<image class="unit-icon" :src="enterprice.enterprice_image" mode=""></image>
+				<image class="unit-icon" v-if="enterprice.enterprice_image"
+					:src="getComLogo(enterprice.enterprice_image)" mode=""></image>
 				<text class="unit-title">{{enterprice.enterprice_name}}</text>
 			</view>
 
@@ -16,7 +17,8 @@
 			<u-grid :col="4" :border="false">
 				<u-grid-item @click="jumpTo('generationOffice')">
 					<view style="position:relative">
-						<view  class="badge" v-if="todoNum > 0">{{todoNum > 99 ? '99+' : todoNum}}</view> 
+						<view class="jiaob">{{todoNum > 99 ? '99+' : todoNum}}</view>
+						<!-- <view  class="badge">{{todoNum > 99 ? '99+' : todoNum}}</view> -->
 						<image class="grid-icon" style="width: 50rpx;height: 54rpx;position: relative;"
 							src="../../../static/image/tab1/menu1.png" mode="">
 						</image>
@@ -24,6 +26,7 @@
 					<view class="grid-text">待办</view>
 				</u-grid-item>
 				<u-grid-item @click="jumpTo('leaveMessage')">
+					<view class="jiaob"> {{countData.liuyan > 99 ? '99+' : (countData.liuyan || 0)}}</view>
 					<image class="grid-icon" style="width: 50rpx;height: 54rpx;"
 						src="../../../static/image/tab1/menu2.png" mode="">
 					</image>
@@ -267,7 +270,8 @@
 	import ringEchart from "./components/ring.vue"
 	import dayjs from '@/utils/dayjs';
 	import {
-		mapState
+		mapState,
+		mapGetters
 	} from "vuex"
 	import {
 		url_config,
@@ -276,11 +280,22 @@
 	export default {
 		data() {
 			return {
-				todoNum:0,//待办数量
-				ziJinData: {},
-		
-				gathering: {},
-				yingFuData: {},
+				todoNum: 0, //待办数量
+				ziJinData: {
+					borrow: 0,
+					loan: null
+				},
+
+
+				gathering: {
+					count: 0,
+					money: 0
+				},
+				yingFuData: {
+					count: 0,
+					money: 0
+				},
+
 				isLogin: "",
 				daiBanListData: [],
 				accountText: "",
@@ -296,7 +311,16 @@
 				currentPage: {
 					page: 1,
 					limit: 10
+				},
+				enterprice: {},
+				personType: {},
+				userInfo: {},
+				countData: {
+					daiban: null,
+					liuyan: null,
+					recheng: null
 				}
+
 
 			};
 		},
@@ -314,18 +338,21 @@
 			ringEchart,
 			financialAccounting,
 			threeServices
-		}, 
+		},
 		onShow() {
 			this.getDaiBanList();
 			this.getTodoList()
+			this.getListData();
+			this.getUserInfo();
+			this.getYingFuData();
+
 		},
 		onLoad() {
-			console.log(this.personType,"LLLLLLLLLLLLLLLLLLL")
 			this.isLogin = uni.getStorageSync("userInfo") || ""
-			this.getListData();
-			uni.$on("changeUserInfo", () => {
-				this.getUserInfo();
-			})
+			this.getUserInfo();
+			this.personType = uni.getStorageSync('personType')
+			this.enterprice = uni.getStorageSync('enterprise')
+
 			if (!this.isLogin || this.personType == 1 || this.personType == 3) {
 				this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
 				this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
@@ -334,8 +361,7 @@
 			this.getList();
 			this.getZiJinData();
 			this.getGatheringData();
-			this.getYingFuData();
-		
+
 		},
 		filters: {
 			filterTime(val) {
@@ -343,19 +369,33 @@
 			}
 		},
 		computed: {
-			...mapState({
-				userInfo: state => state.user.userInfo,
-				enterprice: state => state.user.enterprise,
-				personType: state => state.user.personType,
+			// ...mapState({
+			// 	userInfo: state => state.user.userInfo,
+			// 	enterprice: state => state.user.enterprise,
+			// 	personType: state => state.user.personType,
 
-			})
+			// })
 		},
 		methods: {
-		
+			getComLogo(url) {
+				return img_url + url
+				console.log(url, img_url)
+			},
+
 			getYingFuData() {
 				this.$http("enterprise.dashboard.dashboard/accounts_payable?years=" + dayjs().year() + "&month=" +
-				dayjs().month() + 1, {}, "get").then(res => {
-					this.yingFuData = res.data.data;
+					dayjs().month() + 1, {}, "get").then(res => {
+					if (res.data.data) {
+						this.yingFuData = res.data.data;
+					}
+
+				})
+				this.$http("enterprise.User_todo/getCount", {}, "get").then(res => {
+					console.log(res)
+					if (res.data.code == 1) {
+						this.countData = res.data.data
+					}
+
 				})
 			},
 			getGatheringData() {
@@ -364,7 +404,11 @@
 					month: dayjs().month() + 1
 				}
 				this.$http("enterprise.dashboard.dashboard/accounts_receivable", params, "get").then(res => {
-					this.gathering = res.data.data;
+					if (res.data.data) {
+						this.gathering = res.data.data;
+						console.log('2222', this.gathering)
+					}
+
 				})
 			},
 			getZiJinData() {
@@ -373,7 +417,10 @@
 					month: dayjs().month() + 1
 				}
 				this.$http("enterprise.dashboard.dashboard/Money", params, "get").then(res => {
-					this.ziJinData = res.data.data;
+					if (res.data.data) {
+						this.ziJinData = res.data.data;
+					}
+
 				})
 			},
 			goAccountBalanceSheet() {
@@ -381,19 +428,20 @@
 					url: "/pages/workbench/accountBalanceSheet/index"
 				})
 			},
-			jyqk(){
+			jyqk() {
 				uni.navigateTo({
 					url: "/pages/workbench/incomeStatement/index"
 				})
 			},
 			getListData() {
+				let vm = this
 				this.$http("enterprise/Slide/slide", {}, "get").then(res => {
 					if (res.data.code == 1) {
 						if (res.data.data.images) {
 							let listArr = res.data.data.images.split(",");
-							this.list = listArr.map(item => {
+							vm.list = listArr.map(item => {
 								return {
-									image: item.indexOf("http") >= 0 ? item : `${img_url}${item}`
+									image: item.indexOf("http") >= 0 ? item : `${vm.img_url}${item}`
 								}
 							})
 						}
@@ -426,15 +474,15 @@
 					}
 				})
 			},
-			getTodoList(){
+			getTodoList() {
 				let params = {
 					page: 1,
 					limit: 100,
 					offset: 0,
-					status: 0,//待办
+					status: 0, //待办
 					type: 0
 				}
-						 
+
 				this.$http("enterprise.User_todo/index", params, "get").then(res => {
 					if (res.data.code == 1) {
 						this.todoNum = res.data.data.total || 0
@@ -444,6 +492,8 @@
 			getUserInfo() {
 				this.$http("/User/getUser", {}, "post").then(res => {
 					if (res.data.code == 1) {
+						this.userInfo = res.data.data
+
 						this.$store.dispatch("user/GET_USER_INFO", res.data.data);
 						this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
 						this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
@@ -454,13 +504,22 @@
 				let params = {
 					akid: this.cuttnetId
 				}
+				uni.showLoading({
+					title: '切换中'
+				})
+
 				this.$http("enterprise.Account_books/booksChanges", params, "post").then(res => {
+					uni.hideLoading()
+
 					if (res.data.code == 1) {
 						this.isShowPopop = false;
 						uni.$emit("changeUserInfo", true);
-						console.log(99999)
-						this.getList();
-						this.getListData();
+
+						this.getUserInfo()
+						this.$nextTick(() => {
+							this.getList();
+							this.getListData();
+						})
 					}
 				})
 			},
@@ -478,15 +537,15 @@
 					if (res.data.code == 1) {
 						this.listData = res.data.data.rows;
 						if (this.userInfo.account_books_id) {
-								this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
+							this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
 								.account_books_id);
 							this.accountText = this.accountText ? this.accountText.name : "请选择"
 						} else {
-							if(this.userInfo.is_admin == 'staff'){
+							if (this.userInfo.is_admin == 'staff') {
 								this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
 									.jobs.account_books_id);
 								this.accountText = this.accountText ? this.accountText.name : "请选择"
-							}else{
+							} else {
 								this.accountText = "请选择";
 							}
 						}
@@ -510,20 +569,21 @@
 </script>
 
 <style lang="scss" scoped>
-	.badge{
+	.badge {
 		position: absolute;
 		right: -18rpx;
-		top:-18rpx;
-		 text-align:center;
-		 border-radius:  50%;
-			height:34rpx;
-		 min-width:34rpx;
-		 line-height: 34rpx;
-		 font-size:24rpx;
-		 color:#fff;
-		 background-color: #f56c6c;
-		 z-index: 999;
+		top: -18rpx;
+		text-align: center;
+		border-radius: 50%;
+		height: 34rpx;
+		min-width: 34rpx;
+		line-height: 34rpx;
+		font-size: 24rpx;
+		color: #fff;
+		background-color: #f56c6c;
+		z-index: 999;
 	}
+
 	page {
 		background: #FBFCFF !important;
 	}
@@ -580,6 +640,7 @@
 			.unit-icon {
 				width: 70rpx;
 				height: 70rpx;
+				border-radius: 50%;
 
 			}
 
@@ -599,15 +660,17 @@
 	.menuBox {
 		margin-top: 30rpx;
 		background-color: #fff;
-		// .jiaob{
-		// 	background-color: red;
-		// 	padding: 2rpx 10rpx;
-		// 	color: #fff;
-		// 	border-radius: 50%;
-		// 	position: absolute;
-		// 	top: 10rpx;
-		// 	right: 42rpx;
-		// }
+
+		.jiaob {
+			background-color: red;
+			padding: 2rpx 10rpx;
+			color: #fff;
+			border-radius: 50%;
+			position: absolute;
+			top: 10rpx;
+			right: 42rpx;
+		}
+
 		.grid-text {
 			color: #150E33;
 			font-size: 26rpx;

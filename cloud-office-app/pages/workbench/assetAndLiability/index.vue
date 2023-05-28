@@ -20,15 +20,20 @@
 				</tr>
 				<block v-for="(item,index) in listData" :key="item.id">
 					<tr class="trItem">
-						<block v-if="item.name == '资产合计' || item.name == '负债合计' || item.name == '负债和所有者权益（或股东权益）'"><td style="font-size: 28rpx;" colspan="">{{item.name}}</td></block>
-						<block v-else><td style="font-size: 28rpx;" colspan="3">{{item.name}}</td></block>
+						<block v-if="item.name == '资产合计' || item.name == '负债合计' || item.name == '负债和所有者权益（或股东权益）'">
+							<td style="font-size: 28rpx;" colspan="">{{item.name}}</td>
+						</block>
+						<block v-else>
+							<td style="font-size: 28rpx;" colspan="3">{{item.name}}</td>
+						</block>
 						<block v-if="item.name == '资产合计' || item.name == '负债合计' || item.name == '负债和所有者权益（或股东权益）'">
 							<td style="">{{item.qm_balance}}</td>
 							<td style="">{{item.nc_balance}}</td>
 						</block>
 					</tr>
 					<block>
-							<tr class="trItem" v-for="(items,inde) in item.children" :key="items.id" v-if=" is_Array(items.children)">
+						<tr class="trItem" v-for="(items,inde) in item.children" :key="items.id"
+							v-if=" is_Array(items.children)">
 							<td style="font-size: 28rpx;" @click="watchname(items.id)">{{items.name}}
 								<text style="font-size: 14rpx;color: #0081FF;">编辑公式</text>
 							</td>
@@ -67,6 +72,7 @@
 				</view>
 			</view>
 		</u-popup>
+		<button type="default" class="sure_btn" @click="loginBtn">试算平衡</button>
 
 	</view>
 </template>
@@ -97,6 +103,18 @@
 					backgroundColor: "#FFFFFF",
 				},
 				seasonList: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
+				zongji: {
+					nc: {
+						zc: 0,
+						fz: 0
+					},
+					qm: {
+						zc: 0,
+						fz: 0
+					},
+
+				},
+
 				formData: {
 					years: "",
 					num: "",
@@ -112,7 +130,13 @@
 
 		},
 		methods: {
-			is_Array(arr){
+			loginBtn() {
+				this.getListData(1, 'jump');
+
+
+			},
+
+			is_Array(arr) {
 				return Array.isArray(arr)
 			},
 			watchname(i) {
@@ -136,7 +160,8 @@
 						this.monthArr = currentData.map(item => {
 							return this.formatNum(item.month)
 						}).join(",")
-						this.getListData();
+						this.getListData(this.swiperCurrent);
+
 
 					}
 				})
@@ -154,7 +179,8 @@
 				this.swiperCurrent = index;
 				this.listData = []
 				// this.formData.level = index;
-				this.getListData();
+				this.getListData(index);
+
 			},
 			sureBtn() {
 				// if (this.to_month > this.month) {
@@ -166,10 +192,11 @@
 				// }
 				this.formData.num = this.num;
 				this.isShowPopup = false;
-				this.getListData();
+				this.getListData(this.swiperCurrent);
 			},
-			getListData() {
-				let taska
+			getListData(index, type) {
+
+				let taska;
 				if (this.formData.month == '') {
 					uni.showToast({
 						title: "请选择您要查询的日期区间",
@@ -186,68 +213,98 @@
 				}
 				this.$http("enterprise.report/assets_liabilities", this.formData, "get").then(res => {
 					if (res.data.code == 1) {
-						if (this.swiperCurrent == 0) {
+						if (index == 0) {
+
 							var a = 0;
 							var b = 0;
 							res.data.data.left.forEach(item => {
 								console.log("UUU")
 								// if (item.children instanceof Array) {
-									if (Array.isArray(item.children)) {
-									item.all_price=0
-									item.qc_price=0
-									item.children.forEach((items,i) => {
-										if(i<item.children.length-1){
+								if (Array.isArray(item.children)) {
+									item.all_price = 0
+									item.qc_price = 0
+									item.children.forEach((items, i) => {
+										if (i < item.children.length - 1) {
 											item.all_price += Math.abs(items.qm_balance)
 											item.qc_price += Math.abs(items.nc_balance)
 										}
-										item.children[item.children.length-1].qm_balance = item.all_price
-										item.children[item.children.length-1].nc_balance = item.qc_price
+										item.children[item.children.length - 1].qm_balance = item
+											.all_price
+										item.children[item.children.length - 1].nc_balance = item
+											.qc_price
 										a = Math.abs(item.all_price)
 										b = Math.abs(item.qc_price)
 									})
-								}else{
-									var teag = res.data.data.left[0].children[res.data.data.left[0].children.length-1].qm_balance
-									var teaga = res.data.data.left[0].children[res.data.data.left[0].children.length-1].nc_balance
-									item.qm_balance=a + Math.abs(teag)
-									item.nc_balance=b + Math.abs(teaga)
+								} else {
+									var teag = res.data.data.left[0].children[res.data.data.left[0]
+										.children.length - 1].qm_balance
+									var teaga = res.data.data.left[0].children[res.data.data.left[0]
+										.children.length - 1].nc_balance
+									item.qm_balance = a + Math.abs(teag)
+									item.nc_balance = b + Math.abs(teaga)
 								}
 
 							})
 							this.listData = res.data.data.left;
+							this.zongji.nc.zc = this.listData[this.listData.length - 1].nc_balance
+							this.zongji.qm.zc = this.listData[this.listData.length - 1].qm_balance
 						} else {
 							this.listData = res.data.data.right;
 							res.data.data.right.forEach(item => {
 								if (Array.isArray(item.children)) {
-									item.all_price=0
-									item.qc_price=0
-									item.children.forEach((items,i) => {
-										if(i<item.children.length-1){
+									item.all_price = 0
+									item.qc_price = 0
+									item.children.forEach((items, i) => {
+										if (i < item.children.length - 1) {
 											item.all_price += Math.abs(items.qm_balance)
 											item.qc_price += Math.abs(items.nc_balance)
 										}
-										item.children[item.children.length-1].qm_balance = item.all_price
-										item.children[item.children.length-1].nc_balance = item.qc_price
+										item.children[item.children.length - 1].qm_balance = item
+											.all_price
+										item.children[item.children.length - 1].nc_balance = item
+											.qc_price
 									})
-								}else{
-									
+								} else {
+
 								}
-								if(item.name == '负债合计'){
-									let taal = Math.abs(res.data.data.right[0].children[res.data.data.right[0].children.length-1].qm_balance) + Math.abs(res.data.data.right[1].children[res.data.data.right[1].children.length-1].qm_balance)
-									let yeartpal = Math.abs(res.data.data.right[0].children[res.data.data.right[0].children.length-1].nc_balance) + Math.abs(res.data.data.right[1].children[res.data.data.right[1].children.length-1].nc_balance)
-									
-									item.qm_balance= taal
-									item.nc_balance= yeartpal
-								}else if(item.name == '负债和所有者权益（或股东权益）'){
-									let twoal =  Math.abs(res.data.data.right[2].qm_balance) + Math.abs(res.data.data.right[3].children[res.data.data.right[3].children.length-1].qm_balance)
-									let yeartwo = Math.abs(res.data.data.right[2].nc_balance) + Math.abs(res.data.data.right[3].children[res.data.data.right[3].children.length-1].nc_balance)
+								if (item.name == '负债合计') {
+									let taal = Math.abs(res.data.data.right[0].children[res.data.data
+										.right[0].children.length - 1].qm_balance) + Math.abs(res.data
+										.data.right[1].children[res.data.data.right[1].children
+											.length - 1].qm_balance)
+									let yeartpal = Math.abs(res.data.data.right[0].children[res.data.data
+										.right[0].children.length - 1].nc_balance) + Math.abs(res.data
+										.data.right[1].children[res.data.data.right[1].children
+											.length - 1].nc_balance)
+
+									item.qm_balance = taal
+									item.nc_balance = yeartpal
+								} else if (item.name == '负债和所有者权益（或股东权益）') {
+									let twoal = Math.abs(res.data.data.right[2].qm_balance) + Math.abs(res
+										.data.data.right[3].children[res.data.data.right[3].children
+											.length - 1].qm_balance)
+									let yeartwo = Math.abs(res.data.data.right[2].nc_balance) + Math.abs(
+										res.data.data.right[3].children[res.data.data.right[3].children
+											.length - 1].nc_balance)
 									// console.log(item.name,"负债和所有者权益")
 									item.qm_balance = twoal
 									item.nc_balance = yeartwo
-								}else{
-									
+								} else {
+
 								}
 							})
+							this.zongji.nc.fz = this.listData[this.listData.length - 1].nc_balance
+							this.zongji.qm.fz = this.listData[this.listData.length - 1].qm_balance
 						}
+						if (type) {
+							this.$nextTick(() => {
+								uni.navigateTo({
+									url: "/pages/workbench/assetAndLiability/trialBalancing?data=" +
+										JSON.stringify(this.zongji)
+								})
+							})
+						}
+
 
 					}
 				})
@@ -290,7 +347,18 @@
 	}
 
 	.mainBox {
-		padding: 0 32rpx;
+		padding: 0 32rpx 120rpx;
+	}
+
+	.sure_btn {
+		background: #4396F7;
+		border-radius: 49px;
+		width: 90%;
+		color: #fff;
+		position: fixed;
+		bottom: 32rpx;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
 	.tableBox {

@@ -9,12 +9,14 @@
 
 		</view> -->
 
-		<u-navbar :is-back="false" :border-bottom="false" back-icon-color="#000" :background="background" title-color="#000"
-			:height="55">
+		<u-navbar :is-back="false" :border-bottom="false" back-icon-color="#000" :background="background"
+			title-color="#000" :height="55">
 
 			<view class="unit-info">
-				<image class="unit-icon" :src="enterprice.enterprice_image" mode=""></image>
-				<text class="unit-title">{{enterprice.enterprice_name}}</text>
+				<image class="unit-icon" v-if="enterprice.enterprice_image" :src="getUrl(enterprice.enterprice_image) "
+					mode=""></image>
+				<text class="unit-title u-line-2">{{enterprice.enterprice_name}}</text>
+
 			</view>
 		</u-navbar>
 
@@ -28,7 +30,8 @@
 					<view class="common-title">
 						公告
 					</view>
-					<view class="carge-item" v-for="(item,index) in listData" :key="index" @click="goAnnouncementDetail(item)">
+					<view class="carge-item" v-for="(item,index) in listData" :key="index"
+						@click="goAnnouncementDetail(item)">
 						<text class="carge-item-title">{{item.content}}</text>
 						<u-icon name="arrow-right" color="#7A7C94" size="28"></u-icon>
 					</view>
@@ -69,6 +72,11 @@
 </template>
 
 <script>
+	import {
+		url_config,
+		img_url
+	} from "@/config/config.js"
+
 	import apply from "./components/apply.vue"
 	import cooperation from "./components/cooperation.vue"
 	import dayjs from '@/utils/dayjs';
@@ -88,23 +96,27 @@
 			};
 		},
 		computed: {
-			...mapState({
-				userInfo: state => state.user.userInfo,
-				enterprice: state => state.user.enterprise,
-				personType: state => state.user.personType,
-			})
+			// ...mapState({
+			// 	userInfo: state => state.user.userInfo,
+			// 	enterprice: state => state.user.enterprise,
+			// 	personType: state => state.user.personType,
+			// })
 		},
 		components: {
 			apply,
 			cooperation
 		},
 		onLoad() {
+			this.userInfo = uni.getStorageSync('userInfo')
+			this.personType = uni.getStorageSync('personType')
+			this.enterprice = uni.getStorageSync('enterprise')
+
 			this.getListData();
 			this.getUserCarListData();
 			this.getRecentlys();
 		},
 		filters: {
-			filterTime(val) { 
+			filterTime(val) {
 				return dayjs(val * 1000).format("YYYY-MM-DD hh:mm:ss");
 			},
 			filtersSq(val) {
@@ -147,25 +159,32 @@
 			}, 1000);
 		},
 		methods: {
+			getUrl(url) {
+				return img_url + url
+			},
+
 			goDetail(item) {
 				console.log('报账：', item)
 				switch (item.flag) {
 					case 4:
 						uni.navigateTo({
-							url: "/pages/cooperation/applyAllPage/userCarApply/detail?data=" + encodeURIComponent(JSON
+							url: "/pages/cooperation/applyAllPage/userCarApply/detail?data=" + encodeURIComponent(
+								JSON
 								.stringify(item))
 						})
 						break;
 					case 2:
 						uni.navigateTo({
-							url: "/pages/cooperation/applyAllPage/sealApply/detail??data=" + encodeURIComponent(JSON
+							url: "/pages/cooperation/applyAllPage/sealApply/detail??data=" + encodeURIComponent(
+								JSON
 								.stringify(item))
 						})
 						break;
 					case 3:
 						uni.navigateTo({
-							url: "/pages/cooperation/applyAllPage/maketTicketApply/detai?data=" + encodeURIComponent(JSON
-								.stringify(item))
+							url: "/pages/cooperation/applyAllPage/maketTicketApply/detai?data=" +
+								encodeURIComponent(JSON
+									.stringify(item))
 						})
 						break;
 					case 1:
@@ -176,7 +195,8 @@
 						break;
 					case 5:
 						uni.navigateTo({
-							url: "/pages/cooperation/applyAllPage/receiveApply/detail?data=" + encodeURIComponent(JSON
+							url: "/pages/cooperation/applyAllPage/receiveApply/detail?data=" + encodeURIComponent(
+								JSON
 								.stringify(item))
 						})
 						break;
@@ -188,7 +208,8 @@
 						break;
 					case 7:
 						uni.navigateTo({
-							url: "/pages/cooperation/applyAllPage/otherApply/detail?data=" + encodeURIComponent(JSON
+							url: "/pages/cooperation/applyAllPage/otherApply/detail?data=" + encodeURIComponent(
+								JSON
 								.stringify(item))
 						})
 						break;
@@ -268,13 +289,15 @@
 		.unit-icon {
 			width: 70rpx;
 			height: 70rpx;
+			border-radius: 50%;
 
 		}
 
 		.unit-title {
+			width: 600rpx;
 			margin-left: 20rpx;
 			font-weight: 700;
-			font-size: 34rpx;
+			font-size: 40rpx;
 			color: #FFFFFF;
 		}
 	}

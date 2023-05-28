@@ -8,8 +8,8 @@
 		<view class="file-box">
 			<view class="" v-for="(item,index) in listData" :key="index" @click="">
 				<view class="file-item" style="border-bottom: 1px solid #F6F9FE;">
-					<view class="checkbox" style="width: 44rpx;min-width: 40rpx;" v-if="isEdit" :class="{checked: item.checked}"
-						@click.stop="checkBtn('item',index)">
+					<view class="checkbox" style="width: 44rpx;min-width: 40rpx;" v-if="isEdit"
+						:class="{checked: item.checked}" @click.stop="checkBtn('item',index)">
 					</view>
 					<view class="flex justify-between align-center u-flex-1" @click="goFileList(item.id)">
 						<view class="file-item-l">
@@ -30,11 +30,11 @@
 					</view>
 				</view>
 				<view class="file-item-handle" v-if="item.select">
-				<!-- 	<view class="file-item-handle-item" @click="editBtn">
+					<view class="file-item-handle-item" @click="editBtn(item)">
 						<u-icon class="file-item-handle-item-icon" name="edit-pen-fill" color="#7A7C94" size="45">
 						</u-icon>
 						<text>更命名</text>
-					</view> -->
+					</view>
 					<view class="file-item-handle-item" @click="delBtn(item.id)">
 						<u-icon name="trash-fill" class="file-item-handle-item-icon" color="#7A7C94" size="45"></u-icon>
 						<text>删除</text>
@@ -67,7 +67,6 @@
 			<view class="slot-content text-center" style="padding: 24rpx 32rpx;" slot="default">
 				<view class="inputClass">
 					<input type="text" placeholder="请输入文件夹" v-model="name" />
-
 				</view>
 			</view>
 		</u-modal>
@@ -90,8 +89,9 @@
 				},
 				currentId: "",
 				listData: [],
-				pan_id:'',
-				dir_id:''
+				pan_id: '',
+				dir_id: '',
+				itemId: "",
 			};
 		},
 		computed: {
@@ -106,7 +106,7 @@
 			this.getjia()
 		},
 		methods: {
-			delBtn(id){
+			delBtn(id) {
 				let params = {
 					file_id: id
 				}
@@ -117,8 +117,20 @@
 					}
 				})
 			},
+			editBtn(item) {
+				console.log(item)
+				this.name = item.name
+				this.itemId = item.id
+				this.isShowAlert = true;
+			},
 			delBtns() {
 				let ids = this.listData.filter(item => item.checked).map(items => items.id).join(",");
+				if (!ids)
+					return uni.showToast({
+						title: '请选择要删除的文件夹',
+						icon: "none"
+					})
+
 				let params = {
 					file_id: ids
 				}
@@ -142,21 +154,39 @@
 				this.$forceUpdate()
 			},
 			confirmBtn() {
-				let params = {
-					dir_id: this.dir_id,
-					pan_id: this.pan_id,
-					name: this.name
-				}
-				this.$http("enterprise.cloud_pan/mkdir", params, "post").then(res => {
-					if (res.data.code == 1) {
-						this.getjia();
-						this.name = "";
+				if (this.itemId) {
+					let params = {
+						dir_id: this.dir_id,
+						pan_id: this.pan_id,
+						name: this.name,
+						id: this.itemId
 					}
-				})
+					this.$http("enterprise.cloud_pan/rename", params, "post").then(res => {
+						if (res.data.code == 1) {
+							this.getjia();
+							this.name = "";
+							this.itemId = "";
+						}
+					})
+				} else {
+					let params = {
+						dir_id: this.dir_id,
+						pan_id: this.pan_id,
+						name: this.name
+					}
+					this.$http("enterprise.cloud_pan/mkdir", params, "post").then(res => {
+						if (res.data.code == 1) {
+							this.getjia();
+							this.name = "";
+							this.itemId = "";
+						}
+					})
+				}
+
 			},
 			//获取目录  1为目录 -1为文件
 			getjia() {
-			
+
 				let formData = {
 					dir_id: this.dir_id,
 					pan_id: this.pan_id,
@@ -165,7 +195,7 @@
 					offset: 0,
 					search: ''
 				}
-	console.log(formData, ">>>>>>>>>>>>>")
+				console.log(formData, ">>>>>>>>>>>>>")
 				this.$http("enterprise.cloud_pan/dir", formData, "get").then(res => {
 					if (res.data.code == 1) {
 						this.listData = res.data.data.rows
@@ -174,10 +204,11 @@
 			},
 			goFileList(dir_id) {
 				uni.navigateTo({
-					url: `/pages/my/cloudPan/fileList2?pan_id=${this.pan_id}&dir_id=${dir_id}` 
+					url: `/pages/my/cloudPan/fileList2?pan_id=${this.pan_id}&dir_id=${dir_id}`
 				})
 			},
 			handlerAdd() {
+				this.itemId=''
 				this.isShowAlert = true;
 			},
 			goAddPage() {
@@ -185,9 +216,6 @@
 			},
 			mgtBtn() {
 				this.isEdit = !this.isEdit;
-			},
-			editBtn() {
-				this.isShowAlert = true;
 			},
 			handlerItem(index) {
 				this.listData.forEach(item => {
@@ -291,7 +319,7 @@
 				.file-info {
 					display: flex;
 					flex-direction: column;
-					flex:1;
+					flex: 1;
 
 					.file-name {
 						font-size: 30rpx;

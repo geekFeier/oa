@@ -3,14 +3,17 @@
 		<view class="userMain">
 			<view class="headerBox">
 				<view class="unit-info">
-					<image class="unit-icon" :src="enterprice.enterprice_image" mode=""></image>
-					<text class="unit-title">{{enterprice.enterprice_name}}</text>
+					<image class="unit-icon" v-if="enterprice.enterprice_image"
+						:src="getUrl(enterprice.enterprice_image) " mode=""></image>
+					<text class="unit-title u-line-2">{{enterprice.enterprice_name}}</text>
+
 				</view>
 			</view>
 			<view class="userInfo">
 				<view class="userInfo_left">
 					<view class="userInfo_imgDiv">
-						<image :src="userInfo.avatar" mode="" class="userInfo_pic"></image>
+						<image v-if="userInfo.avatar" :src="userInfo.avatar" mode="" class="userInfo_pic"></image>
+
 					</view>
 					<view class="userInfo_dsc">
 						<view class="userInfo_name">
@@ -30,21 +33,25 @@
 					<text style="margin-left: 17rpx;">开通会员享受会员权益</text>
 				</view>
 				<view class="kt_vip_btn" @click="jumpTo('vip')">
-					开通会员
+					{{userInfo.is_vip==0? '开通会员':'续费会员'}}
+
 				</view>
 			</view>
 		</view>
 
 		<view class="mainBox">
-			<view class="enterpriseCloud-box">
-				<view class="enterpriseCloud-title">
-					{{userInfo.config.pan_info.last_name}}
+			<view class="enterpriseCloud-box" v-if="userInfo.config">
+				<view class="enterpriseCloud-title" v-if="enterprice.enterprice_name">
+					{{enterprice.enterprice_name?enterprice.enterprice_name:""}}
 				</view>
-				
-				<progress class="progress-div" :percent="GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)" stroke-width="10" backgroundColor="#EEF2FF" />
+
+				<progress class="progress-div"
+					:percent="GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)" stroke-width="10"
+					backgroundColor="#EEF2FF" />
 				<view class="status-div">
 					<text class="status-l">{{userInfo.config.pan_info.use}}M/{{userInfo.config.pan_info.size}}M</text>
-					<text class="status-r">已使用{{GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)}}</text>
+					<text
+						class="status-r">已使用{{GetPercent(userInfo.config.pan_info.use,userInfo.config.pan_info.size)}}</text>
 				</view>
 				<view class="flex justify-end">
 					<view class="dilatation-btn" @click="kuoRong">
@@ -54,18 +61,19 @@
 			</view>
 
 			<view class="file-box">
-				<view class="file-item" v-for="(item,index) in listData" :key="index" @click="goMyFile(item.pan_id,item.id)">
+				<view class="file-item" v-for="(item,index) in listData" :key="index"
+					@click="goMyFile(item.pan_id,item.id)">
 					<image src="../../../static/image/my/file.png" class="file-img" mode=""></image>
 					<view class="file-r">
 						<view class="file-r-name">
 							{{item.name}}
 						</view>
-					<!-- 	<view class="file-r-size">
+						<!-- 	<view class="file-r-size">
 							{{userInfo.config.dir[0].size}}M
 						</view> -->
 					</view>
 				</view>
-				
+
 			</view>
 
 			<!-- 		<view class="recent-doc-box">
@@ -95,8 +103,10 @@
 				<u-cell-group :border="false">
 					<u-cell-item title="会员服务" @click="jumpTo('vip')"></u-cell-item>
 					<u-cell-item title="意见反馈" @click="jumpTo('feedback')"></u-cell-item>
-					<u-cell-item title="联系我们" :value="userInfo.config.phone ? userInfo.config.phone : ''"
-						@click="phoneCall"></u-cell-item>
+					<u-cell-item v-if="userInfo.config" title="联系我们"
+						:value="userInfo.config.phone ? userInfo.config.phone : ''" @click="phoneCall"></u-cell-item>
+
+
 					<u-cell-item title="开发票" @click="jumpTo('invoice')"></u-cell-item>
 					<u-cell-item title="设置" @click="jumpTo('setting')"></u-cell-item>
 					<!-- <u-cell-item title="资产负载表" @click="zcfz()"></u-cell-item> -->
@@ -108,24 +118,29 @@
 
 <script>
 	import {
+		url_config,
+		img_url
+	} from "@/config/config.js"
+
+	import {
 		mapState
 	} from "vuex"
 	export default {
 		data() {
 			return {
-				listData:[],
+				listData: [],
 				percentage: "55"
 			};
 		},
 		computed: {
-			...mapState({
-				userInfo: state => state.user.userInfo,
-				// phone:state => state.user.userInfo.config.phone,
-				enterprice: state => state.user.enterprise,
-				personType: state => state.user.personType,
+			// ...mapState({
+			// 	userInfo: state => state.user.userInfo,
+			// 	// phone:state => state.user.userInfo.config.phone,
+			// 	enterprice: state => state.user.enterprise,
+			// 	personType: state => state.user.personType,
 
-			})
-		}, 
+			// })
+		},
 		// onShow() {
 		// 	if(!this.userInfo.config){
 		// 		uni.navigateTo({
@@ -134,37 +149,57 @@
 		// 	}
 		// },
 		onLoad() {
+			this.personType = uni.getStorageSync('personType')
+			this.enterprice = uni.getStorageSync('enterprise')
+
 			this.getFileList()
 		},
+		onShow() {
+			this.getUserInfo();
+		},
+
 		methods: {
-			getFileList(id) { 
-				 this.$http("enterprise.cloud_pan/getSelfDir", {}, "get").then(res => {
-				 	if (res.data.code == 1) {
-						console.log('目录列表',res.data)
-				 		this.listData = res.data.data
-				 	}
-				 })
-			},
-			 /// 求百分比
-			GetPercent(num, total) {
-			    /// <summary>
-			    /// 求百分比
-			    /// </summary>
-			    /// <param name="num">当前数</param>
-			    /// <param name="total">总数</param>
-			    num = parseFloat(num);
-			    total = parseFloat(total);
-			    if (isNaN(num) || isNaN(total)) {
-			        return "-";
-			    }
-			    return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00)+"%";
-			},
-			kuoRong(){
-				uni.navigateTo({
-					url:"/pages/my/vip/dilatation/index"
+			getUserInfo() {
+				this.$http("/User/getUser", {}, "post").then(res => {
+					if (res.data.code == 1) {
+						this.userInfo = res.data.data
+						this.$store.dispatch("user/GET_USER_INFO", res.data.data);
+
+					}
 				})
 			},
-			goMyFile(pan_id,dir_id) {
+			getUrl(url) {
+				return img_url + url
+			},
+
+			getFileList(id) {
+				this.$http("enterprise.cloud_pan/getSelfDir", {}, "get").then(res => {
+					if (res.data.code == 1) {
+						console.log('目录列表', res.data)
+						this.listData = res.data.data
+					}
+				})
+			},
+			/// 求百分比
+			GetPercent(num, total) {
+				/// <summary>
+				/// 求百分比
+				/// </summary>
+				/// <param name="num">当前数</param>
+				/// <param name="total">总数</param>
+				num = parseFloat(num);
+				total = parseFloat(total);
+				if (isNaN(num) || isNaN(total)) {
+					return "-";
+				}
+				return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00) + "%";
+			},
+			kuoRong() {
+				uni.navigateTo({
+					url: "/pages/my/vip/dilatation/index"
+				})
+			},
+			goMyFile(pan_id, dir_id) {
 				uni.navigateTo({
 					url: `/pages/my/cloudPan/fileList?pan_id=${pan_id}&dir_id=${dir_id}`
 				})
@@ -334,6 +369,7 @@
 				.unit-icon {
 					width: 70rpx;
 					height: 70rpx;
+					border-radius: 50%;
 
 				}
 
@@ -391,6 +427,10 @@
 						font-size: 22px;
 						color: #fff;
 						font-weight: 500;
+						width: 360rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap
 					}
 
 					.userInfo_account {

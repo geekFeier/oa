@@ -13,8 +13,9 @@
 				<image src="../../static/image/login/code.png" mode="" style="width: 32rpx;height: 40rpx;"></image>
 				<input type="text" v-model="formData.code" placeholder="请输入验证码" maxlength="6" class="codeInput"
 					placeholder-style="color: #B5BFDA;font-size:32rpx" />
-				<view class="get-code" v-if="codeTime==60" @click="getCode">获取验证码</view>
-				<view class="get-code" v-else>{{codeTime}}s后重新发送</view>
+				<view class="get-code" v-show="codeTime==60" @click="getCode">获取验证码</view>
+				<view class="get-code" v-show="codeTime<60">{{codeTime}}s后重新发送</view>
+
 			</view>
 			<view class="form-item form-pass">
 				<image src="../../static/image/login/pass.png" mode="" style="width: 32rpx;height: 40rpx;"></image>
@@ -96,35 +97,38 @@
 				})
 			},
 			loginBtn() {
-				let verify = Object.values(this.formData).every(item => {
-					return item != ""
+				lif(!this.formData.code) return uni.showToast({
+					title: "请输入验证码",
+					icon: "none"
 				})
-				if (verify) {
-					if (this.newPassword === this.formData.password) {
-						this.$http("user/register", this.formData, "post", 2, true).then(res => {
-							console.log(res, "+++++++++++++++++++++++++++++++");
-							if (res.data.code == 1) {
-								uni.showToast({
-									title: "注册成功",
-									icon: "none"
+				if (!this.formData.password) return uni.showToast({
+					title: "请输入密码",
+					icon: "none"
+				})
+				if (this.newPassword === this.formData.password) {
+					this.$http("user/register", this.formData, "post", 2, true).then(res => {
+						console.log(res, "+++++++++++++++++++++++++++++++");
+						if (res.data.code == 1) {
+							uni.showToast({
+								title: "注册成功",
+								icon: "none"
+							})
+							this.$store.dispatch("user/GET_TOKEN", res.data.data.userinfo)
+							setTimeout(() => {
+								uni.navigateTo({
+									url: "/pages/login/authCentreSigning"
 								})
-								this.$store.dispatch("user/GET_TOKEN", res.data.data.userinfo)
-								setTimeout(() => {
-									uni.navigateTo({
-										url: "/pages/login/authCentreSigning"
-									})
-								}, 500)
-							}
-						})
-					} else {
-						uni.showToast({
-							title: "二次输入密码不一致",
-							icon: "none"
-						})
-					}
+							}, 500)
+						} else {
+							uni.showToast({
+								title: res.data.msg,
+								icon: "none"
+							})
+						}
+					})
 				} else {
 					uni.showToast({
-						title: "请填写完整",
+						title: "二次输入密码不一致",
 						icon: "none"
 					})
 				}
@@ -155,43 +159,44 @@
 
 			},
 			getCode() {
-				uni.showToast({
-					title: "请配置验证码信息",
-					icon: "none"
-				})
-				// if (this.isClick) {
-				// 	this.isClick = false;
-				// 	const telphone = /^1[3456789]\d{9}$/; // 手机号
-				// 	if (!telphone.test(this.formData.mobile)) {
-				// 		uni.showToast({
-				// 			title: '请检查您的手机号码',
-				// 			icon: 'none',
-				// 		})
-				// 		this.isClick = true;
-				// 		return false;
-				// 	} else {
-				// 		let params = {
-				// 			phone: this.formData.mobile,
-				// 		}
-				// 		this.$http("login/phone_check", params, "post", 2).then(res => {
-				// 			if (res.data.code == 200) {
-				// 				uni.showToast({
-				// 					title: "发送成功",
-				// 					icon: "none"
-				// 				})
-				// 				this.downTime();
+				let vm = this
+				if (this.isClick) {
+					this.isClick = false;
+					const telphone = /^1[3456789]\d{9}$/; // 手机号
+					if (!telphone.test(this.formData.mobile)) {
+						uni.showToast({
+							title: '请检查您的手机号码',
+							icon: 'none',
+						})
+						this.isClick = true;
+						return false;
+					} else {
+						let params = {
+							mobile: this.formData.mobile,
+						}
+						this.$http("Sms/send", params, "post", 2).then(res => {
+							if (res.data.code == 1) {
+								uni.showToast({
+									title: "发送成功",
+									icon: "none"
+								})
+								vm.downTime();
+							} else {
+								uni.showToast({
+									title: res.data.msg,
+									icon: "none"
+								})
+							}
 
-				// 			} else {
-				// 				uni.showToast({
-				// 					title: res.data.msg,
-				// 					icon: "none"
-				// 				})
-				// 			}
-
-
-				// 		})
-				// 	}
-				// }
+						}).catch(err => {
+							vm.isClick = true
+							uni.showToast({
+								title: err.data.msg,
+								icon: "none"
+							})
+						})
+					}
+				}
 			},
 			// 发送验证码倒计时
 			downTime() {

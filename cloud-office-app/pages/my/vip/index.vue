@@ -10,18 +10,18 @@
 					</view>
 					<view class="userInfo_dsc">
 						<view class="userInfo_name">
-							{{userInfo.nickname}}
+							{{userInfo.username}}
 						</view>
 						<view class="userInfo_status" v-if="userInfo.is_vip == 0">
 							你暂时未开通会员
 						</view>
 						<view class="userInfo_status" v-else>
-							年费会员
+							年费会员：{{getTime()}}到期
 						</view>
 					</view>
 				</view>
 				<view class="userInfo_right" @click="goPay(viplist.price)">
-					<text style="margin-left: 5px;font-size: 22rpx;">开通会员</text>
+					<text style="margin-left: 5px;font-size: 22rpx;">{{userInfo.is_vip == 0?'开通会员':'续费会员'}}</text>
 				</view>
 			</view>
 
@@ -72,9 +72,10 @@
 				<view class="title">
 					会员权益
 				</view>
-				
-				<view class="desc" style="color: #7A7C94;font-size: 26rpx;margin-top: 32rpx;">
-					<u-parse :html="viplist.content"></u-parse>
+
+				<view class="desc" style="color: #7A7C94;font-size: 26rpx;margin-top: 32rpx;" v-if="viplist.content">
+					<u-parse :html="dealContent(viplist.content)"></u-parse>
+
 				</view>
 				<!-- <image style="width: 100%;margin-top: 32rpx;" src="../../../static/image/tab1/caiwu/22x.png"></image> -->
 			</view>
@@ -84,13 +85,16 @@
 		</view>
 		<view class="btnBox">
 			<view class="btn" @click="goPay(viplist.price)">
-				开通会员
+				{{userInfo.is_vip == 0?'开通会员':'续费会员'}}
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		img_url
+	} from '@/config/config.js'
 	import {
 		mapState
 	} from "vuex";
@@ -102,42 +106,62 @@
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
-				// userInfo: {},
+				userInfo: {},
 				typeList: [],
 				vipInfo: {},
-				viplist:''
+				viplist: ''
 			};
 		},
 		onLoad() {
+			this.userInfo = uni.getStorageSync('userInfo')
 			this.getnum()
 		},
 		computed: {
-			...mapState({
-				userInfo: state => state.user.userInfo,
-			})
+			// ...mapState({
+			// 	userInfo: state => state.user.userInfo,
+			// })
 		},
 		methods: {
-			getnum(){
-				console.log(this.userInfo,">>>>>>>>>")
+			getTime() {
+				return dayjs(this.userInfo.vip_end_time * 1000).format("YYYY-MM-DD")
+			},
+
+			getnum() {
+				console.log(this.userInfo, ">>>>>>>>>")
 				this.$http("User/getMemberDateils", "get").then(res => {
 					if (res.data.code == 1) {
 						this.viplist = res.data.data[0]
 					}
 				})
 			},
-			goAdvertising(){
+			dealContent(val) {
+				console.log(val)
+				return val.replace(/<img[^>]*>/ig, function(match, capture) {
+					// match 图片路径
+					let isExist = match.includes('https://'); // 是否包含https://
+
+					if (!isExist) { // 不包含
+						match = match.replace(/(src=")/ig, `src="${img_url}`);
+					}
+
+					return match
+				})
+
+			},
+
+			goAdvertising() {
 				uni.navigateTo({
-					url:"/pages/my/vip/advertising/index"
+					url: "/pages/my/vip/advertising/index"
 				})
 			},
-			goDilatation(){
+			goDilatation() {
 				uni.navigateTo({
-					url:"/pages/my/vip/dilatation/index"
+					url: "/pages/my/vip/dilatation/index"
 				})
 			},
-			goPay(num){
+			goPay(num) {
 				uni.navigateTo({
-					url:"/pages/my/vip/payPage?price=" + num
+					url: "/pages/my/vip/payPage?price=" + num
 				})
 			}
 		}
@@ -176,13 +200,15 @@
 		background-color: #fff;
 		padding: 32rpx 24rpx;
 		padding-bottom: 0;
+
 		.memberServices-title {
 			text-align: center;
 			color: #7A7C94;
 			font-size: 30rpx;
-			
+
 		}
-		/deep/ .grid-icon{
+
+		/deep/ .grid-icon {
 			margin-bottom: 20rpx !important;
 		}
 	}
