@@ -30,16 +30,16 @@
 					<u-input type="input" v-model="form.serial_no" placeholder="请输入纳税人识别号(必填)" />
 				</u-form-item>
 				<u-form-item label-width="150" label="公司地址">
-					<u-input type="input" v-model="form.email" placeholder="请输入公司地址" />
+					<u-input type="input" v-model="form.address" placeholder="请输入公司地址" />
 				</u-form-item>
 				<u-form-item label-width="150" label="电话号码">
-					<u-input type="input" v-model="form.email" placeholder="请输入电话号码" />
+					<u-input type="input" v-model="form.telephone" placeholder="请输入电话号码" />
 				</u-form-item>
 				<u-form-item label-width="150" label="开户银行">
-					<u-input type="input" v-model="form.email" placeholder="请输入开户银行" />
+					<u-input type="input" v-model="form.bank_name" placeholder="请输入开户银行" />
 				</u-form-item>
 				<u-form-item label-width="150" label="银行账号">
-					<u-input type="input" v-model="form.email" placeholder="请输入银行账号" />
+					<u-input type="input" v-model="form.bank_acount" placeholder="请输入银行账号" />
 				</u-form-item>
 				<u-form-item label-width="150" label="邮箱">
 					<u-input type="input" v-model="form.email" placeholder="请输入邮箱(必填)" />
@@ -91,7 +91,11 @@
 					ktype: '1',
 					title: '',
 					serial_no: '',
-					email: ''
+					email: '',
+					address:'',
+					telephone:'',
+					bank_name:'',
+					bank_acount:''
 				}
 			};
 		},

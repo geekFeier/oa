@@ -43,8 +43,7 @@
 						<u-input disabled v-model="kemu_title" @click="goKeMu()" type="input" placeholder="请选择科目" />
 					</u-form-item>
 					<u-form-item label="摘要" label-width="150" :border-bottom="false">
-						<u-input disabled v-model="zhaiYaoName" @click="selectPopup2()" type="input"
-							placeholder="请选择摘要" />
+						<u-input v-model="zhaiYaoName" type="input" placeholder="请选择摘要" />
 					</u-form-item>
 					<u-form-item label="状态" label-width="150" :border-bottom="false" right-icon="arrow-right"
 						:right-icon-style="{color:'#7d7f97'}">
@@ -87,29 +86,6 @@
 						<button @click="clearSearch()" class="cancel">重置</button>
 					</view>
 				</u-form>
-				<u-popup v-model="isShowPopup2" mode="bottom" border-radius="56">
-					<view class="popup-main">
-						<view class="popup-common-title">
-							— 选择摘要 —
-						</view>
-
-						<picker-view class="picker-view" style="height: 380rpx;" :value="digestValue"
-							@change="changePicker">
-							<picker-view-column>
-								<view class="item" v-for="(item,index) in popupList" :key="index">{{item.name}}</view>
-							</picker-view-column>
-						</picker-view>
-
-						<view class="popup-common-btnGroup">
-							<view class="popup-common-btn" @click="isShowPopup2 = false">
-								取消
-							</view>
-							<view class="popup-common-btn active" @click="sureDigest">
-								确定
-							</view>
-						</view>
-					</view>
-				</u-popup>
 			</view>
 		</uni-popup>
 
@@ -226,6 +202,7 @@
 				this.code_start = ''
 				this.code_end = ''
 				this.statusIndex = 0
+				this.zhaiYaoName = ''
 			},
 			changePicker(e) {
 				this.changed = true
@@ -234,16 +211,7 @@
 			changeStatus(e) {
 				console.log(e)
 				this.statusIndex = e.detail.value
-			},
-			selectPopup2(index) {
-				this.currentZhaiYaoIndex = index;
-				this.isShowPopup2 = true;
-			},
-			sureDigest() {
-				this.isShowPopup2 = false;
-				this.zhaiYaoName = this.popupList[this.digestValue.join()].name;
-				// this.$forceUpdate()
-			},
+			}, 
 
 			searchEvent() {
 				this.page = 1;
@@ -267,6 +235,7 @@
 					offset: (this.page - 1) * this.limit,
 					abstract: this.changed ? this.popupList[this.digestValue].name : '',
 					kemu_title: this.kemu_title,
+					zhaiYaoName:this.zhaiYaoName,
 					c_status: this.statusIndex == 0 ? 2 : this.statusIndex == 1 ? 0 : 1,
 					amount_start: this.amount_start,
 					amount_end: this.amount_end,
@@ -276,7 +245,6 @@
 					time_end: this.range[1] ? this.range[1] : ''
 
 				}
-				console.log('---', params)
 				this.$http("enterprise.Credentials/index", params, "get").then(res => {
 					console.log('aaa---------', res)
 					if (res.data.code == 1) {

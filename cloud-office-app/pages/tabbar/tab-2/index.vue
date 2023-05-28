@@ -226,7 +226,6 @@
 				this.$http("enterprise.applyfor.Oa/index", params, "get").then(res => {
 					console.log('wo----', res.data)
 					if (res.data.code == 1) {
-
 						this.recentlyData = res.data.data.rows;
 					}
 				})
