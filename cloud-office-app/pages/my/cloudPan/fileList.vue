@@ -33,7 +33,7 @@
 					<view class="file-item-handle-item" @click="editBtn(item)">
 						<u-icon class="file-item-handle-item-icon" name="edit-pen-fill" color="#7A7C94" size="45">
 						</u-icon>
-						<text>更命名</text>
+						<text>重命名</text>
 					</view>
 					<view class="file-item-handle-item" @click="delBtn(item.id)">
 						<u-icon name="trash-fill" class="file-item-handle-item-icon" color="#7A7C94" size="45"></u-icon>
@@ -62,7 +62,7 @@
 		<image v-if="!isEdit" src="../../../static/image/tab1/add.png" class="addBtn" mode="" @click="handlerAdd">
 		</image>
 		<u-modal v-model="isShowAlert" :show-cancel-button="true" :show-confirm-button="true" :show-title="true"
-			title="新建文件夹" @confirm="confirmBtn">
+			:title="itemId ? '重命名' : '新建文件夹'" @confirm="confirmBtn">
 
 			<view class="slot-content text-center" style="padding: 24rpx 32rpx;" slot="default">
 				<view class="inputClass">
@@ -118,7 +118,6 @@
 				})
 			},
 			editBtn(item) {
-				console.log(item)
 				this.name = item.name
 				this.itemId = item.id
 				this.isShowAlert = true;
@@ -305,6 +304,7 @@
 			height: 142rpx;
 			align-items: center;
 			padding: 0 25rpx;
+			word-break: break-all;
 
 			.file-item-l {
 				display: flex;
@@ -357,4 +357,5 @@
 			}
 		}
 	}
+	 
 </style>

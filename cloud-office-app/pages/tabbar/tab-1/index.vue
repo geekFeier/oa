@@ -462,7 +462,8 @@
 					limit: this.currentPage.limit,
 					offset: (this.currentPage.page - 1) * this.currentPage.limit,
 					type: 0,
-					status: 0
+					status: 0,
+					keyword:''
 				}
 				this.$http("enterprise.User_todo/index", params, "get").then(res => {
 					if (res.data.code == 1) {

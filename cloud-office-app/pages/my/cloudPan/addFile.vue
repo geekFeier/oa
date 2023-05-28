@@ -48,7 +48,8 @@
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
-				cateId: ""
+				dir_id: "",
+				pan_id: ''
 			};
 		},
 		computed: {
@@ -57,58 +58,50 @@
 			}),
 		},
 		onLoad(e) {
-			this.cateId = e.id;
+			this.dir_id = e.dir_id;
+			this.pan_id = e.pan_id
 		},
 		methods: {
 			uploadFile() {
 				const plugin = uni.requireNativePlugin('GuoWei-SelectFileModule')
-				console.log(plugin,"11111111111111111")
-				plugin.chooseFile(
-				    {
-				        count: 1,
-				        // extension: ["docx", "xlsx","xls", "pptx",'pdf','doc','png','jpg','jpeg','bmp'],
-				        rootDirName: '根目录',
-				        themeColor: '#00ff00',
-				        folderIconColor: '#ff0000',
-				        fileIconColor: '#0000ff'
-				    }, 
-				    result => {
+				console.log(plugin, "11111111111111111")
+				plugin.chooseFile({
+						count: 1,
+						// extension: ["docx", "xlsx","xls", "pptx",'pdf','doc','png','jpg','jpeg','bmp'],
+						rootDirName: '根目录',
+						themeColor: '#00ff00',
+						folderIconColor: '#ff0000',
+						fileIconColor: '#0000ff'
+					},
+					result => {
 						console.log('result.files[0].url')
 						console.log(result.files[0].url)
 						let pathTemp = result.files[0].url;
 						this.filePath = pathTemp;
 						//this.uploadFileFun(pathTemp)
-				    }
+					}
 				)
-				// uni.chooseFile({
-				// 	count: 1,
-				// 	type: "all",
-				// 	success: res => {
-				// 		let pathTemp = res.tempFilePaths[0];
-				// 		this.filePath = pathTemp;
-				// 		// this.uploadFileFun(pathTemp)
-				// 	}
-				// })
 			},
 			uploadFileFun() {
 				uni.showLoading({
-					title:"上传中..."
+					title: "上传中..."
 				})
-				console.log(this.cateId,this.userInfo.config.pan_info.id)
 				uni.uploadFile({
 					url: url_config + "enterprise.cloud_pan/file_upload",
 					name: "file",
 					filePath: this.filePath,
 					formData: {
-						dir_id: this.cateId,//目录id
-						pan_id: this.userInfo.config.pan_info.id,//TODO:?
+						dir_id: this.dir_id, //目录id
+						pan_id: this.pan_id,
+						file: ''
 					},
 					header: {
 						token: uni.getStorageSync("token") || ""
 					},
 					success: (res) => {
-						let _res = JSON.parse(res.data);
-						console.log(_res, "==================================");
+						console.log('res============')
+						console.log(res)
+						let _res = JSON.parse(res.data)
 						if (_res.code == 1) {
 							// this.fileUrl = `${img_url}${_res.data.url}`;
 							uni.hideLoading()
@@ -116,15 +109,13 @@
 								title: "上传成功",
 								icon: "none"
 							})
-							setTimeout(() => {
-							uni.$emit("changeFileList")
+							setTimeout(() => { 
 								uni.navigateBack({
 									delta: 1
 								})
 							}, 400)
 						} else {
 							uni.hideLoading()
-							console.log(_res, "上传失败");
 							uni.showToast({
 								title: _res.msg || "上传失败",
 								icon: "none"
@@ -133,9 +124,12 @@
 					},
 					fail: (err) => {
 						uni.hideLoading()
-						console.log(err, "上传失败");
+						uni.showToast({
+							title: "上传失败",
+							icon: "none"
+						})
 					},
-					complete:() =>{
+					complete: () => { 
 						uni.hideLoading()
 					}
 				})
@@ -150,15 +144,12 @@
 				// 	return
 				// }
 				this.uploadFileFun();
-				 
+
 				// this.$http("enterprise.cloud_pan/file_upload", params, "post").then(res => {
 				// 	if (res.data.code == 1) {
 
 				// 	}
-				// })
-				
-				
-				console.log(666666)
+				// }) 
 			}
 		}
 	}
