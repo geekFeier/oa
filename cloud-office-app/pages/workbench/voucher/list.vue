@@ -9,7 +9,7 @@
 					bg-color="#fff" @change="changeSearch" v-model="keyword" :height="65" @search="searchEvent"
 					:show-action="false">
 				</u-search>
-				<text @click="openPop">筛选</text>
+				<text @click="openPop">&nbsp;筛选</text>
 
 			</view>
 		</view>
@@ -43,7 +43,7 @@
 						<u-input disabled v-model="kemu_title" @click="goKeMu()" type="input" placeholder="请选择科目" />
 					</u-form-item>
 					<u-form-item label="摘要" label-width="150" :border-bottom="false">
-						<u-input v-model="zhaiYaoName" type="input" placeholder="请选择摘要" />
+						<u-input v-model="zhaiYaoName" type="input" placeholder="请输入摘要" />
 					</u-form-item>
 					<u-form-item label="状态" label-width="150" :border-bottom="false" right-icon="arrow-right"
 						:right-icon-style="{color:'#7d7f97'}">
@@ -79,7 +79,7 @@
 							<input type="number" style="width: 200rpx;" placeholder="" v-model="code_end" />
 						</view>
 					</u-form-item>
-					<view class="form-item-group flex">
+					<view class="form-item-group flex mt-10">
 						<button class="sure" @click="sureBtn()">确定</button>
 					</view>
 					<view class="form-item-group flex">
@@ -304,7 +304,7 @@
 		}
 	}
 
-	opup-content {
+	.popup-content {
 		padding: 130rpx 40rpx 20rpx;
 		background-color: #fff;
 
@@ -369,5 +369,8 @@
 	.u-empty {
 		text-align: center;
 		color: #666;
+	}
+	.mt-10{
+		margin-top: 10rpx;
 	}
 </style>
