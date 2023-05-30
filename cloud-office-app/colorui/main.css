@@ -3910,3 +3910,67 @@ scroll-view.cu-steps .cu-item {
 .lines-white {
 	color: #ffffff;
 }
+
+
+.flex {
+  display: flex;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.flex2 {
+  flex: 2;
+}
+
+.flex3 {
+  flex: 3;
+}
+
+.flex4 {
+  flex: 4;
+}
+
+.flex5 {
+  flex: 5;
+}
+
+.flex6 {
+  flex: 6;
+}
+
+.flex-column {
+  flex-direction: column; 
+}
+
+.flex-jc {
+  justify-content: center; 
+}
+
+.flex-jb {
+  justify-content: space-between;
+}
+
+.flex-ja {
+  justify-content: space-around;
+}
+
+.flex-ac {
+  align-items: center;
+}
+
+.flex-as {
+  align-items: stretch;
+}
+
+.flex-baseline {
+  align-items: baseline; 
+}
+    
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.tc{
+  text-align: center;
+}
