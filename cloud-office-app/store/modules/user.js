@@ -41,6 +41,7 @@ const mutations = {
 	SET_USER_INFO(
 		state, data) {
 		uni.setStorageSync("userInfo", data);
+		console.log('state.userInfo=========',state.userInfo)
 		state.userInfo = data;
 	},
 	SET_PERSON_TYPE(

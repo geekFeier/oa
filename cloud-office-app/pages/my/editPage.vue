@@ -19,8 +19,7 @@
 				<view v-if="!imageData" class="img-div" @click="uploadImg()">
 					<u-icon name="plus" color="#B5BFDA" size="80">
 					</u-icon>
-				</view>
-
+				</view> 
 				<image
 					style="width: 280rpx;height: 280rpx;border-radius: 24rpx;margin-left: 50%; transform: translateX(-50%);margin-top: 32rpx;"
 					v-if="imageData" @click="uploadImg()" :src="imageData" mode=""></image>
@@ -58,6 +57,7 @@
 			})
 		},
 		onLoad() {
+			console.log(this.userInfo.avatar)
 			this.imageData = this.userInfo.avatar.indexOf("data:image/") >= 0 ? "" : this.userInfo.avatar;
 			this.formData.mobile = this.userInfo.mobile;
 			this.formData.username = this.userInfo.username;

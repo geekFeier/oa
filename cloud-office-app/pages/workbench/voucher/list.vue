@@ -9,7 +9,7 @@
 					bg-color="#fff" @change="changeSearch" v-model="keyword" :height="65" @search="searchEvent"
 					:show-action="false">
 				</u-search>
-				<text @click="openPop">&nbsp;筛选</text>
+				<text @click="openPop">筛选</text>
 
 			</view>
 		</view>
@@ -43,7 +43,7 @@
 						<u-input disabled v-model="kemu_title" @click="goKeMu()" type="input" placeholder="请选择科目" />
 					</u-form-item>
 					<u-form-item label="摘要" label-width="150" :border-bottom="false">
-						<u-input v-model="zhaiYaoName" type="input" placeholder="请输入摘要" />
+						<u-input v-model="abstract" type="input" placeholder="请输入摘要" />
 					</u-form-item>
 					<u-form-item label="状态" label-width="150" :border-bottom="false" right-icon="arrow-right"
 						:right-icon-style="{color:'#7d7f97'}">
@@ -111,7 +111,7 @@
 					remarks: ""
 				},
 				pingZheng: "",
-				zhaiYaoName: "",
+				abstract: "",
 				isShowPopup2: false,
 
 				keyword: "",
@@ -202,7 +202,7 @@
 				this.code_start = ''
 				this.code_end = ''
 				this.statusIndex = 0
-				this.zhaiYaoName = ''
+				this.abstract = ''
 			},
 			changePicker(e) {
 				this.changed = true
@@ -235,7 +235,7 @@
 					offset: (this.page - 1) * this.limit,
 					abstract: this.changed ? this.popupList[this.digestValue].name : '',
 					kemu_title: this.kemu_title,
-					zhaiYaoName:this.zhaiYaoName,
+					abstract:this.abstract,
 					c_status: this.statusIndex == 0 ? 2 : this.statusIndex == 1 ? 0 : 1,
 					amount_start: this.amount_start,
 					amount_end: this.amount_end,

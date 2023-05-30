@@ -62,7 +62,7 @@
 							申请事由：{{item.content || '-'}}
 						</view>
 						<view class="userCar-item-desc">
-							申请时间：{{item.createtime | filterTime}}
+							申请时间：{{item.createtime }}
 						</view>
 					</view>
 				</view>
