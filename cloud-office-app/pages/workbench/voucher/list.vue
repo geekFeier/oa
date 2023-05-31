@@ -65,7 +65,9 @@
 					<u-form-item class="form-item-group flex">
 						<view class="form-item flex ">
 							<view class="form-item-label">时间范围</view>
-							<uni-datetime-picker v-model="range" type="daterange" @maskClick="maskClick" />
+							<view class="flex1">
+								<uni-datetime-picker  style="width:500rpx" v-model="range" type="daterange" @maskClick="maskClick" />
+							</view>
 						</view>
 
 					</u-form-item>
