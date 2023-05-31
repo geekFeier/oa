@@ -9,17 +9,27 @@
         <view class="flex1">选择方向</view>
         <view class="flex1">选择数据来源</view>
       </view>
-      <view v-for="(item,index) in goodlist" :key="index" class="view-lista">
-        <view class="flex1"><u-input disabled v-model="item.xxx1" @click="goKeMu(index)" type="input" placeholder="请选择科目" /></view>
-        <view class="flex flex-ac flex1">
-          <view class="pr-5">{{ item.xxx2 ? '借' : '贷' }}</view>
-          <u-switch space="2" v-model="item.xxx2" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
-          </u-switch>
+      <view v-for="(item,index) in goodlist" :key="index">
+        <view class="view-lista">
+          <view class="flex1"><u-input disabled v-model="item.xxx1" @click="goKeMu(index)" type="input" placeholder="请选择科目" /></view>
+          <view class="flex flex-ac flex1">
+            <view class="pr-5">{{ item.xxx2 ? '借' : '贷' }}</view>
+            <u-switch space="2" v-model="item.xxx2" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
+            </u-switch>
+          </view>
+          <view class="flex flex1">
+            <view class="flex2"><u-input disabled v-model="item.xxx3" @click="showDialog2(index)" type="input" placeholder="请选择" /></view>
+            <view class="flex1">
+              <image src="../../static/image/tab1/caiwu/menuicon.png" style="width: 25rpx;height: 20rpx;" mode="" @click="showDialog1(index)"></image>
+            </view>
+          </view>
         </view>
-        <view class="flex flex1">
-          <view class="flex2"><u-input disabled v-model="item.xxx3" @click="showDialog2(index)" type="input" placeholder="请选择" /></view>
-          <view class="flex1">
-            <image src="../../static/image/tab1/caiwu/menuicon.png" style="width: 25rpx;height: 20rpx;" mode="" @click="showDialog1(index)"></image>
+        <view class="flex flex-je" style="margin-top:20rpx;margin-bottom:10rpx;" v-if="index !== goodlist.length -1 ">
+          <view class="flex1"></view>
+          <view class="flex1"></view>
+          <view class="flex flex1">
+            <u-icon name="plus-circle-fill" :color="item.sign === 'plus' ? '#2979ff': '#909399'" size="50" style="margin-right: 10rpx;" @click="item.sign = 'plus'"></u-icon>
+            <u-icon name="minus-circle-fill" :color="item.sign === 'minus' ? '#2979ff': '#909399'" size="50" @click="item.sign = 'minus'"></u-icon>
           </view>
         </view>
       </view>
@@ -35,7 +45,7 @@
 
         <picker-view class="picker-view" style="height: 380rpx;" :value="digestValue1" @change="changePicker1">
           <picker-view-column>
-            <view class="item" v-for="(item,index) in list1" :key="index">{{item.name}}</view>
+            <view class="item" v-for="(item,index) in list1.filter(item=>goodlist.length > 1 ? true : item.id === 1)" :key="index">{{item.name}}</view>
           </picker-view-column>
         </picker-view>
 
@@ -87,7 +97,13 @@ export default {
         backgroundColor: "#FFFFFF",
       },
       id: '',
-      goodlist: [],
+      goodlist: [{
+        kemu_id: '',
+        sign: 'plus',
+        // xxx1: "",
+        // xxx2: "",
+        // xxx3: '',
+      }],
       list1: [{
         name: "插入行",
         id: 1
@@ -114,8 +130,6 @@ export default {
       currentIndex: '',
       digestValue1: [0],
       digestValue2: [0],
-
-
     };
   },
   onLoad(e) {
@@ -130,6 +144,12 @@ export default {
           // TODO:
           if (res.data.code == 1) {
             this.goodlist = res.data.data
+            this.goodlist = this.goodlist.map(item => {
+              return {
+                ...item,
+                sign: 'plus'
+              }
+            })
           }
         })
     },
@@ -165,6 +185,7 @@ export default {
         // TODO:
         this.goodlist.push({
           kemu_id: '',
+          sign: 'plus',
           // xxx1: "",
           // xxx2: "",
           // xxx3: '',
@@ -208,12 +229,13 @@ export default {
         //     memberName: ""
         //   }
         // })
-		console.log('aaaa',res)
+        console.log('aaaa', res)
         this.goodlist[index].xxx1 = res.name;
-		 this.$forceUpdate()
+        this.$forceUpdate()
       })
     },
     sureBtn() {
+      this.$navigateBack({ item: this.goodlist })
       // for (let item of this.credentials) {
       // 	if (!item.abstract) {
       // 		uni.showToast({
@@ -394,8 +416,14 @@ export default {
 .flex2 {
   flex: 2;
 }
+.flex-je {
+  justify-content: flex-end;
+}
 .pr-5 {
   padding-right: 5rpx;
+}
+.flex-jc {
+  justify-content: center;
 }
 .sure_btn {
   background: #4396f7;
