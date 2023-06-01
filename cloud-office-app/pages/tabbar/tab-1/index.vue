@@ -322,6 +322,11 @@
 
 			};
 		},
+		filters: {
+			filterTime(val) {
+				return dayjs(val).format("YYYY年MM月")
+			}
+		},
 		onPullDownRefresh() {
 			this.currentPage.page = 1
 			this.getDaiBanList() 
@@ -357,13 +362,9 @@
 			this.getList();
 			this.getZiJinData();
 			this.getGatheringData();
+			
 
-		},
-		filters: {
-			filterTime(val) {
-				return dayjs(val).format("YYYY年MM月")
-			}
-		},
+		}, 
 		computed: {
 			// ...mapState({
 			// 	userInfo: state => state.user.userInfo,

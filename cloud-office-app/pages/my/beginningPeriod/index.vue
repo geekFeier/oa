@@ -3,6 +3,13 @@
 		<u-navbar :is-back="true" title="期初设置" :border-bottom="false" back-icon-color="#000" :background="background"
 			title-color="#000" :height="55">
 		</u-navbar>
+		<view class="flex flex-je">
+			<view class="common-header-r" @click="isShowPopop = true">
+				<text>{{accountText}} </text>
+				<u-icon name="arrow-down-fill"></u-icon>
+			</view>
+		</view>
+		
 		<view class="headerBox">
 			<view class="searchBox">
 				<u-search input-align="center" style="padding: 0px 20px" placeholder="搜索编码或关键字查找" bg-color="#fff"
@@ -10,6 +17,7 @@
 				</u-search>
 			</view>
 		</view>
+
 		<u-tabs-swiper bar-height="4" bar-width="95" ref="tabs" :font-size="30" active-color="#4396F7"
 			:active-item-style="{'color':'#4396F7'}" inactive-color="#7A7C94" :current="swiperCurrent"
 			@change="tabsChange" :list="tabList" :is-scroll="false" :bar-style="barStyle">
@@ -46,10 +54,47 @@
 		</view>
 		<button type="default" class="sure_btn" @click="loginBtn">试算平衡</button>
 
+		<u-popup v-model="isShowPopop" mode="bottom" border-radius="56">
+			<view class="popup-main">
+				<view class="popup-common-title">
+					— 选择账套 —
+				</view>
+				<view class="financial-popup-main">
+					<view class="financial-popup-item " v-for="(item,index) in zhangtaoListData"
+						@click="selectAccount(item.id,index)" :key="index">
+						<view class="popup-item-l">
+							<view class="financial-popup-item-hd">
+								<text class="financial-popup-hd-txt">{{item.name}}</text>
+								<view class="financial-popup-hd-status" v-if="item.id == defaultId">
+									进行中
+								</view>
+							</view>
+							<view class="financial-popup-item-bd">
+								启用时间：{{ item.start_time | filterTime}} {{item.cate.name}}
+							</view>
+						</view>
+						<view class="popup-item-r">
+							<image :src="cuttnetId == item.id ? selecta : select" style="width: 40rpx;height: 40rpx;"
+								mode=""></image>
+						</view>
+					</view>
+				</view>
+				<view class="popup-common-btnGroup">
+					<view class="popup-common-btn" @click="isShowPopop = false">
+						取消
+					</view>
+					<view class="popup-common-btn active" @click="sureAccountBtn">
+						确定
+					</view>
+				</view>
+			</view>
+		</u-popup>
+
 	</view>
 </template>
 
 <script>
+	import dayjs from '@/utils/dayjs';
 	export default {
 		data() {
 			return {
@@ -70,10 +115,23 @@
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
+				selecta: "../../../static/image/tab2/selecta.png",
+				select: "../../../static/image/tab2/select.png",
+				cuttnetId: 0,
+				defaultId: "",
+				isShowPopop: false,
+				zhangtaoListData: [],
+				accountText: '请选择' // 账套获取
 			};
+		},
+		filters: {
+			filterTime(val) {
+				return dayjs(val).format("YYYY年MM月")
+			}
 		},
 		onLoad() {
 			this.getCate();
+			this.getZhangtaoListData();
 		},
 		watch: {
 			keyword(val) {
@@ -162,13 +220,68 @@
 					})
 				}
 
-			}
+			},
+			sureAccountBtn() {
+				let params = {
+					akid: this.cuttnetId
+				}
+				uni.showLoading({
+					title: '切换中'
+				})
+
+				this.$http("enterprise.Account_books/booksChanges", params, "post").then(res => {
+					uni.hideLoading()
+
+					if (res.data.code == 1) {
+						this.isShowPopop = false;
+						// TODO:
+						// 			uni.$emit("changeUserInfo", true);
+
+						// 			this.getUserInfo()
+						// 			this.$nextTick(() => {
+						// 				this.getList();
+						// 				this.getListData();
+						// 			})
+					}
+				})
+			},
+			getZhangtaoListData() {
+				console.log('开始了')
+				let params = {
+					offset: 0,
+					page: 1,
+					limit: 50
+				}
+				this.$http("enterprise.Account_books/index", params, "post").then(res => {
+					if (res.data.code == 1) {
+						this.zhangtaoListData = res.data.data.rows;
+					} else {
+						this.zhangtaoListData = [];
+
+					}
+				})
+			},
+			selectAccount(id) {
+				this.cuttnetId = id;
+			},
 		}
 
 	}
 </script>
 
 <style lang="scss" scoped>
+	.flex {
+	  align-items: center;
+	}
+	.flex1 {
+	  flex: 1;
+	}
+	.flex2 {
+	  flex: 2;
+	}
+	.flex-je {
+	  justify-content: flex-end;
+	}
 	page {
 		color: #150E33;
 	}
@@ -188,8 +301,6 @@
 		height: 102rpx;
 		background: #FBFCFF;
 		line-height: 102rpx;
-
-
 	}
 
 	.mainBox {
@@ -259,5 +370,85 @@
 
 	.green {
 		background-color: #12D592;
+	}
+
+	.common-header-r {
+		padding-top: 15rpx;
+		padding-bottom: 15rpx;
+		padding-right: 30rpx;
+ 
+	}
+	.popup-main {
+	
+		.popup-common-title {
+			font-size: 36rpx;
+			color: #150E33;
+			text-align: center;
+			margin-top: 56rpx;
+		}
+	
+		.active {
+			background: #4396F7 !important;
+			color: #FFFFFF !important;
+		}
+	
+		.popup-common-btnGroup {
+			display: flex;
+			padding: 0 50rpx;
+			justify-content: space-between;
+			font-size: 30rpx;
+			margin-top: 50rpx;
+			margin-bottom: 32rpx;
+	
+	
+			.popup-common-btn {
+				width: 260rpx;
+				height: 80rpx;
+				background: #F6F9FE;
+				border-radius: 12rpx;
+				color: #7A7C94;
+				text-align: center;
+				line-height: 80rpx;
+			}
+		}
+	
+		.financial-popup-main {
+			padding: 0 32rpx;
+	
+			.financial-popup-item {
+				margin-top: 32rpx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				border-bottom: 1px solid #EEF2FF;
+				padding-bottom: 32rpx;
+	
+				.financial-popup-item-hd {
+					display: flex;
+					align-items: center;
+	
+					.financial-popup-hd-status {
+						background: #FF253D;
+						border-radius: 48rpx;
+						padding: 4rpx 8rpx;
+						color: #fff;
+						font-size: 24rpx;
+						margin-left: 16rpx;
+					}
+	
+					.financial-popup-hd-txt {
+						font-size: 32rpx;
+						color: #150E33;
+						font-weight: bold;
+					}
+				}
+	
+				.financial-popup-item-bd {
+					color: #7A7C94;
+					font-size: 28rpx;
+					margin-top: 30rpx;
+				}
+			}
+		}
 	}
 </style>
