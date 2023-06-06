@@ -9,7 +9,7 @@
 		<view class="lunch_bd">
 			<image src="../static/image/launch_icon.png" mode="" class="lunch_bd_icon"></image>
 			<view class="lunch_bd_title">
-				云上办公APP
+				小MO一族APP
 			</view>
 		</view>
 	</view>

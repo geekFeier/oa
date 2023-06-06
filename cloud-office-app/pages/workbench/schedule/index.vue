@@ -87,7 +87,7 @@
 				const time = new Date(this.formData.end_time).getTime()
 				console.log(time);
 				let params = {
-					name: '云上办公', //日历账号名称
+					name: '小MO一族', //日历账号名称
 					title: '日程:' + this.formData.content, //日历标题
 					location: '', //地址
 					description: this.formData.desc, //描述

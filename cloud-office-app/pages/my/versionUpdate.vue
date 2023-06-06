@@ -28,7 +28,7 @@
 
 		</view>
 		<view class="bd" @click="updateBtn">
-			更新云上办公APP
+			更新小MO一族APP
 		</view>
 
 	</view>

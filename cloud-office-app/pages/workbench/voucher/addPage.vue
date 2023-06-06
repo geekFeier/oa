@@ -69,7 +69,7 @@
 					</view>
 				</u-form-item>
 				<u-form-item label="凭证编号" label-width="150" :border-bottom="false">
-					<u-input v-model="formData.code" type="input" disabled placeholder="请输入凭证编号" />
+					<u-input v-model="formData.code" type="input" disabled placeholder="凭证编号自动生成" />
 				</u-form-item>
 				<u-form-item label="备注" label-width="150" :border-bottom="false">
 					<u-input v-model="formData.remarks" type="text" placeholder="请输入备注信息" />
