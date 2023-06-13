@@ -6,12 +6,6 @@
 				{{codeTime}}s跳过
 			</view>
 		</view>
-		<view class="lunch_bd">
-			<image src="../static/image/launch_icon.png" mode="" class="lunch_bd_icon"></image>
-			<view class="lunch_bd_title">
-				小MO一族APP
-			</view>
-		</view>
 	</view>
 </template>
 
@@ -64,7 +58,7 @@
 		height: 100vh;
 		.lunch_hd {
 			position: relative;
-			height: 75vh;
+			height: 100vh;
 			.down_div {
 				position: absolute;
 				top: 40px;

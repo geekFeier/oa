@@ -16,8 +16,10 @@ if (process.env.NODE_ENV === 'development') {
 	// img_url = "http://ysbg.qingyukeji.online/"
 	// url_config = 'http://cloud.yunzanet.com/api/';
 	// img_url = "http://cloud.yunzanet.com/"
-		url_config = 'http://yunshangoa.yunzanet.com/api/';
-		img_url = "http://yunshangoa.yunzanet.com"
+	// url_config = 'http://yunshangoa.yunzanet.com/api/';
+	// img_url = "http://yunshangoa.yunzanet.com"
+	url_config = 'http://39.96.177.195/yun/public/api/'
+	img_url = "http://39.96.177.195/yun/public/"
 
 }
 export {

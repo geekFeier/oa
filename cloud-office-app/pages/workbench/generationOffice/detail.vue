@@ -60,7 +60,6 @@
 				currentId: "",
 				detailData: {},
 				loading: false
-
 			};
 		},
 		onLoad(e) {

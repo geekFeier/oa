@@ -23,6 +23,7 @@ class Gps {
 					callback(res)
 				},
 				fail: async (err) => {
+					console.log(err)
 					uni.showToast({
 						title: '定位获取失败',
 						icon: 'none'

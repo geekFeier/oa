@@ -125,7 +125,7 @@
 			box-sizing: border-box;
 
 			.login_logo {
-				width: 160rpx;
+				width: 300rpx;
 				height:  160rpx;
 				margin-top: 50px;
 				align-self: center;

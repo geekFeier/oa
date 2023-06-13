@@ -62,7 +62,7 @@
 					待办
 				</view>
 				<view class="carge-item" v-for="(item,index) in daiBanListData.slice(0,3)" :key="index"
-					@click="goDaiBanDetail(item.id)">
+					@click="goDaiBanDetail(item)">
 					<text class="carge-item-title">{{item.content}}</text>
 					<u-icon name="arrow-right" color="#7A7C94" size="28"></u-icon>
 				</view>
@@ -316,7 +316,6 @@
 				countData: {
 					daiban: null,
 					liuyan: null,
-					recheng: null
 				}
 
 
@@ -387,12 +386,13 @@
 					}
 
 				})
+				
+				// TODO:
 				this.$http("enterprise.User_todo/getCount", {}, "get").then(res => {
 					console.log(res)
 					if (res.data.code == 1) {
-						this.countData = res.data.data
+						this.countData.liuyan = res.data.data.liuyan
 					}
-
 				})
 			},
 			getGatheringData() {
@@ -447,28 +447,74 @@
 					}
 				})
 			},
-			goDaiBanDetail(id) {
-				uni.navigateTo({
-					url: "/pages/workbench/generationOffice/detail?id=" + id
-				})
+			goDaiBanDetail(item) {
+				console.log('报账：', item)
+				switch (item.flag) {
+					case 4:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/userCarApply/detail?data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+					case 2:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/sealApply/detail??data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+					case 3:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/maketTicketApply/detai?data=" +
+								encodeURIComponent(JSON
+									.stringify(item))
+						})
+						break;
+					case 1:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/safeguard/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
+						})
+						break;
+					case 5:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/receiveApply/detail?data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+					case 6:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/payApply/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
+						})
+						break;
+					case 7:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/otherApply/detail?data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+				}
 			},
 			goSchedule() {
 				uni.navigateTo({
 					url: "/pages/workbench/schedule/list"
 				})
 			},
-			getDaiBanList() {
+			getDaiBanList() { 
 				let params = {
-					page: this.currentPage.page,
-					limit: this.currentPage.limit,
-					offset: (this.currentPage.page - 1) * this.currentPage.limit,
-					type: 0,
-					status: 0,
-					keyword:''
+					page: 1,
+					limit: 100,
+					offset: (this.page - 1) * this.limit,
+					type: 4 //待办列表
 				}
-				this.$http("enterprise.User_todo/index", params, "get").then(res => {
+				this.$http("enterprise.applyfor.Oa/index", params, "get").then(res => {
 					if (res.data.code == 1) {
-						this.daiBanListData = res.data.data.rows || [];
+						 this.countData.daiban = res.data.data.rows.length
+						 this.daiBanListData = res.data.data.rows || [];
 					}
 				})
 			}, 

@@ -38,26 +38,7 @@
 				limit: 10,
 				background: {
 					backgroundColor: "#FFFFFF",
-				},
-				popupList: [{
-						name: "我的待办",
-						color: "pul"
-					},
-					// {
-					// 	name: "待我处理",
-					// 	color: "red"
-					// },
-					{
-						name: "我发起的",
-						color: "blue"
-					}, {
-						name: "我参与的",
-						color: "orange"
-					}, {
-						name: "已处理的",
-						color: "green"
-					}
-				]
+				}, 
 			};
 		},
 		filters: {

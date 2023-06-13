@@ -1,55 +1,34 @@
 <template>
 	<view class="generationOfficeBox">
-		<u-navbar :is-back="true" :border-bottom="false" back-icon-color="#000" :background="background" title-color="#000"
-			:height="55">
+		<u-navbar :is-back="true" :border-bottom="false" back-icon-color="#000" :background="background"
+			title-color="#000" :height="55">
 			<view class="header-div">
 				<text @click="openPopup">{{navTitle}}</text>
 				<u-icon @click="openPopup" name="arrow-down-fill" class="header-icon" size="22"></u-icon>
 			</view>
 		</u-navbar>
 
-		
-		<view class="mainBox">
-			<view class="tit">待办列表</view>
-			<view class="main-item" v-for="(item,index) in listData.filter(item=>item.status == 0)" :key="index + 'daiban'"
-				@click="goDetail(item.id)">
-				<view class="main-item-hd">
-					<view class="circle" :class="item.type | filterColor">
-					</view>
-					<text class="main-item-title">{{item.content}}</text>
-				</view>
-				<view class="main-item-m">
-					<view class="main-item-m-con">
-						{{item.desc}}
-					</view>
-					<view class="main-item-m-bd">
-						<u-icon name="clock"></u-icon>
-						<text style="margin-left: 8rpx;">{{item.end_time}}截止</text>
-					</view>
-				</view>
-			</view>
 
-		<view class="dash">
-			 
-		</view>
-			<view class="tit">已办列表</view>
-			<view class="main-item" v-for="(item,index) in listData.filter(item=>item.status == 1)" :key="index + 'yiban'"
-				@click="goDetail(item.id)">
-				<view class="main-item-hd">
-					<view class="circle" :class="item.type | filterColor">
+		<view class="mainBox" >
+				<view class="tit">{{navTitle}}列表</view>
+				<view class="main-item" v-for="(item,index) in listData"
+					:key="index + 'daiban'" @click="goDetail(item)">
+					<view class="main-item-hd">
+						<view class="circle" >
+						</view>
+						<text class="main-item-title">{{item.content}}</text>
 					</view>
-					<text class="main-item-title">{{item.content}}</text>
+					<view class="main-item-m">
+						<view class="main-item-m-con">
+							{{item.remarks}}
+						</view>
+						<view class="main-item-m-bd">
+							<u-icon name="clock"></u-icon>
+							<text style="margin-left: 8rpx;">发起时间：{{item.createtime}}</text>
+						</view>
+					</view>
 				</view>
-				<view class="main-item-m">
-					<view class="main-item-m-con">
-						{{item.desc}}
-					</view>
-					<view class="main-item-m-bd">
-						<u-icon name="clock"></u-icon>
-						<text style="margin-left: 8rpx;">{{item.end_time}}截止</text>
-					</view>
-				</view>
-			</view>
+
 		</view>
 
 		<popupLayer ref="popupRef" v-model="isShowPopup" :direction="'bottom'">
@@ -76,7 +55,7 @@
 			return {
 				navTitle: "",
 				listData: [],
-				type: 0,
+				type: 4,
 				page: 1,
 				limit: 10,
 				isShowPopup: false,
@@ -84,43 +63,48 @@
 					backgroundColor: "#FFFFFF",
 				},
 				popupList: [{
-						name: "我的待办",
-						color: "pul"
-					},
-					// {
-					// 	name: "待我处理",
-					// 	color: "red"
-					// },
-					{
-						name: "我发起的",
-						color: "blue"
-					}, {
-						name: "我参与的",
-						color: "orange"
-					}, {
-						name: "已处理的",
-						color: "green"
-					}
-				]
+					name: "全部",
+					color: "black"
+				}, {
+					name: "我收到的",
+					color: "pul"
+				}, {
+					name: "我发起的",
+					color: "blue"
+				}, {
+					name: "我参与的",
+					color: "orange"
+				}, {
+					name: "待我处理",
+					color: "red"
+				}, {
+					name: "已处理的",
+					color: "green"
+				}]
 			};
 		},
 		filters: {
 			filterColor(val) {
 				switch (Number(val)) {
 					case 0:
-						return "pul"
+						return "black"
 						break;
 					case 1:
-						return "blue"
+						return "pul"
 						break;
 					case 2:
-						return "oragin"
+						return "blue"
 						break;
 					case 3:
+						return "orange"
+						break;
+					case 4:
+						return "red"
+						break;
+					case 5:
 						return "green"
 						break;
 				}
-
 			}
 		},
 		onLoad() {
@@ -135,7 +119,7 @@
 		components: {
 			popupLayer
 		},
-		onReachBottom:function(){
+		onReachBottom: function() {
 			this.page++;
 			this.getListData()
 		},
@@ -160,20 +144,71 @@
 					page: this.page,
 					limit: this.limit,
 					offset: (this.page - 1) * this.limit,
-					status: this.type,
-					type: 0
+					type: this.type
 				}
-		 
-				this.$http("enterprise.User_todo/index", params, "get").then(res => {
+
+				this.$http("enterprise.applyfor.Oa/index", params, "get").then(res => {
 					if (res.data.code == 1) {
 						this.$set(this, 'listData', this.listData.concat(res.data.data.rows))
 					}
 				})
 			},
-			goDetail(id) {
-				uni.navigateTo({
-					url: "/pages/workbench/generationOffice/detail?id=" + id
-				})
+			// goDetail(id) {
+			// 	uni.navigateTo({
+			// 		url: "/pages/workbench/generationOffice/detail?id=" + id
+			// 	})
+			// },
+			goDetail(item) {
+				console.log('报账：', item)
+				switch (item.flag) {
+					case 4:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/userCarApply/detail?data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+					case 2:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/sealApply/detail??data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+					case 3:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/maketTicketApply/detai?data=" +
+								encodeURIComponent(JSON
+									.stringify(item))
+						})
+						break;
+					case 1:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/safeguard/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
+						})
+						break;
+					case 5:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/receiveApply/detail?data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+					case 6:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/payApply/detail?data=" + encodeURIComponent(JSON
+								.stringify(item))
+						})
+						break;
+					case 7:
+						uni.navigateTo({
+							url: "/pages/cooperation/applyAllPage/otherApply/detail?data=" + encodeURIComponent(
+								JSON
+								.stringify(item))
+						})
+						break;
+				}
 			},
 			openPopup() {
 				this.isShowPopup = true;
@@ -184,17 +219,19 @@
 </script>
 
 <style lang="scss" scoped>
-	.tit{
+	.tit {
 		padding-left: 20rpx;
 		font-size: 30rpx;
 		font-weight: bold;
 	}
-	.dash{
-		height:1px;
-		width:90%;
-		margin:30rpx auto 40rpx;
-		background:#e2e4e7;
+
+	.dash {
+		height: 1px;
+		width: 90%;
+		margin: 30rpx auto 40rpx;
+		background: #e2e4e7;
 	}
+
 	.addBtn {
 		position: fixed;
 		bottom: 298rpx;
@@ -295,6 +332,10 @@
 		height: 18rpx;
 		border-radius: 50%;
 		margin-right: 8rpx;
+	}
+
+	.black {
+		background-color: black;
 	}
 
 	.pul {
