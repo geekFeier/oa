@@ -24,9 +24,6 @@
 		</view>
 
 		<image src="../../../static/image/tab1/add.png" class="addBtn" mode="" @click="goAddPage"></image>
-
-
-
 	</view>
 </template>
 
@@ -100,11 +97,8 @@
 				let params = {
 					page: this.page,
 					limit: this.limit,
-					offset: (this.page - 1) * this.limit,
-					status: "",
-					type: 1
 				}
-				this.$http("enterprise.User_todo/index", params, "get").then(res => {
+				this.$http("enterprise.message/index", params, "get").then(res => {
 					if (res.data.code == 1) {
 						this.listData = this.listData.concat(res.data.data.rows);
 					}
