@@ -3,27 +3,13 @@
 		<u-navbar :is-back="true" :border-bottom="false" back-icon-color="#000" :background="background"
 			title-color="#000" title="我的留言" :height="55">
 		</u-navbar>
-
 		<view class="mainBox">
-			<view class="main-item" v-for="(item,index) in listData" :key="index" @click="goDetail(item.id)">
-				<view class="main-item-hd u-line-2">
-					<view class="circle" :class="item.type | filterColor">
-					</view>
-					<text class="main-item-title">{{item.content}}</text>
-				</view>
-				<view class="main-item-m">
-					<view class="main-item-m-con">
-						{{item.desc}}
-					</view>
-					<view class="main-item-m-bd">
-						<u-icon name="clock"></u-icon>
-						<text style="margin-left: 8rpx;">{{item.end_time}}截止</text>
-					</view>
-				</view>
+			<view class="main-item flex" v-for="(item,index) in listData" :key="index" @click="goDetail(item.id)">
+						{{item.userInfo &&  item.userInfo.job && item.userInfo.job.flag | filterJob}} ——
+						{{item.userInfo && item.userInfo.job && item.userInfo.job.name}}
+						<view class="txt flex flex-ac">（未读：<view class="circle">{{10>99 ? '99+' : 10}}</view>条）</view>
 			</view>
 		</view>
-
-		<image src="../../../static/image/tab1/add.png" class="addBtn" mode="" @click="goAddPage"></image>
 	</view>
 </template>
 
@@ -33,28 +19,26 @@
 			return {
 				navTitle: "",
 				listData: [],
-				type: 0,
-				page: 1,
-				limit: 10,
 				background: {
 					backgroundColor: "#FFFFFF",
-				}, 
+				},
 			};
 		},
 		filters: {
-			filterColor(val) {
+			filterJob(val) {
+				// 1=总经理，2=部门经理，3=会计，4=职员
 				switch (Number(val)) {
-					case 0:
-						return "pul"
-						break;
 					case 1:
-						return "blue"
+						return "总经理"
 						break;
 					case 2:
-						return "oragin"
+						return "部门经理"
 						break;
 					case 3:
-						return "green"
+						return "会计"
+						break;
+					case 4:
+						return "职员"
 						break;
 				}
 
@@ -63,40 +47,27 @@
 		onLoad() {
 			this.getList();
 		},
-		onReachBottom: function() {
-			this.page++;
-			this.getList()
+		onPullDownRefresh() {
+			this.listData = []
+			this.getList();
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
 		},
 		methods: {
-			selectType(index) {
-				this.type = index;
-				this.page = 1;
-				this.listData = [];
-				this.getList();
-			},
 			getList() {
-				let params = {
-					page: this.page,
-					limit: this.limit,
-				}
+				let params = {}
 				this.$http("enterprise.message/index", params, "get").then(res => {
 					if (res.data.code == 1) {
-						this.listData = this.listData.concat(res.data.data.rows);
+						this.listData = res.data.data
+						console.log('~~~~~~this.listData')
+						console.log(this.listData)
 					}
 				})
 			},
 			goDetail(id) {
 				uni.navigateTo({
 					url: "/pages/workbench/leaveMessage/detail?id=" + id
-				})
-			},
-			goAddPage() {
-				this.$navigateTo({
-					url: "/pages/workbench/leaveMessage/addpage"
-				}).then(res => {
-					this.page = 1;
-					this.listData = [];
-					this.getList();
 				})
 			},
 		}
@@ -126,39 +97,10 @@
 			padding: 0 32rpx;
 
 			.main-item {
-				padding: 24rpx 32rpx;
-				box-sizing: border-box;
-				background-color: #fff;
-				border-radius: 14rpx;
-				margin-top: 32rpx;
-
-				.main-item-hd {
-					display: flex;
-					align-items: center;
-
-					.main-item-title {
-						color: #150E33;
-						font-size: 32rpx;
-						font-weight: bold;
-						margin-left: 10rpx;
-					}
-				}
-
-				.main-item-m {
-					padding: 0 30rpx;
-					margin-top: 24rpx;
-
-					.main-item-m-con {
-						color: #7A7C94;
-						font-size: 28rpx;
-					}
-
-					.main-item-m-bd {
-						color: #B5BFDA;
-						font-size: 26rpx;
-						margin-top: 30rpx;
-					}
-				}
+				color: #150E33;
+				font-size: 32rpx;
+				border-bottom: 1px dashed lightgray;
+				padding:16rpx 0;
 			}
 		}
 
@@ -198,21 +140,26 @@
 			}
 		}
 	}
-
+.txt{
+	color:#999;
+	font-size: 24rpx;
+}
 	.circle {
-		width: 18rpx;
-		height: 18rpx;
+		width: 30rpx;
+		height: 30rpx;
+		line-height: 34rpx;
 		border-radius: 50%;
-		margin-right: 8rpx;
+		background-color: #FF253D;
+		color:#fff;
+		font-size: 22rpx;
+		text-align: center;
+		margin-right: 4rpx;
+		
 	}
 
 	.pul {
 		background-color: #915FF2;
-	}
-
-	.red {
-		background-color: #FF253D;
-	}
+	} 
 
 	.blue {
 		background-color: #4396F7;

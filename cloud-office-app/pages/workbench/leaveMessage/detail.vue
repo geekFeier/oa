@@ -1,49 +1,10 @@
 <template>
 	<view class="detailBox">
-		<u-navbar :is-back="true" title="留言详情" :border-bottom="false" back-icon-color="#000" :background="background"
+		<u-navbar :is-back="true" title="聊天记录" :border-bottom="false" back-icon-color="#000" :background="background"
 			title-color="#000" :height="55">
 		</u-navbar>
-		<view class="mainBox">
-			<view class="header-title">
-				{{detailData.content}}
-			</view>
-			<view class="itemBox">
-				<view class="itemDiv active">
-					<image class="item-img" src="../../../static/image/tab1/my1.png" mode=""></image>
-					我执行
-				</view>
-				<view class="itemDiv">
-					<image class="item-img" src="../../../static/image/tab1/my.png" mode=""></image>
-					{{join_ids}}等{{nameArr.length}}人参与
-				</view>
-			</view>
-
-			<view class="itemBox" style="margin-top: 24rpx;">
-				<view class="itemDiv">
-					<image class="item-img" src="../../../static/image/tab1/time.png" mode=""></image>
-					{{detailData.end_time}} 截止
-				</view>
-			</view>
-
-			<view class="item-con">
-				{{detailData.desc}}
-			</view>
-
-			<view class="img-item-box">
-				<image v-for="(item,index) in imgData" @click="previewImg" class="img-item" :src="item" mode="">
-				</image>
-			</view>
-
-			<view class="detailBox-bd">
-				<view class="" v-for="(item,index) in detailData.record" :key="index">
-					{{item.title.substring(0,item.title.length-5)}} <text
-						style="color: #12D592;margin-left: 6rpx;">{{item.title.substring(item.title.length-5)}}</text>
-				</view>
-			</view>
-		</view>
-
-		<button v-if="detailData.status == 0" type="default" class="sure_btn" @click="sureBtn">完成留言</button>
-
+		
+	
 	</view>
 </template>
 

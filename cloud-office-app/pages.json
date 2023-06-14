@@ -552,7 +552,8 @@
 		}, {
 			"path": "pages/workbench/leaveMessage/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/workbench/leaveMessage/addpage",
