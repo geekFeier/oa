@@ -13,7 +13,14 @@
 			// });
 		},
 		onShow: function() {
-			console.log('App Show')
+				// 监听键盘高度变化
+				uni.onKeyboardHeightChange(res => {
+					if(res.height > 0) {
+						uni.setStorageSync('keyboardConfig', {
+							height: res.height
+						});
+					}
+				});
 		},
 		onHide: function() {
 			console.log('App Hide')

@@ -4,10 +4,10 @@
 			title-color="#000" title="我的留言" :height="55">
 		</u-navbar>
 		<view class="mainBox">
-			<view class="main-item flex" v-for="(item,index) in listData" :key="index" @click="goDetail(item.id)">
-						{{item.userInfo &&  item.userInfo.job && item.userInfo.job.flag | filterJob}} ——
-						{{item.userInfo && item.userInfo.job && item.userInfo.job.name}}
-						<view class="txt flex flex-ac">（未读：<view class="circle">{{10>99 ? '99+' : 10}}</view>条）</view>
+			<view class="main-item flex" v-for="(item,index) in listData" :key="index" @click="goDetail(item.to_user_id)">
+						{{item.toUserInfo && item.toUserInfo.job_name}} ——
+						{{item.toUserInfo && item.toUserInfo.username}}
+						<view class="txt flex flex-ac" v-if="item.unread">（未读：<view class="circle">{{item.unread>99 ? '99+' : item.unread}}</view>条）</view>
 			</view>
 		</view>
 	</view>
@@ -57,11 +57,9 @@
 		methods: {
 			getList() {
 				let params = {}
-				this.$http("enterprise.message/index", params, "get").then(res => {
+				this.$http("enterprise.message/user", params, "get").then(res => {
 					if (res.data.code == 1) {
-						this.listData = res.data.data
-						console.log('~~~~~~this.listData')
-						console.log(this.listData)
+						this.listData = res.data.data 
 					}
 				})
 			},

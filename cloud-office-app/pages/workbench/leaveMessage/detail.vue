@@ -1,74 +1,146 @@
 <template>
 	<view class="detailBox">
-		<u-navbar :is-back="true" title="聊天记录" :border-bottom="false" back-icon-color="#000" :background="background"
+		<u-navbar :is-back="true" title="留言详情" :border-bottom="false" back-icon-color="#000" :background="background"
 			title-color="#000" :height="55">
 		</u-navbar>
-		
-	
+		<view class="chat">
+			<list class="list" :style="{ height: chatListHeight + 'px' }">
+				<cell :ref="'item'+index" v-for="(item, index) in chatList" :key="index">
+					<view :class="['item', item.type]">
+						<image class="avatar" :src="item.avatar"></image>
+						<text class="content" style="max-width: 500rpx;">{{ item.content }}</text>
+					</view>
+				</cell>
+			</list>
+			<view class="bottomAction">
+				<view class="main" :style="{ height: bottomActionHeight + 'px' }">
+					<input 
+					class="textInput" 
+					type="text" 
+					:value="inputText" 
+					cursor-spacing="10" 
+					:confirm-hold="true" 
+					:adjust-position="true"
+					confirm-type="send" 
+					@input="getInputText"
+					@keyboardheightchange="changeKeyboardHeight"
+					@confirm="confirmInput" />
+				</view> 
+			</view>
+		</view>
+
 	</view>
 </template>
 
 <script>
+	const dom = uni.requireNativePlugin('dom');
 	export default {
 		data() {
 			return {
-				nameArr: [],
-				join_ids: [],
-				imgData: [],
 				background: {
 					backgroundColor: "#FFFFFF",
 				},
-				currentId: "",
-				detailData: {},
-				loading: false
+				currentId: '', 
+				systemInfo: {},	// 系统参数
+				keyboardConfig: {	// 键盘参数
+					height: 0	// 键盘高度
+				},
+				bottomActionHeight: 54,	// 底部输入框原始高度
+				chatListHeight: 0,	// 聊天列表高度
+				inputText: '',	// 输入框内容
+				chatList: []	// 聊天列表
 
 			};
 		},
+		created() {
+			let _self = this;
+			
+			setTimeout(() => {
+				_self.systemInfo = uni.getSystemInfoSync();
+				_self.keyboardConfig = uni.getStorageSync('keyboardConfig');
+				_self.chatListHeight = _self.systemInfo.windowHeight - _self.bottomActionHeight;
+			}, 1);
+		},
 		onLoad(e) {
 			this.currentId = e.id;
-			this.getDetail();
+			this.init();
 		},
 		methods: {
-			previewImg() {
-				uni.previewImage({
-					urls: this.imgData
-				})
+			init() {
+				this.scrollBottom();
 			},
-			sureBtn() {
-				let params = {
-					id: this.currentId
-				}
-				if (this.loading) {
-					return
-				}
-				this.loading = true
-
-				this.$http("enterprise.User_todo/complete?id=" + this.currentId, {}, "post", 2).then(res => {
-					if (res.data.code == 1) {
-						uni.showToast({
-							title: "完成",
-							icon: "none"
-						})
-						setTimeout(() => {
-							this.loading = false
-
-							this.$navigateBack(true)
-						}, 500)
+			/**
+			 * @description 输入框聚焦
+			 * @param {Object} e 键盘参数
+			 */ 
+			/**
+			 * @description 键盘输入
+			 * @param {Object} e 输入框参数
+			 */
+			getInputText(e) {
+				this.inputText = e.detail.value;
+			},
+			/**
+			 * @description 键盘高度发生变化
+			 * @param {Object} e 键盘参数
+			 */
+			changeKeyboardHeight(e) {
+				 
+			 
+			},
+			/**
+			 * @description 完成输入
+			 * @param {Object} e 输入框参数
+			 */
+			confirmInput(e) {
+				if(!e.detail.value) return uni.showToast({ title: '内容不能为空', duration: 1500, position: 'bottom' });
+				
+				this.chatList.push({
+					avatar: '/static/avatar.png',
+					content: e.detail.value,
+					type: 'left'
+				});
+				
+				this.chatList.push({
+					avatar: '/static/avatar.png',
+					content: e.detail.value,
+					type: 'right'
+				});
+				
+				this.inputText = '';
+				this.scrollBottom();
+			},
+			/**
+			 * @description 打开表情符号
+			 */
+		 
+			/**
+			 * @description 选择表情符号
+			 * @param {String} item 选择的内容
+			 */ 
+			/**
+			 * @description 滚动至底部
+			 */
+			scrollBottom() {
+				setTimeout(() => {
+					const listLen = this.chatList.length;
+					
+					if(listLen > 0) {
+						const el = this.$refs[`item${ listLen -1 }`][0];
+						
+						dom.scrollToElement(el, { offset: 0, animated: false });
 					}
-				})
+				}, 30);
 			},
-			getDetail() {
+			getData() {
 				let params = {
 					id: this.currentId
 				}
 				this.$http("enterprise.User_todo/Dateils", params, "get").then(res => {
-					this.detailData = res.data.data;
-					this.imgData = this.detailData.images.split(",");
-					this.nameArr = [];
-					this.detailData.join_ids.forEach(item => {
-						this.nameArr.push(item.username)
-					})
-					this.join_ids = this.nameArr.slice(0, 2).join(",")
+					this.chatList = [{
+						content: '啦啦啦',
+						type: 'left'
+					}]
 				})
 			}
 		}
@@ -76,81 +148,68 @@
 </script>
 
 <style lang="scss" scoped>
-	.sure_btn {
-		background: #4396F7;
-		border-radius: 49px;
-		width: 90%;
-		color: #fff;
-		position: fixed;
-		bottom: 32rpx;
-		left: 50%;
-		transform: translateX(-50%);
+	 
+	.list .item .avatar {
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 50%;
+		overflow: hidden;
+		font-size:36rpx;
+		line-height: 80rpx;
+		color:#fff;
+		text-align: center;
+		background-color: #2472FF;
 	}
 
-	.mainBox {
-		padding: 0 32rpx;
-		height: 82vh;
-		overflow-y: auto;
-
-		.detailBox-bd {
-			text-align: center;
-			color: #B5BFDA;
-			margin-top: 60rpx;
-		}
-
-		.itemBox {
-			display: flex;
-			align-items: center;
-			margin-top: 50rpx;
-
-			.itemDiv {
-				padding: 6rpx 16rpx;
-				border-radius: 36rpx;
-				color: #7A7C94;
-				font-size: 26rpx;
-				border: 1px solid #B5BFDA;
-				margin-right: 30rpx;
-			}
-
-			.item-img {
-				width: 24rpx;
-				height: 26rpx;
-				margin-right: 8rpx;
-			}
-
-			.active {
-				border: 1px solid #4396F7;
-				color: #4396F7;
-			}
-
-
-		}
-
-		.img-item-box {
-			display: flex;
-			flex-wrap: wrap;
-			margin-top: 50rpx;
-			margin-right: -24rpx;
-
-			.img-item {
-				width: 212rpx;
-				height: 212rpx;
-				margin-right: 24rpx;
-				margin-bottom: 24rpx;
-			}
-		}
-
-		.item-con {
-			color: #150E33;
-			font-size: 28rpx;
-			margin-top: 50rpx;
-		}
-
-		.header-title {
-			font-size: 32rpx;
-			font-weight: bold;
-			color: #150E33;
-			margin-top: 34rpx;
-		}
+	.list {
+		width: 100vw;
+		background-color: #F3F5F8;
 	}
+	.list .item {
+		padding: 15rpx 30rpx;
+		display: flex;
+	}
+ 
+	.list .item .content {
+		line-height: 40rpx;
+		font-size: 28rpx;
+		padding: 20rpx;
+	}
+	.list .item.left {
+		flex-direction: row;
+	}
+	.list .item.right {
+		flex-direction: row-reverse;
+	}
+	.list .item.left .content {
+		color: #333333;
+		background-color: #F3F5F8;
+		border-radius: 2rpx 20rpx 20rpx 20rpx;
+		margin-left: 20rpx;
+	}
+	.list .item.right .content {
+		color: #FFFFFF;
+		background-color: #2472FF;
+		border-radius: 2rpx 20rpx 20rpx 20rpx;
+		text-align: right;
+		margin-right: 20rpx;
+	}
+	.bottomAction {
+		width: 750rpx;
+		background-color: #FFFFFF;
+	}
+	.bottomAction .main {
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+	.bottomAction .main .textInput {
+		width: 90vw;
+		height: 68rpx;
+		line-height: 68rpx;
+		font-size: 28rpx;
+		background-color: #F3F5F8;
+		border-radius: 10rpx;
+		padding: 0 24rpx;
+	} 
 </style>
