@@ -190,6 +190,7 @@
 	}
 
 	.bottomAction {
+		position: relative;
 		z-index: 1;
 		width: 750rpx;
 		background-color: #FFFFFF;
