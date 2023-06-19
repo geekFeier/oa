@@ -1,6 +1,6 @@
 <script>
 	export default {
-		onLaunch: function() {
+		onLaunch() {
 			console.log('App Launch');
 			// uni.connectSocket({
 			//   url: 'ws://cloud.yunzanet.com:8083'
@@ -12,17 +12,10 @@
 			//   console.log('WebSocket连接打开失败，请检查！');
 			// });
 		},
-		onShow: function() {
-				// 监听键盘高度变化
-				uni.onKeyboardHeightChange(res => {
-					if(res.height > 0) {
-						uni.setStorageSync('keyboardConfig', {
-							height: res.height
-						});
-					}
-				});
+		onShow() {
+			 
 		},
-		onHide: function() {
+		onHide() {
 			console.log('App Hide')
 		}
 	}
