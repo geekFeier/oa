@@ -4,9 +4,9 @@
 			title-color="#000" title="我的留言" :height="55">
 		</u-navbar>
 		<view class="mainBox">
-			<view class="main-item flex" v-for="(item,index) in listData" :key="index" @click="goDetail(item.to_user_id)">
-						{{item.toUserInfo && item.toUserInfo.job_name}} ——
-						{{item.toUserInfo && item.toUserInfo.username}}
+			<view class="main-item flex" v-for="(item,index) in listData" :key="index" @click="goDetail(item.to_user_id,item.toUserInfo.job_name,item.toUserInfo.username)">
+						<view>{{item.toUserInfo && item.toUserInfo.job_name}}</view> 
+						<view> —— {{item.toUserInfo && item.toUserInfo.username}}</view>
 						<view class="txt flex flex-ac" v-if="item.unread">（未读：<view class="circle">{{item.unread>99 ? '99+' : item.unread}}</view>条）</view>
 			</view>
 		</view>
@@ -59,13 +59,13 @@
 				let params = {}
 				this.$http("enterprise.message/user", params, "get").then(res => {
 					if (res.data.code == 1) {
-						this.listData = res.data.data 
+						this.listData = res.data.data.filter(item=>item.user_id !== item.to_user_id)
 					}
 				})
 			},
-			goDetail(id) {
+			goDetail(id,job,name) {
 				uni.navigateTo({
-					url: "/pages/workbench/leaveMessage/detail?id=" + id
+					url: `/pages/workbench/leaveMessage/detail?id=${id}&job=${job}&name=${name}`  
 				})
 			},
 		}
@@ -98,7 +98,7 @@
 				color: #150E33;
 				font-size: 32rpx;
 				border-bottom: 1px dashed lightgray;
-				padding:16rpx 0;
+				padding:25rpx 0;
 			}
 		}
 

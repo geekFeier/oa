@@ -563,7 +563,8 @@
 		}, {
 			"path": "pages/workbench/leaveMessage/detail",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/workbench/accountBalanceSheet/index",
