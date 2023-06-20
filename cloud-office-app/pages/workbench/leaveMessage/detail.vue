@@ -83,7 +83,7 @@
 				this.inputText = e.detail.value;
 			},
 			confirmInput(e) {
-				if (this.inputText || !e.detail.value ) return uni.showToast({
+				if (!this.inputText || !e.detail.value ) return uni.showToast({
 					title: '内容不能为空',
 					duration: 1500,
 					position: 'bottom'
