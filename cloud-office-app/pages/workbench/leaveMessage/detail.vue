@@ -82,21 +82,23 @@
 			getInputText(e) {
 				this.inputText = e.detail.value;
 			},
-			confirmInput(e) {
-				if (!this.inputText || !e.detail.value ) return uni.showToast({
+			
+			confirmInput() {
+				// ||  e.detail.value
+				if (!this.inputText) return uni.showToast({
 					title: '内容不能为空',
 					duration: 1500,
 					position: 'bottom'
 				});
 				let params = {
 					to_user_id: this.currentId,
-					content:this.inputText ||  e.detail.value
+					content:this.inputText 
 				}
 
 				this.$http("enterprise.message/addMessage", params, "post").then(res => {
 					this.chatList.push({
 						avatar: '../../../static/avatar.png',
-						content: this.inputText || e.detail.value,
+						content: this.inputText,
 						type: 'right'
 					});
 					this.inputText = '';
