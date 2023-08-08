@@ -9,8 +9,10 @@ if (process.env.NODE_ENV === 'development') {
 	// img_url = "http://cloud.yunzanet.com/"
 	// url_config = 'http://ysbg.qingyukeji.online/api/';
 	// img_url = "http://ysbg.qingyukeji.online/"
-	url_config = 'http://39.96.177.195/yun/public/api/'
-	img_url = "http://39.96.177.195/yun/public/"
+	// url_config = 'http://39.96.177.195/yun/public/api/'
+	// img_url = "http://39.96.177.195/yun/public/"
+	url_config = 'http://www.moyizu.cn/api/'
+	img_url = "http://www.moyizu.cn/"
 } else {
 	// url_config = 'http://ysbg.qingyukeji.online/api/';
 	// img_url = "http://ysbg.qingyukeji.online/"
@@ -18,8 +20,10 @@ if (process.env.NODE_ENV === 'development') {
 	// img_url = "http://cloud.yunzanet.com/"
 	// url_config = 'http://yunshangoa.yunzanet.com/api/';
 	// img_url = "http://yunshangoa.yunzanet.com"
-	url_config = 'http://39.96.177.195/yun/public/api/'
-	img_url = "http://39.96.177.195/yun/public/"
+	// url_config = 'http://39.96.177.195/yun/public/api/'
+	// img_url = "http://39.96.177.195/yun/public/"
+	url_config = 'http://www.moyizu.cn/api/'
+	img_url = "http://www.moyizu.cn/"
 
 }
 export {
