@@ -53,7 +53,6 @@
 			getData() {
 				this.$http("/enterprise.Enterprise/index", this.formData, "get", 1, true).then(res => {
 					this.listData = res.data.data.rows;
-					console.log(res, "+++++++++++++++++++++++++++++++++++++++++++");
 				})
 			},
 			selectBtn(index, name) {

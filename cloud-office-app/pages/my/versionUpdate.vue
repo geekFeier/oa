@@ -90,7 +90,6 @@
 					// 			plus.runtime.install(data.tempFilePath)
 					// 		},
 					// 		fail: (err) => {
-					// 			console.log(err);
 					// 			uni.showToast({
 					// 				icon: 'none',
 					// 				mask: true,

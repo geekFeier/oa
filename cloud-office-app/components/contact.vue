@@ -26,7 +26,6 @@
 		let m = arr.some(e => {
 			if (e.type == 1) {
 				var reg = new RegExp(s, 'i');
-				// console.log("reg: " , e.orgName,e);
 				let m = reg.test(e.username);
 				if (m) {
 					return true
@@ -112,7 +111,6 @@
 			},
 
 			changeRadioArr(e) {
-				console.log(e, "单选单选单选单选单选单选单选单选单选单选单选单选单选单选单选单选单选单选单选单选单选");
 				let indexs = null
 				this.container.forEach((item, index) => {
 					if (item.id == e.id) {
@@ -124,7 +122,6 @@
 
 			},
 			changeAllChecked() {
-				console.log("触发");
 				// this.container = [];
 				if (this.allChecked) {
 					this.treeRecursion(this.treeData, this.allChecked);
@@ -138,8 +135,6 @@
 				}
 				this.$http("enterprise.Jobs/list", params, "get").then(res => {
 
-					// this.treeData = res.data.data.group;
-					console.log(this.treeData);
 					// 获取
 					const list = res.data.data.group
 					list.forEach(e => {
@@ -161,17 +156,8 @@
 
 				})
 
-				console.log("选中的集合", active_list);
-
-				// let arr= []
-				// console.log(this.container)
-				// this.container.forEach(item=>{
-				// 	if(item.checked){
-				// 		arr.push(item)
-				// 	}
-				// })
+ 
 				this.$navigateBack(active_list)
-				// console.log(arr, "======================================");
 
 			},
 			allCheckedBtn() {
@@ -189,14 +175,10 @@
 							o.checked = false
 						})
 					})
-				}
-				// this.$forceUpdate()
-
-				// this.recursionTree(this.treeData);
+				} 
 			},
 			treeRecursion(arr, val) {
 				// this.container.forEach(item => {
-				// 	// console.log(item.checked, "==================", val, "Aaaaaaaaaaaaaaaaa");
 				// 	if (item.checked == val) {
 				// 		item.checked=val
 				// 		// this.container.push(item)
@@ -205,9 +187,7 @@
 				// 		this.treeRecursion(item.staff, val)
 				// 	}
 				// })
-				// console.log(this.container)
 
-				// console.log(arr, "======", val);
 			},
 			// recursionTree(arr) {
 			// 	arr.forEach(item => {

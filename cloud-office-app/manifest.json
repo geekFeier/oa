@@ -54,7 +54,6 @@
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
-                    "<uses-permission android:name=\"android.permission.MANAGE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ],
                 "abiFilters" : [ "armeabi-v7a", "x86" ],
@@ -142,6 +141,20 @@
                     "isCloud" : true,
                     "bought" : 1,
                     "pid" : "4607",
+                    "parameters" : {}
+                }
+            },
+            "GW-ChooseFileModule" : {
+                "__plugin_info__" : {
+                    "name" : "文件选择 Android - [试用版，仅用于自定义调试基座]",
+                    "description" : "Android文件选择，支持Android 12，支持多选、指定文件类型、搜索、排序。",
+                    "platforms" : "Android",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=10159",
+                    "android_package_name" : "",
+                    "ios_bundle_id" : "",
+                    "isCloud" : true,
+                    "bought" : 0,
+                    "pid" : "10159",
                     "parameters" : {}
                 }
             }

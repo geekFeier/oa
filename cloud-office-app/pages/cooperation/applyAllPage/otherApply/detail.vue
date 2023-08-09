@@ -11,6 +11,7 @@
 			</view>
 		</view>
 
+
 		<view class="main-box">
 			<view class="mainBox">
 				<view class="form-item">
@@ -34,6 +35,7 @@
 					</view>
 					<view class="form-item-value">{{detailData.remarks ?detailData.remarks :"无"}}</view>
 				</view>
+
 				<view class="form-item">
 					<view class="form-item-title">
 						凭证
@@ -45,7 +47,7 @@
 				</view>
 			</view>
 
-
+<!-- 
 			<view class="flowBox">
 				<view class="flowBox-title">
 					流程
@@ -62,7 +64,6 @@
 							<view class="flowBox-item-l-info">
 								<view class="flowBox-item-l-info-hd">
 									<text class="u-info1">发起申请</text>
-									<!-- <text class="u-info2">07.06 14:54</text> -->
 								</view>
 								<view class="flowBox-item-l-info-bd" style="margin-top: 10rpx; color: #7A7C94;">
 									{{detailData.user.id == userInfo.id ? "我" : detailData.user.username}}
@@ -88,7 +89,6 @@
 								<view class="flowBox-item-l-info">
 									<view class="flowBox-item-l-info-hd">
 										<text class="u-info1">审批人</text>
-										<!-- <text class="u-info2">07.06 14:54</text> -->
 									</view>
 									<view class="flowBox-item-l-info-bd" style="margin-top: 10rpx; color: #7A7C94;">
 										{{item.username}}({{item.status == 0 ? "等待审核" : (item.status == 1? "同意" : "拒绝") }})
@@ -108,16 +108,11 @@
 								style="background-color: #289CFF;border-radius: 8rpx;">
 								<image src="../../../../static/image/tongzhi.png" mode=""
 									style="width: 60rpx;height: 60rpx;margin-top: 12rpx;"></image>
-								<!-- 	<image src="../../../../static/image/launch_icon.png" class="flowBox-item-l-img"
-							mode=""></image> -->
-								<!-- 		<image src="../../../../static/image/tab1/success.png" class="flowBox-item-l-status"
-							mode=""></image> -->
 							</view>
 
 							<view class="flowBox-item-l-info">
 								<view class="flowBox-item-l-info-hd">
 									<text class="u-info1">抄送人</text>
-									<!-- <text class="u-info2">07.06 14:54</text> -->
 								</view>
 								<view class="flowBox-item-l-info-bd" style="margin-top: 10rpx; color: #7A7C94;">
 									已抄送{{detailData.audit.cc_persion.length}}人
@@ -141,17 +136,19 @@
 						</view>
 					</view>
 				</view>
-			</view>
-			<view class="btnGroup" v-if="detailData.status == 0 && detailData.user_id !== userInfo.id ">
+			</view> -->
+
+			<!-- <view class="btnGroup" v-if="detailData.status == 0 && detailData.user_id !== userInfo.id ">
 				<view class="btn1" @click="refuseBtn">
 					拒绝
 				</view>
 				<view class="btn2" @click="sureBtn">
 					同意
 				</view>
-			</view>
-			
+			</view> -->
 		</view>
+	
+	
 	</view>
 </template>
 
@@ -162,7 +159,7 @@
 	export default {
 		data() {
 			return {
-				imgData:[],
+				imgData: [],
 				detailData: {},
 				background: {
 					backgroundColor: "#FFFFFF",
@@ -170,10 +167,8 @@
 			};
 		},
 		onLoad(e) {
-			console.log(JSON.parse(decodeURIComponent(e.data)), "Aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			this.detailData = JSON.parse(decodeURIComponent(e.data));
-				this.imgData = this.detailData.images ? this.detailData.images.split(",") : []
-			// this.detailData.vihicel = JSON.parse(this.detailData.vihicel)
+			this.imgData = this.detailData.images ? this.detailData.images.split(",") : []
 		},
 		computed: {
 			...mapState({
@@ -240,7 +235,7 @@
 		display: flex;
 		justify-content: space-between;
 		margin: 30rpx 0;
-	
+
 		.btn1 {
 			width: 200rpx;
 			height: 80rpx;
@@ -251,7 +246,7 @@
 			text-align: center;
 			color: #7A7C94;
 		}
-	
+
 		.btn2 {
 			width: 462rpx;
 			height: 80rpx;
@@ -264,6 +259,7 @@
 			line-height: 80rpx;
 		}
 	}
+
 	.hrDiv {
 		width: 0;
 		height: 60rpx;

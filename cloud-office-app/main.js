@@ -48,12 +48,7 @@ Vue.prototype.$navigateTo = function(opt) {
 			reject(new Error("参数错误@" + opt))
 		} else {
 			let url = curr.route
-			// uni.$once(url,(res)=>{
-			// 	console.log("@once url=",url,res,resolve)
-			// 	if(resolve){
-			// 		resolve(res)
-			// 	}
-			// })
+		
 			
 			callbacks[url] = resolve
 			uni.navigateTo(opt)

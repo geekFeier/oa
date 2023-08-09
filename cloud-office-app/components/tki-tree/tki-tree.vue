@@ -141,7 +141,6 @@
 				this.ids=e
 			},
 			onItemClick(item) {
-				console.log('@treeonItemClick@ttttttree@')
 				if (this.checkAble(item)) {
 					this.$refs.chooser.chooseItem(item)
 				}
@@ -150,12 +149,10 @@
 			 * 设置默认选中项
 			 */
 			setDefChoose() {
-				console.log('@tree默认选中@ttttttree@')
 				if (this.checked) {
 					this.$refs.chooser.clear()
 					this.treeList.forEach(item => {
 						let ced = this.checked.indexOf(item.id + '') != -1
-						// console.log('@tree默认选中@tree@',this.checked,ced,item.id)
 						if (ced) {
 							this.$refs.chooser.setDefChoose(item)
 						}
@@ -169,7 +166,6 @@
 			hasChecked(item) {
 				if (this.multiple) {
 					let ced = this.checked.indexOf(item.id + '') != -1
-					// console.log('默认',ced,this.checked,item.id)
 					return ced
 				} else {
 					if (this.checked.length > 0) {
@@ -224,7 +220,6 @@
 						checked: item.checked ? item.checked : false,
 					})
 					if (Array.isArray(item.children) && item.children.length > 0) {
-						// console.log(item)
 						let parentid = [...parentId],
 							parentArr = [...parents],
 							childrenid = [...childrenid];
@@ -239,7 +234,6 @@
 						this.treeList[this.treeList.length - 1].lastRank = true;
 					}
 				})
-				// console.log(list)
 			},
 			// 处理默认选择
 			_defaultSelect() {

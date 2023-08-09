@@ -347,7 +347,6 @@
 					pageId: 1
 				}
 				this.$http("enterprise.applyfor.base/getReceiviPersion?pageId=2", params, "post").then(res => {
-					console.log(res, "saDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 					if (res.data.code == 1) {
 						this.copiedPeople = res.data.data.ccPerson;
 						this.recipientList = res.data.data.receiviPerson;
@@ -474,6 +473,10 @@
 				this.$navigateTo({
 					url: "/pages/cooperation/applyAllPage/sealApply/detail?data=" + encodeURIComponent(JSON
 						.stringify(item))
+				}).then(res => {
+					this.page = 1;
+					this.listData = [];
+					this.getListData();
 				})
 			},
 			submitBtn() {

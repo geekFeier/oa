@@ -143,9 +143,7 @@
 						showCancel: false,
 						success: function(res) {
 							if (res.confirm) {
-								//console.log('用户点击确定');
 							} else if (res.cancel) {
-								//console.log('用户点击取消');
 							}
 						}
 					});
@@ -154,7 +152,6 @@
 		},
 		watch: {
 			value(val, oldVal) {
-				//console.log('value',val, oldVal)
 				this.uploadLists = val;
 			},
 		},
@@ -167,7 +164,6 @@
 			previewVideoClose(e) {
 				e.stopPropagation()
 				this.previewVideoSrc = ''
-				console.log('previewVideoClose', this.previewVideoSrc)
 			},
 			imgDel(index) {
 				uni.showModal({

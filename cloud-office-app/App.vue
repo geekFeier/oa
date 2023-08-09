@@ -1,16 +1,7 @@
 <script>
 	export default {
 		onLaunch() {
-			console.log('App Launch');
-			// uni.connectSocket({
-			//   url: 'ws://cloud.yunzanet.com:8083'
-			// });
-			// uni.onSocketOpen(function (res) {
-			//   console.log('WebSocket连接已打开！');
-			// });
-			// uni.onSocketError(function (res) {
-			//   console.log('WebSocket连接打开失败，请检查！');
-			// });
+		 
 		},
 		onShow() {
 			 

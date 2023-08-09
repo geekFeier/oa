@@ -387,7 +387,6 @@
 				this.formData.cc_persion = this.copiedPeople.map(item => {
 					return item.id
 				}).join(",")
-				console.log(this.formData, "asDDDDDDDDDDDDDDDDDDD");
 				
 				let verifyParams = JSON.parse(JSON.stringify(this.formData))
 				delete verifyParams.remarks

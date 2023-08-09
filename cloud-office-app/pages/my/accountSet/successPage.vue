@@ -32,9 +32,7 @@
 			};
 		},
 		onLoad(e) {
-			console.log(e.data,"Aaaaaaaaaaaaaaaaaaaaa");
 			this.flag = e.flag;
-			// this.detailData = JSON.parse(e.data);
 		},
 		methods: {
 			goBack() {

@@ -63,7 +63,6 @@
 				this.$emit("input", this.popupList[this.digestValue.join()].name);
 				this.$emit("update:itemId", this.popupList[this.digestValue.join()].id);
 				this.$emit('update:isShowPopup', false)
-				console.log(this.popupList[this.digestValue.join()], "= popup 抛出 =");
 			}
 		}
 	}

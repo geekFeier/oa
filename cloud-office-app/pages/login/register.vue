@@ -78,7 +78,6 @@
 				this.$navigateTo({
 					url: `/pages/login/${val}?uid=${uid}`
 				}).then(res => {
-					console.log(res, "ASDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 				})
 			},
 			goLoginPage() {
@@ -107,7 +106,6 @@
 				})
 				if (this.newPassword === this.formData.password) {
 					this.$http("user/register", this.formData, "post", 2, true).then(res => {
-						console.log(res, "+++++++++++++++++++++++++++++++");
 						if (res.data.code == 1) {
 							uni.showToast({
 								title: "注册成功",

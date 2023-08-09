@@ -127,7 +127,6 @@
 			},
 
 			getnum() {
-				console.log(this.userInfo, ">>>>>>>>>")
 				this.$http("User/getMemberDateils", "get").then(res => {
 					if (res.data.code == 1) {
 						this.viplist = res.data.data[0]
@@ -135,7 +134,6 @@
 				})
 			},
 			dealContent(val) {
-				console.log(val)
 				return val.replace(/<img[^>]*>/ig, function(match, capture) {
 					// match 图片路径
 					let isExist = match.includes('https://'); // 是否包含https://

@@ -401,6 +401,10 @@
 				this.$navigateTo({
 					url: "/pages/cooperation/applyAllPage/payApply/detail?data=" + encodeURIComponent(JSON
 						.stringify(item))
+				}).then(res => {
+					this.page = 1;
+					this.listData = [];
+					this.getListData();
 				})
 			},
 			tabsChange(index) {

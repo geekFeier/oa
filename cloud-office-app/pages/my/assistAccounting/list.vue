@@ -43,7 +43,6 @@
 		onLoad(e) {
 			this.currentId = e.pid;
 			this.flag = e.flag ;
-				console.log(this.flag,"SDAsdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda");
 			this.getListData();
 		},
 		methods: {

@@ -361,6 +361,10 @@
 				this.$navigateTo({
 					url: "/pages/cooperation/applyAllPage/receiveApply/detail?data=" + encodeURIComponent(JSON
 						.stringify(item))
+				}).then(res => {
+					this.page = 1;
+					this.listData = [];
+					this.getListData();
 				})
 			},
 			submitBtn() {

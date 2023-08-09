@@ -116,13 +116,11 @@
 			this.params.k_id = e.id
 			this.getDetail();
 			uni.$on('choosePath', (res) => {
-				console.log(res.name, "KKKKKKKK")
 				this.currentTypeName = res.name
 			})
 		},
 		methods: {
 			goDetailPage(id) {
-				console.log(id, "+++++++++++++++++666666666666666666666666");
 				uni.navigateTo({
 					url: "/pages/my/beginningPeriod/detail?id=" + id
 				})
@@ -132,7 +130,6 @@
 					k_id: this.currentId
 				}
 				this.$http("enterprise.Subject/initializeParam", params, "get").then(res => {
-					console.log(res, "++++++++++++++++++++++++++++++++++++++");
 					this.formData = res.data.data;
 					this.currentTypeName = this.formData.balance_status == -1 ? "借" : "贷"
 					this.currentIndex = this.formData.hesuan == "normal" ? 0 : 1

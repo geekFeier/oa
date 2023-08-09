@@ -31,7 +31,6 @@
 		let m = arr.some(e => {
 			if (e.type == 1) {
 				var reg = new RegExp(s, 'i');
-				// console.log("reg: " , e.orgName,e);
 				let m = reg.test(e.orgName);
 				if (m) {
 					return true
@@ -105,18 +104,15 @@
 		},
 		computed: {},
 		mounted() {
-			console.log(this.searchStr, 'UUUUUUUUUUUUUUUUUUUUUUUUUU')
 			this.initIndexList()
 
 		},
 		onLoad() {
 			uni.$on('changeSelect', () => {
-				console.log(val, "aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			})
 		},
 		methods: {
 			onChangeRadioArr(e) {
-				console.log(111111, e);
 			},
 
 			changeRadioArr(val) {
@@ -155,12 +151,9 @@
 			 */
 			onSearch(e) {
 				let s = this.searchStr;
-				console.log(s, "SDAdadadadadadadadadadadadadadadadadada");
 				this.lastStr = this.searchStr
-				console.log("搜索！！！", e);
 				this.treeData.forEach(e => {
 					e.staff = someFun(e.staff, s)
-					// console.log("是否命中", e.childSearch, e.orgName);
 				})
 			},
 			/**
@@ -200,7 +193,6 @@
 				const unChecked = val.filter(item => {
 					return item.checked
 				})
-				console.log(unChecked)
 			}
 		},
 		watch: {

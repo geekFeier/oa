@@ -124,7 +124,6 @@
 							this.$store.dispatch("user/GET_TOKEN", res.data.data.userinfo);
 							this.$http("User/getUser", {}, "post").then(res => {
 								if (res.data.code == 1) {
-									console.log(11111111111111111, res.data.data)
 									this.$store.dispatch("user/GET_USER_INFO", res.data.data);
 									uni.showToast({
 										title: "登录成功",

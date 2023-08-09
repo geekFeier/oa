@@ -64,7 +64,6 @@
 		methods: {
 			uploadFile() {
 				const plugin = uni.requireNativePlugin('GuoWei-SelectFileModule')
-				console.log(plugin, "11111111111111111")
 				plugin.chooseFile({
 						count: 1,
 						// extension: ["docx", "xlsx","xls", "pptx",'pdf','doc','png','jpg','jpeg','bmp'],
@@ -74,8 +73,6 @@
 						fileIconColor: '#0000ff'
 					},
 					result => {
-						console.log('result.files[0].url')
-						console.log(result.files[0].url)
 						let pathTemp = result.files[0].url;
 						this.filePath = pathTemp;
 						//this.uploadFileFun(pathTemp)
@@ -99,8 +96,6 @@
 						token: uni.getStorageSync("token") || ""
 					},
 					success: (res) => {
-						console.log('res============')
-						console.log(res)
 						let _res = JSON.parse(res.data)
 						if (_res.code == 1) {
 							// this.fileUrl = `${img_url}${_res.data.url}`;

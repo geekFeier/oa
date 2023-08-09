@@ -42,10 +42,8 @@
 			},
 			getCate(){
 				this.$http("enterprise.report/CourseList", {}, "post").then(res => {
-					console.log(res)
 					if (res.data.code == 1) {
 						this.listData = res.data.data
-						console.log(this.listData,"LLLKKK")
 					}
 				})
 			},

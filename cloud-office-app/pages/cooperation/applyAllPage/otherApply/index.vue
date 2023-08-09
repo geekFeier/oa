@@ -223,7 +223,6 @@
 			this.getReceiviPersion();
 		},
 		onReachBottom:function(){
-			console.log(this.swiperCurrent,">>>>>>>>>>>>>>>")
 			if(this.swiperCurrent==1){
 				this.page++;
 				this.getListData();
@@ -401,6 +400,10 @@
 				this.$navigateTo({
 					url: "/pages/cooperation/applyAllPage/otherApply/detail?data=" + encodeURIComponent(JSON
 						.stringify(item))
+				}).then(res => {
+					this.page = 1;
+					this.listData = [];
+					this.getListData();
 				})
 			},
 			tabsChange(index) {

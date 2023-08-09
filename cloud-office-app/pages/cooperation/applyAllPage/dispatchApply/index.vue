@@ -255,7 +255,6 @@
 				this.formData.type = this.currentSelectType
 			},
 			sureTime(e) {
-				console.log(e, "-----------------------------------");
 				this.formData.time = `${e.year}-${e.month}-${e.day}`
 			},
 			showSelectPopup() {

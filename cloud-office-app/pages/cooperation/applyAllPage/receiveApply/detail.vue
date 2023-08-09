@@ -214,7 +214,6 @@
 			};
 		},
 		onLoad(e) {
-			console.log(JSON.parse(decodeURIComponent(e.data)),"Aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			this.detailData = JSON.parse(decodeURIComponent(e.data));
 			this.imgData = this.detailData.images ? this.detailData.images.split(",") : []
 			// this.detailData.vihicel = JSON.parse(this.detailData.vihicel)

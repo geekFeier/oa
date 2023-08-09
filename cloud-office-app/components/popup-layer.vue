@@ -62,13 +62,11 @@
 		},
 		mounted(){
 			if(this.showPop){
-				// console.log(222);
 				this.show();
 			}
 		},
 		watch:{
 			showPop(value){
-				console.log(value)
 				if(value){
 					this.show();
 				}else{

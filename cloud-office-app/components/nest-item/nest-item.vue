@@ -46,7 +46,6 @@ type:1
 				var reg = new RegExp(s, 'i');
 				// console.log("reg: " , e.orgName,e);
 				let m = reg.test(e.username);
-				console.log(m, "ASDsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsd");
 				if (m) {
 					return true
 				} else if (e.staff.length > 0) {
@@ -136,7 +135,6 @@ type:1
 			/* 递归全选 */
 			recursionTree(arr, val) {
 				let that = this;
-				console.log(arr, "=======================", val);
 				arr.forEach(item => {
 					item.checked = val;
 				})
@@ -175,7 +173,6 @@ type:1
 			},
 			match(nval, oval) {
 				if (nval && this.search != '' && this.value.staff) {
-					console.log("matchwatch: ", nval, oval, this.value);
 					this.value.open = true
 				} else {
 					this.value.open = false
@@ -194,7 +191,6 @@ type:1
 			// 		let cid = nval.map(e => e.id)
 			// 		this.value.checked = cid.indexOf(this.value.id) != -1
 			// 		this.$forceUpdate()
-			// 		// console.log(this.value.orgName,cid,"选中项");
 			// 	}
 			// }
 

@@ -54,7 +54,6 @@
 								this.imageData[index] = this.imageData[index].indexOf("http") >= 0 ? this.imageData[index] :
 									`${img_url}${this.imageData[index]}`
 							})
-							console.log(this.imageData, "SDAsdasdasdasdasdasdasdasdasdasdasdasda");
 						}
 					}
 				})

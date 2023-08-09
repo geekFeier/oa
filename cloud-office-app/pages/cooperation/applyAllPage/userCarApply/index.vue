@@ -518,7 +518,6 @@
 				this.formData.type = this.currentSelectType
 			},
 			sureTime(e) {
-				console.log(e, "-----------------------------------");
 				if (this.currentTimeType == 1) {
 					this.formData.begin_time = `${e.year}-${e.month}-${e.day}`;
 				} else if (this.currentTimeType == 2) {
@@ -541,6 +540,10 @@
 				this.$navigateTo({
 					url: "/pages/cooperation/applyAllPage/userCarApply/detail?data=" + encodeURIComponent(JSON
 						.stringify(item))
+				}).then(res => {
+					this.page = 1;
+					this.listData = [];
+					this.getListData();
 				})
 			},
 			tabsChange(index) {

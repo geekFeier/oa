@@ -151,7 +151,6 @@
 					return
 				} 
 				let params = Object.assign(param, this.params);
-				console.log(params, "++++++++++++++++++++++++++++++++++++");
 				this.$http("enterprise.Jobs/getoaauthlist?job_id=" + params.job_id, params, "post").then(res => {
 					if (res.data.code == 1) {
 						uni.showToast({

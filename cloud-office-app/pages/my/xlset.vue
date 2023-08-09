@@ -84,7 +84,6 @@
 					this.$navigateTo({
 						url: "./kemulist"
 					}).then(res => {
-						console.log(res,">>>>>>>>")
 						this.kemu_id = res.id;
 						this.account = res.name;
 						
@@ -97,11 +96,9 @@
 				this.isshow = true
 			},
 			confirm(e){
-				console.log(e[0].label)
 				this.addand = e[0].label
 			},
 			confirma(e){
-				console.log(e[0].label)
 				this.fseh = e[0].label
 				this.isfseh = e[0].value
 			},

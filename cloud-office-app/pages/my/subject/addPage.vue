@@ -238,7 +238,6 @@
 				})
 			},
 			sureBtn() {
-				console.log(this.formData.category_id, "asDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 				if(!this.formData.pid){
 					uni.showToast({
 						title:"请选择上级科目!",

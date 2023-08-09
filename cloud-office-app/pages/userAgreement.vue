@@ -20,7 +20,6 @@
 				this.$http("user/agreement", {}, "get").then(res => {
 					if (res.data.code == 1) {
 						this.reg_policy = res.data.data.user_agreement;
-						console.log(res, "sadDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
 					}
 				})
 			}

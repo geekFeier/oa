@@ -370,7 +370,6 @@
 				let verify = Object.values(verifyParams).every(item => {
 					return item != ""
 				})
-				console.log(this.formData,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 				
 				if (verify) {
 					this.$http("enterprise.applyfor.Kaipiao/CreateForm", this.formData, "post").then(res => {

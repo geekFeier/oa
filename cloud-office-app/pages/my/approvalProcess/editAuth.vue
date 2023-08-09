@@ -44,7 +44,6 @@
 			},
 			sureBtn() {
 				let arr = [];
-				console.log(this.list, "SDAsdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasda");
 			
 				this.list.forEach(item => {
 					if (item.checked) {
