@@ -47,7 +47,7 @@
 				</view>
 			</view>
 
-<!-- 
+
 			<view class="flowBox">
 				<view class="flowBox-title">
 					流程
@@ -115,7 +115,7 @@
 									<text class="u-info1">抄送人</text>
 								</view>
 								<view class="flowBox-item-l-info-bd" style="margin-top: 10rpx; color: #7A7C94;">
-									已抄送{{detailData.audit.cc_persion.length}}人
+									已抄送{{detailData.audit.cc_persion && detailData.audit.cc_persion.length}}人
 								</view>
 								<view class="flowBox-item-l-info-bd-list flex" style="margin-top: 8rpx;">
 									<view
@@ -136,16 +136,16 @@
 						</view>
 					</view>
 				</view>
-			</view> -->
+			</view>
 
-			<!-- <view class="btnGroup" v-if="detailData.status == 0 && detailData.user_id !== userInfo.id ">
+			<view class="btnGroup" v-if="detailData.status == 0 && detailData.user_id !== userInfo.id ">
 				<view class="btn1" @click="refuseBtn">
 					拒绝
 				</view>
 				<view class="btn2" @click="sureBtn">
 					同意
 				</view>
-			</view> -->
+			</view>
 		</view>
 	
 	

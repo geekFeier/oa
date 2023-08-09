@@ -357,8 +357,7 @@
 				this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
 				this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
 				this.getList();
-			}
-			this.getList();
+			} 
 			this.getZiJinData();
 			this.getGatheringData();
 			
@@ -526,6 +525,7 @@
 						this.$store.dispatch("user/GET_USER_INFO", res.data.data);
 						this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
 						this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
+            this.getList()
 					}
 				})
 			},

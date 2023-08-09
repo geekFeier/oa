@@ -141,9 +141,21 @@
         </view>
       </view>
 
-      <view style="display: flex; justify-content: space-between; margin-bottom: 10rpx">
-        <view class="btn3" v-if="personType == 3" @click="toVoucher">
-          新增凭证
+      <view class="mainBox" style="padding:0; margin: 30rpx 0;" v-if="personType == 3">
+        <view class="form-item">
+          <view class="form-item-title">
+            选择账套
+          </view>
+          <view style=" display: flex; justify-content: space-between;width:100%; margin-bottom: 10rpx">
+            <view class="form-item-value" style="width: 200rpx;" @click="openPopup">
+              <text>{{accountText}} </text>
+              <u-icon name="arrow-down-fill" style="margin-left: 8rpx;"></u-icon>
+            </view>
+            <view class="btn3" @click="toVoucher">
+              新增凭证
+            </view>
+          </view>
+
         </view>
       </view>
 
@@ -156,7 +168,42 @@
         </view>
       </view>
     </view>
- 
+
+    <u-popup v-model="isShowPopop" mode="bottom" border-radius="56">
+      <view class="popup-main">
+        <view class="popup-common-title">
+          — 选择账套 —
+        </view>
+        <view class="financial-popup-main">
+          <view class="financial-popup-item " v-for="(item,index) in listData" @click="selectAccount(item.id,index)" :key="index">
+            <view class="popup-item-l">
+              <view class="financial-popup-item-hd">
+                <text class="financial-popup-hd-txt">{{item.name}}</text>
+                <view class="financial-popup-hd-status" v-if="item.id == defaultId">
+                  进行中
+                </view>
+              </view>
+              <view class="financial-popup-item-bd">
+                启用时间：{{ item.start_time | filterTime}} {{item.cate.name}}
+              </view>
+            </view>
+            <view class="popup-item-r">
+              <!-- <image src="../../../static/image/tab2/select.png" mode=""></image> -->
+              <image :src="cuttnetId == item.id ? selecta : select" style="width: 40rpx;height: 40rpx;" mode=""></image>
+            </view>
+          </view>
+        </view>
+        <view class="popup-common-btnGroup">
+          <view class="popup-common-btn" @click="isShowPopop = false">
+            取消
+          </view>
+          <view class="popup-common-btn active" @click="sureAccountBtn">
+            确定
+          </view>
+        </view>
+      </view>
+    </u-popup>
+
   </view>
 </template>
 
@@ -164,14 +211,29 @@
 import {
   mapState
 } from "vuex"
+import dayjs from '@/utils/dayjs';
 export default {
   data() {
     return {
+      selecta: "../../../../static/image/tab2/selecta.png",
+      select: "../../../../static/image/tab2/select.png",
       imgData: [],
       detailData: {},
       background: {
         backgroundColor: "#FFFFFF",
       },
+      isShowPopop: false,
+      cuttnetId: 0,
+      defaultId: "",
+      personType: "",
+      enterprice: {},
+      accountText: "",
+      currentPage: {
+        page: 1,
+        limit: 10
+      },
+      userInfo: {},
+      listData: [],
     };
   },
   filters: {
@@ -183,19 +245,67 @@ export default {
       } else if (val == 1) {
         return "red"
       }
+    },
+    filterTime(val) {
+      return dayjs(val).format("YYYY年MM月")
     }
-  },
-  computed: {
-    ...mapState({
-      userInfo: state => state.user.userInfo,
-      personType: state => state.user.personType
-    })
   },
   onLoad(e) {
     this.detailData = JSON.parse(decodeURIComponent(e.data));
     this.imgData = this.detailData.images ? this.detailData.images.split(",") : []
+
+    this.getUserInfo();
+    this.personType = uni.getStorageSync('personType')
+    this.enterprice = uni.getStorageSync('enterprise')
+
+    if (this.personType == 1 || this.personType == 3) {
+      this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
+      this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
+      this.getList();
+    }
+    this.getList();
+
   },
   methods: {
+    getUserInfo() {
+      this.$http("/User/getUser", {}, "post").then(res => {
+        if (res.data.code == 1) {
+          this.userInfo = res.data.data
+
+          this.$store.dispatch("user/GET_USER_INFO", res.data.data);
+          this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
+          this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
+        }
+      })
+    },
+    getList() {
+      let params = {
+        offset: (this.page - 1) * 10,
+        page: this.page,
+        limit: this.limit
+      }
+      this.$http("enterprise.Account_books/index", params, "post").then(res => {
+        if (res.data.code == 1) {
+          this.listData = res.data.data.rows;
+          if (this.userInfo.account_books_id) {
+            this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
+              .account_books_id);
+            this.accountText = this.accountText ? this.accountText.name : "请选择"
+          } else {
+            if (this.userInfo.is_admin == 'staff') {
+              this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
+                .jobs.account_books_id);
+              this.accountText = this.accountText ? this.accountText.name : "请选择"
+            } else {
+              this.accountText = "请选择";
+            }
+          }
+        } else {
+          this.listData = [];
+          this.accountText = "请选择";
+        }
+      })
+    },
     refuseBtn() {
       let params = {
         key: this.detailData.id,
@@ -245,7 +355,30 @@ export default {
       uni.previewImage({
         urls: this.imgData
       })
-    }
+    },
+    openPopup() {
+      this.isShowPopop = true;
+    },
+    sureAccountBtn() {
+      let params = {
+        akid: this.cuttnetId
+      }
+      uni.showLoading({
+        title: '切换中'
+      })
+
+      this.$http("enterprise.Account_books/booksChanges", params, "post").then(res => {
+        uni.hideLoading()
+
+        if (res.data.code == 1) {
+          this.isShowPopop = false;
+          this.getUserInfo()
+        }
+      })
+    },
+    selectAccount(id) {
+      this.cuttnetId = id;
+    },
   }
 }
 </script>
@@ -280,7 +413,7 @@ export default {
   }
 }
 .btn3 {
-  width: 100%;
+  width: 462rpx;
   height: 80rpx;
   background: #4396f7;
   border-radius: 12rpx;
@@ -288,6 +421,7 @@ export default {
   font-size: 30rpx;
   text-align: center;
   line-height: 80rpx;
+  margin-left: 24rpx;
 }
 .hrDiv {
   width: 0;
@@ -448,5 +582,76 @@ page {
 
 .green {
   color: #12d592;
+}
+.popup-main {
+  .popup-common-title {
+    font-size: 36rpx;
+    color: #150e33;
+    text-align: center;
+    margin-top: 56rpx;
+  }
+
+  .active {
+    background: #4396f7 !important;
+    color: #ffffff !important;
+  }
+
+  .popup-common-btnGroup {
+    display: flex;
+    padding: 0 50rpx;
+    justify-content: space-between;
+    font-size: 30rpx;
+    margin-top: 50rpx;
+    margin-bottom: 32rpx;
+
+    .popup-common-btn {
+      width: 260rpx;
+      height: 80rpx;
+      background: #f6f9fe;
+      border-radius: 12rpx;
+      color: #7a7c94;
+      text-align: center;
+      line-height: 80rpx;
+    }
+  }
+
+  .financial-popup-main {
+    padding: 0 32rpx;
+
+    .financial-popup-item {
+      margin-top: 32rpx;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eef2ff;
+      padding-bottom: 32rpx;
+
+      .financial-popup-item-hd {
+        display: flex;
+        align-items: center;
+
+        .financial-popup-hd-status {
+          background: #ff253d;
+          border-radius: 48rpx;
+          padding: 4rpx 8rpx;
+          color: #fff;
+          font-size: 24rpx;
+          margin-left: 16rpx;
+        }
+
+        .financial-popup-hd-txt {
+          font-size: 32rpx;
+          color: #150e33;
+          font-weight: bold;
+        }
+      }
+
+      .financial-popup-item-bd {
+        color: #7a7c94;
+        font-size: 28rpx;
+        margin-top: 30rpx;
+      }
+    }
+  }
 }
 </style>
