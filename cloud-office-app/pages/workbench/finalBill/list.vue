@@ -1,7 +1,9 @@
 <template>
   <view>
+    <!-- TODO: -->
     <u-navbar :is-back="true" :title="flag==1 ? '新增结转'  : '编辑结转'" :border-bottom="false" back-icon-color="#000" :background="background" title-color="#000" :height="55">
     </u-navbar>
+      <button type="default" class="charu-btn" @click="sureVoucherBtn1(1)" v-if="!goodlist.length">插入行</button>
 
     <view>
       <u-form ref="uForm">
@@ -43,7 +45,7 @@
 
         <picker-view class="picker-view" style="height: 380rpx;" :value="digestValue1" @change="changePicker1">
           <picker-view-column>
-            <view class="item" v-for="(item,index) in list1.filter(item=>goodlist.length > 1 ? true : item.id === 1)" :key="index">{{item.name}}</view>
+            <view class="item" v-for="(item,index) in list1" :key="index">{{item.name}}</view>
           </picker-view-column>
         </picker-view>
 
@@ -51,7 +53,7 @@
           <view class="popup-common-btn" @click="isShowDialog1 = false">
             取消
           </view>
-          <view class="popup-common-btn active" @click="sureVoucherBtn1">
+          <view class="popup-common-btn active" @click="sureVoucherBtn1()">
             确定
           </view>
         </view>
@@ -180,12 +182,13 @@ export default {
         this.$forceUpdate()
       })
     },
-    sureVoucherBtn1() {
+    sureVoucherBtn1(id) {
       this.isShowDialog1 = false;
-      let currentIndex = this.list1[this.digestValue1.join()].id;
-      if (currentIndex == 2) {
+      let index = id || this.list1[this.digestValue1.join()].id;
+      if (index == 2) {
+        if(!this.currentIndex) this.currentIndex = 0;
         this.goodlist.splice(this.currentIndex, 1)
-      } else if (currentIndex == 1) {
+      } else if (index == 1) {
         // TODO:
         this.goodlist.push({
           kemu_id: '',
@@ -381,5 +384,16 @@ export default {
   width: 90%;
   color: #fff;
   margin: 32rpx auto;
+}
+.charu-btn{
+  width: 90%;
+  height: 80rpx;
+  background: #4396f7;
+  border-radius: 49px;
+  color: #fff;
+  text-align: center;
+  line-height: 80rpx;
+  margin-top: 32rpx;
+  margin-bottom: 32rpx;
 }
 </style>

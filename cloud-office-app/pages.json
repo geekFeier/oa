@@ -1,875 +1,836 @@
 {
-	"easycom": {
-		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
-	},
-	"pages": [ 
-		{
-			"path": "pages/launch",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/login/forgetPass",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/login/register",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/login/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/login/authCentreSigning",
-			"style": {
-				"navigationBarTitleText": "企业认证",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "pages/login/selectUnit",
-			"style": {
-				"navigationBarTitleText": "选择单位",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/userAgreement",
-			"style": {
-				"navigationBarTitleText": "用户协议",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/tabbar/tab-1/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-		}, {
-			"path": "pages/tabbar/tab-2/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/tabbar/tab-3/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/generationOffice/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/workbench/generationOffice/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/generationOffice/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "components/contact",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/signPage/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/schedule/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/memo/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/memo/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/memo/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/voucher/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/voucher/uploadPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/voucher/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/voucher/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/finalBill/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/finalBill/status",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/bjzcfzlist",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/bjzcfzset",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/bjset",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/fdetail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/jzlist",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/bjjz",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/set",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},{
-			"path": "pages/workbench/finalBill/zcfzlist",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/finalBill/zcfzset",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/finalBill/autobalance",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/finalBill/bjautobalance",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/safeguard/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/announcement/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/cooperation/announcement/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/sealApply/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/maketTicketApply/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/userCarApply/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/receiveApply/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/payApply/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/otherApply/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/dispatchApply/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/safeguard/detail",
-			"style": {
-				"navigationStyle": "custom" 
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/sealApply/detail",
-			"style": {
-				"navigationStyle": "custom" 
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/maketTicketApply/detail",
-			"style": {
-				"navigationStyle": "custom" 
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/userCarApply/detail",
-			"style": {
-				"navigationStyle": "custom" 
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/receiveApply/detail",
-			"style": {
-				"navigationStyle": "custom" 
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/payApply/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/cooperation/applyAllPage/otherApply/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/cooperation/applyAllPage/dispatchApply/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/invoice/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		
-		},{
-			"path": "pages/my/setting/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/slideshow/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/subject/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/subject/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/beginningPeriod/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/beginningPeriod/editPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/beginningPeriod/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/beginningPeriod/trialBalancing",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/assistAccounting/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/assistAccounting/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/assistAccounting/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/gonggao/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		}, {
-			"path": "pages/my/gonggao/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/gonggao/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/workersSet/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/workersSet/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/workersSet/jobList",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/workersSet/transferAuth",
-			"style": {
-				"navigationStyle": "custom",
-				"onReachBottomDistance": 100
-			}
-
-		}, {
-			"path": "pages/my/workersSet/transferAuth2",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/approvalProcess/index",
-			"style": {
-				"navigationStyle": "custom",
-				 "onReachBottomDistance": 150
-			}
-
-		}, {
-			"path": "pages/my/approvalProcess/editAuth",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/approvalProcess/settingPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/accountSet/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/accountSet/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/accountSet/successPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/editPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/pushSetting/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/pushSetting/addPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},
-		{
-			"path": "pages/my/pushSetting/detail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/my/subject/selectPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/voucher/viewImg",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/voucher/editPage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/leaveMessage/index",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-		}, {
-			"path": "pages/workbench/leaveMessage/addpage",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/workbench/leaveMessage/detail",
-			"style": {
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-		}, {
-			"path": "pages/workbench/accountBalanceSheet/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		}, {
-			"path": "pages/workbench/detailAccount/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-
-		},
-		{
-			"path": "pages/workbench/fuzhuBalance/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		
-		}, {
-			"path": "pages/workbench/fuzhuBalance/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		
-		}, {
-			"path": "pages/workbench/fuzhuDetail/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		
-		}, {
-			"path": "pages/workbench/fuzhuDetail/list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		
-		}
-	    ,{
-            "path" : "pages/my/postMgt/index",
-            "style" :                                                                                    
-            {
-              "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/postMgt/addPage",
-            "style" :                                                                                    
-            {
-             	"navigationStyle": "custom"
-            }
-            
-        }    ,{
-            "path" : "pages/my/vip/index",
-            "style" :                                                                                    
-            {
-             	"navigationStyle": "custom"
-            }
-            
-        } ,{
-            "path" : "pages/my/vip/payPage",
-            "style" :                                                                                    
-            {
-             	"navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/vip/invoicePage",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/workbench/schedule/list",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom"
-            }
-            
-        }  
-		,{
-            "path" : "pages/workbench/schedule/detail",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/workbench/detailAccount/list",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/pieChatSet/index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/vip/dilatation/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/cloudPan/myFile",
-            "style" :                                                                                    
-            {
-                    "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/cloudPan/fileList",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/feedback/index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom"
-            }
-            
-        }
-		/* 现金流量表 */
-        ,{
-            "path" : "pages/workbench/cashFlowStatement/index",
-            "style" :                                                                                    
-            {
-                  "navigationStyle": "custom"
-            }
-            
-        }
-		/* 资产负债 */
-        ,{
-            "path" : "pages/workbench/assetAndLiability/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/vip/advertising/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/vip/success",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/cloudPan/fileList2",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/cloudPan/addFile",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        }   ,{
-            "path" : "pages/my/versionUpdate",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/zcfzset",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/lrbset",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/zcfzlist",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/lrblist",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/xllist",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/xlset",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/my/kemulist",
-            "style" :                                                                                    
-            {
-                 "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/workbench/incomeStatement/index",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom"
-            }
-            
-        },
-				{
-            "path" : "pages/cooperation/file/index",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-            
-        },
-				{
-            "path" : "pages/cooperation/file/addFile",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-            
-        },{
-            "path" : "pages/workbench/fuzhuDetail/list1",
-            "style" :                                                                                    
-            {
-               "navigationStyle": "custom"
-            }
-        } 
-    ],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "white",
-		"backgroundColor": "white"
-	},
-	"tabBar": {
-		"color": "#7A7C94",
-		"selectedColor": "#007EC5",
-		"borderStyle": "black",
-		"backgroundColor": "white",
-		"list": [{
-			"pagePath": "pages/tabbar/tab-1/index",
-			"iconPath": "static/image/tabbar/1.png",
-			"selectedIconPath": "static/image/tabbar/1-1.png",
-			"text": "工作台"
-		}, {
-			"pagePath": "pages/tabbar/tab-2/index",
-			"iconPath": "static/image/tabbar/2.png",
-			"selectedIconPath": "static/image/tabbar/2-2.png",
-			"text": "协作"
-		}, {
-			"pagePath": "pages/tabbar/tab-3/index",
-			"iconPath": "static/image/tabbar/3.png",
-			"selectedIconPath": "static/image/tabbar/3-3.png",
-			"text": "我的"
-		}]
-	},
-	"condition" : { //模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "", //模式名称
-				"path": "", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}
-		]
-	}
+  "easycom": {
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+  },
+  "pages": [
+    {
+      "path": "pages/launch",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/forgetPass",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/register",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/authCentreSigning",
+      "style": {
+        "navigationBarTitleText": "企业认证",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/login/selectUnit",
+      "style": {
+        "navigationBarTitleText": "选择单位",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/userAgreement",
+      "style": {
+        "navigationBarTitleText": "用户协议",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/tabbar/tab-1/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/tabbar/tab-2/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/tabbar/tab-3/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/generationOffice/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/workbench/generationOffice/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/generationOffice/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "components/contact",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/signPage/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/schedule/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/memo/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/memo/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/memo/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/voucher/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/voucher/uploadPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/voucher/list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/voucher/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/status",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/bjzcfzlist",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/bjzcfzset",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/bjset",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/fdetail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/jzlist",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/bjjz",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/set",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/zcfzlist",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/zcfzset",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/autobalance",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/finalBill/bjautobalance",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/safeguard/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/announcement/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/announcement/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/sealApply/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/maketTicketApply/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/userCarApply/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/receiveApply/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/payApply/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/otherApply/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/dispatchApply/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/safeguard/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/sealApply/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/maketTicketApply/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/userCarApply/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/receiveApply/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/payApply/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/otherApply/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/applyAllPage/dispatchApply/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/invoice/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/setting/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/slideshow/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/subject/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/subject/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/beginningPeriod/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/beginningPeriod/editPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/beginningPeriod/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/beginningPeriod/trialBalancing",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/assistAccounting/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/assistAccounting/list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/assistAccounting/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/gonggao/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/my/gonggao/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/gonggao/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/workersSet/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/workersSet/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/workersSet/jobList",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/workersSet/transferAuth",
+      "style": {
+        "navigationStyle": "custom",
+        "onReachBottomDistance": 100
+      }
+    },
+    {
+      "path": "pages/my/workersSet/transferAuth2",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/approvalProcess/index",
+      "style": {
+        "navigationStyle": "custom",
+        "onReachBottomDistance": 150
+      }
+    },
+    {
+      "path": "pages/my/approvalProcess/editAuth",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/approvalProcess/settingPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/accountSet/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/accountSet/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/accountSet/successPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/editPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/pushSetting/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/pushSetting/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/pushSetting/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/subject/selectPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/voucher/viewImg",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/voucher/editPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/leaveMessage/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/workbench/leaveMessage/addpage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/leaveMessage/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/workbench/accountBalanceSheet/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/detailAccount/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/fuzhuBalance/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/fuzhuBalance/list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/fuzhuDetail/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/fuzhuDetail/list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/postMgt/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/postMgt/addPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/vip/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/vip/payPage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/vip/invoicePage",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/schedule/list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/schedule/detail",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/detailAccount/list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/pieChatSet/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/vip/dilatation/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/cloudPan/myFile",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/cloudPan/fileList",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/feedback/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/cashFlowStatement/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/assetAndLiability/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/vip/advertising/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/vip/success",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/cloudPan/fileList2",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/cloudPan/addFile",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/versionUpdate",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/zcfzset",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/lrbset",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/zcfzlist",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/lrblist",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/xllist",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/xlset",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/my/kemulist",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/incomeStatement/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/file/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/cooperation/file/addFile",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/workbench/fuzhuDetail/list1",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "white",
+    "backgroundColor": "white"
+  },
+  "tabBar": {
+    "color": "#7A7C94",
+    "selectedColor": "#007EC5",
+    "borderStyle": "black",
+    "backgroundColor": "white",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/tab-1/index",
+        "iconPath": "static/image/tabbar/1.png",
+        "selectedIconPath": "static/image/tabbar/1-1.png",
+        "text": "工作台"
+      },
+      {
+        "pagePath": "pages/tabbar/tab-2/index",
+        "iconPath": "static/image/tabbar/2.png",
+        "selectedIconPath": "static/image/tabbar/2-2.png",
+        "text": "协作"
+      },
+      {
+        "pagePath": "pages/tabbar/tab-3/index",
+        "iconPath": "static/image/tabbar/3.png",
+        "selectedIconPath": "static/image/tabbar/3-3.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "condition": {
+    "current": 0,
+    "list": [
+      {
+        "name": "", 
+        "path": "", 
+        "query": "" 
+      }
+    ]
+  }
 }
