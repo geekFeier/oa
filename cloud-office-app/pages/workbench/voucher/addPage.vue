@@ -240,7 +240,7 @@ export default {
     },
     goKeMu(index) {
       this.$navigateTo({
-        url: "/pages/my/subject/selectPage"
+        url: "/pages/my/subject/selectPage?from=addPage"
       }).then(res => {
         this.credentials[index].kemu_id = res.id;
         this.credentials[index].subject_headings = res.name;

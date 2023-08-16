@@ -17,7 +17,7 @@
     <view class="view-list">
       <view class="flex1">选择科目</view>
       <view class="flex1">选择方向</view>
-      <view class="flex1">选择借贷差</view>
+      <view class="flex1">金额</view>
     </view>
     <view v-for="(item,index) in goodlist" :key="index">
       <view class="view-lista">
@@ -142,14 +142,14 @@ export default {
       this.currentIndex = index;
       this.isShowDialog1 = true;
     },
-    goQushu(index) {
+    goQushu(i) {
       this.$navigateTo({
-        url: "/pages/my/zcfzlist"
+        url: "./zcfzset"
       }).then(res => {
         // TODO:
-        // this.goodlist[index].kemu_id = res.id;
-        // this.goodlist[index].subject_headings = res.name;
-        // this.goodlist[index].balance_status = res.balance_status == -1 ? true : false;
+        // this.goodlist[i].kemu_id = res.id;
+        // this.goodlist[i].subject_headings = res.name;
+        // this.goodlist[i].balance_status = res.balance_status == -1 ? true : false;
         // let dataArr = res.hesuan_list.map(item => {
         //   return {
         //     name: item.name,
@@ -157,9 +157,8 @@ export default {
         //     memberName: ""
         //   }
         // })
-        console.log('aaaa', res)
-        this.goodlist[index].xxx3 = 'xxx';
-        this.$forceUpdate()
+        // this.goodlist[i].xxx3 = 'xxx';
+        // this.$forceUpdate()
       })
     },
     goKeMu(index) {

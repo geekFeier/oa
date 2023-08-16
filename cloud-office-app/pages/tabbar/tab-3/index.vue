@@ -222,12 +222,7 @@
 				uni.navigateTo({
 					url: `/pages/my/${val}/index`
 				})
-			},
-			// zcfz(){
-			// 	uni.navigateTo({
-			// 		url:'../../my/zcfzlist'
-			// 	})
-			// },
+			}, 
 			goSetting() {
 
 			}

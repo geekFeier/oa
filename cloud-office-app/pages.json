@@ -741,13 +741,7 @@
       "style": {
         "navigationStyle": "custom"
       }
-    },
-    {
-      "path": "pages/my/lrblist",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
+    }, 
     {
       "path": "pages/my/xllist",
       "style": {

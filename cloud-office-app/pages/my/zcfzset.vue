@@ -7,24 +7,35 @@
       <view class="kemu">{{account}}</view>
       <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
     </view>
+    <view class="view-list">
+      <view>方向:</view>
+      <view class="kemu"></view>
+      <view class="flex flex-ac">
+        <view style="padding-right:5rpx">{{ direction ? '借' : '贷' }}</view>
+        <u-switch space="2" v-model="direction" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
+        </u-switch>
+      </view>
+    </view>
     <view class="view-list" @click="add()">
       <view>运算符号:</view>
-      <view class="kemu">{{addand}}</view>
+      <view class="kemu">{{operator}}</view>
+      <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
+    </view>
+    <view class="view-list" @click="sourceF()">
+      <view>数据来源:</view>
+      <view class="kemu">{{source}}</view>
       <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
     </view>
     <button type="default" class="sure_btn" @click="sureBtn">添加</button>
     <u-select v-model="show" mode="single-column" :list="list" @confirm="confirm"></u-select>
+    <u-select v-model="show2" mode="single-column" :list="list2" @confirm="confirm2"></u-select>
   </view>
 </template>
 
 <script>
 import {
   mapState
-} from "vuex";
-import {
-  url_config,
-  img_url
-} from "@/config/config.js"
+} from "vuex"; 
 export default {
   data() {
     return {
@@ -33,11 +44,13 @@ export default {
         backgroundColor: "#FFFFFF",
       },
       account: '请选择科目',
-      addand: '请选择运算符号',
+      operator: '请选择运算符号',
+      source: '请选择数据来源', 
       kemu_id: '',
+      direction:true,
       show: false,
+      show2: false,
       operator: '',
-      addan: '',
       list: [
         {
           value: '加',
@@ -47,6 +60,20 @@ export default {
           value: '减',
           label: '-'
         }
+      ],
+      list2: [ 
+        {
+          value: 1,
+          label: '期初'
+        },
+        {
+          value: 2,
+          label: '本期'
+        },
+        {
+          value: 3,
+          label: '期末'
+        },
       ]
     };
   },
@@ -55,27 +82,29 @@ export default {
       userInfo: state => state.user.userInfo
     })
   },
-  onLoad(e) {
-    console.log(e.id)
+  onLoad(e) { 
     this.id = e.id
   },
   methods: {
     selectname() {
       this.$navigateTo({
         url: "./kemulist"
-      }).then(res => {
-        console.log(res, ">>>>>>>>")
+      }).then(res => { 
         this.kemu_id = res.id;
         this.account = res.name;
-
       })
     },
     add() {
       this.show = true
     },
+    sourceF() {
+      this.show2 = true
+    },
     confirm(e) {
-      console.log(e[0].label)
-      this.addand = e[0].label
+      this.operator = e[0].label
+    },
+    confirm2(e) {
+      this.source = e[0].label
     },
     //添加
     sureBtn() {
@@ -86,19 +115,28 @@ export default {
         })
         return
       }
-      if (this.addand == '请选择运算符号') {
+      if (this.operator == '请选择运算符号') {
         uni.showToast({
           title: "请选择运算符号",
           icon: "none"
         })
         return
       }
+      if (this.source == '请选择数据来源') {
+        uni.showToast({
+          title: "请选择数据来源",
+          icon: "none"
+        })
+        return
+      }
+     
       this.$http("enterprise.report/ARormulaToCalculate", {
         kemu_id: this.kemu_id,
-        operator: this.addand,
-        user_calc_cate_id: this.id
+        operator: this.operator,
+        user_calc_cate_id: this.id,
+        source:this.list2.find(item=>item.label === this.source).value ,
+        direction:this.direction ? 1 : 2
       }, "post").then(res => {
-        console.log(res)
         if (res.data.code == 1) {
           uni.showToast({
             title: "添加成功",
@@ -115,6 +153,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flex{
+  display: flex;
+}
+.flex-ac{
+  display: flex;
+  align-items: center;
+}
 .sure_btn {
   background: #4396f7;
   border-radius: 49px;

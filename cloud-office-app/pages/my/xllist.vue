@@ -38,6 +38,7 @@
 		},
 		methods: {
 			getload(){
+        // 现金流量表，应该不用改
 				this.$http("enterprise.report/ListOfCalculationFormulas", 
 				{user_calc_cate_id:this.id}, "post").then(res => {
 					console.log(res)

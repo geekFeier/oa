@@ -62,8 +62,7 @@
 			autbalance(){
 				this.$navigateTo({
 					url: "./zcfzlist"
-				}).then(res => {
-					console.log(res,"KKKKKKKKKK")
+				}).then(res => { 
 					this.jk = '已选择'
 					this.credentials.formula = JSON.parse(res)
 				})
@@ -71,8 +70,7 @@
 			goKeMu(index) {
 				this.$navigateTo({
 					url: "/pages/my/subject/selectPage"
-				}).then(res => {
-					console.log(res,">>>>>>>>")
+				}).then(res => { 
 					this.credentials.kemu_id = res.id;
 					this.credentials.abstract = res.name;
 					// this.credentials[index].balance_status = res.balance_status == -1 ? true : false;
