@@ -25,8 +25,8 @@
 					{{item.name}}
 				</view>
 			</view> --> 
-			<view v-for="(item,index) in listData.filter(item=>from === 'addPage' ? item.is_have_children == '-1' : true)" :key="index">
-        <selectItem :item="item" :flag="2"></selectItem>
+			<view v-for="(item,index) in listData" :key="index">
+        <selectItem :item="item" :flag="2" :from="from"></selectItem>
 			</view>
 		</view>
 

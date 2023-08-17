@@ -1,14 +1,24 @@
 <template>
 	<view class="itemBox">
-		<view class="main-item" @click="selectBtn(item)">
-			<view class="main-item-l">
-				{{item.serial}}
-			</view>
-			<view class="main-item-r">
-				{{item.name}}
-			</view>
-		</view>
-		<select-item v-if="item.children" :flag="flag" v-for="(item,index) in item.children" :item="item" :key="item.id"></select-item>
+		<template v-if="from === 'addPage'">
+      <view class="main-item" @click="selectBtn(item)" v-if="item.is_have_children == '-1'">
+        <view class="main-item-l">
+          {{item.serial}}
+        </view>
+        <view class="main-item-r">
+          {{item.name}}
+        </view>
+      </view> 
+    </template>
+    <view class="main-item" @click="selectBtn(item)" v-else>
+        <view class="main-item-l">
+          {{item.serial}}
+        </view>
+        <view class="main-item-r">
+          {{item.name}}
+        </view>
+      </view>
+		<select-item v-if="item.children" :flag="flag" v-for="(item,index) in item.children" :item="item" :key="item.id" :from="from"></select-item>
 	</view>
 </template>
 
@@ -24,7 +34,11 @@
 			flag:{
 				default:1,
 				type:Number
-			}
+			},
+      from:{
+        default:'',
+        type:String
+      }
 		},
 		
 		data() {
