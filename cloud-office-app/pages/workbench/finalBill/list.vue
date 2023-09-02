@@ -1,34 +1,34 @@
 <template>
   <view>
-    <!-- TODO: -->
     <u-navbar :is-back="true" :title="flag==1 ? '新增结转'  : '编辑结转'" :border-bottom="false" back-icon-color="#000" :background="background" title-color="#000" :height="55">
     </u-navbar>
-      <button type="default" class="charu-btn" @click="sureVoucherBtn1(1)" v-if="!goodlist.length">插入行</button>
-
+    <button type="default" class="charu-btn" @click="sureVoucherBtn1(1)" v-if="!children.length">插入行</button>
     <view>
       <u-form ref="uForm">
         <view style=" padding:0 20rpx 10rpx;">
-          <u-form-item label="摘要名称" label-width="150" :border-bottom="false">
-            <u-input v-model="remarks" type="input" placeholder="请输入摘要名称" />
+          <u-form-item label="模板名称" label-width="150" :border-bottom="false">
+            <u-input v-model="name" type="input" placeholder="请输入模板名称" />
           </u-form-item>
         </view>
       </u-form>
     </view>
     <view class="view-list">
+      <view class="flex1">摘要</view>
       <view class="flex1">选择科目</view>
       <view class="flex1">选择方向</view>
       <view class="flex1">金额</view>
     </view>
-    <view v-for="(item,index) in goodlist" :key="index">
+    <view v-for="(item,index) in children" :key="index">
       <view class="view-lista">
-        <view class="flex1"><u-input disabled v-model="item.xxx1" @click="goKeMu(index)" type="input" placeholder="请选择科目" /></view>
+        <view class="flex1"><u-input v-model="item.abstract" type="input" placeholder="请输入摘要" /></view>
+        <view class="flex1"><u-input disabled v-model="item.kemu_name" @click="goKeMu(index)" type="input" placeholder="请选择科目" /></view>
         <view class="flex flex-ac flex1">
-          <view class="pr-5">{{ item.xxx2 ? '借' : '贷' }}</view>
-          <u-switch space="2" v-model="item.xxx2" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
+          <view class="pr-5">{{ item.direction ? '借' : '贷' }}</view>
+          <u-switch space="2" v-model="item.direction" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
           </u-switch>
         </view>
         <view class="flex flex1">
-          <view class="flex2"><u-input disabled v-model="item.xxx3" @click="goQushu(index)" type="input" placeholder="请选择" /></view>
+          <view class="flex2"><u-input disabled v-model="item.valuetype" @click="goQushu(index)" type="input" placeholder="请选择" /></view>
           <view class="flex1">
             <image src="../../../static/image/tab1/caiwu/menuicon.png" style="width: 25rpx;height: 20rpx;" mode="" @click="showDialog1(index)"></image>
           </view>
@@ -66,30 +66,18 @@
 export default {
   data() {
     return {
-      remarks: '', //名称
-      // subject_headings:'',//
-      anchildreb: '请选择', //公式取值
-      anchildren: '请选择', //自动平衡
-      credentials: [],
+      name: '', //名称 
       flag: 1,
       background: {
         backgroundColor: "#FFFFFF",
       },
-      formData: {
-        recording_time: "",
-        operation: "add",
-        documents_images: "",
-        years: "",
-        month: "",
-        day: "",
-        key: "",
-        remarks: ""
-      },
-      goodlist: [{
+
+      children: [{
         kemu_id: '',
-        // xxx1: "",
-        // xxx2: "",
-        // xxx3: '',
+        kemu_name: '',
+        abstract: '',
+        direction: true,
+        valuetype: '',
       }],
       isShowDialog1: false,
       currentIndex: '',
@@ -107,77 +95,25 @@ export default {
     this.flag = e.flag ? e.flag : 1;
   },
   methods: {
-    //按公式取值
-    formula() {
-      this.$navigateTo({
-        url: "./set"
-      }).then(res => {
-        console.log(res, "RRRRRRRRRRRRRRRRR")
-        this.anchildreb = '已选择'
-        if (res.direction) {
-          res.direction = 1
-        } else {
-          res.direction = -1
-        }
-        this.credentials[1] = res
-        console.log(this.credentials, "AAAAAAAAAAAA")
-      })
-    },
-    //自动平衡
-    autbalance() {
-      this.$navigateTo({
-        url: "./autobalance"
-      }).then(res => {
-        this.anchildren = '已选择'
-        if (res.direction) {
-          res.direction = 1
-        } else {
-          res.direction = -1
-        }
-        this.credentials[0] = res
-        console.log(this.credentials, "AAAAAAAAAAAA")
-      })
-    },
     showDialog1(index) {
       this.currentIndex = index;
       this.isShowDialog1 = true;
     },
     goQushu(i) {
       this.$navigateTo({
-        url: "./zcfzset"
+        url: `./zcfzset`
       }).then(res => {
-        // TODO:
-        // this.goodlist[i].kemu_id = res.id;
-        // this.goodlist[i].subject_headings = res.name;
-        // this.goodlist[i].balance_status = res.balance_status == -1 ? true : false;
-        // let dataArr = res.hesuan_list.map(item => {
-        //   return {
-        //     name: item.name,
-        //     hs_id: item.id,
-        //     memberName: ""
-        //   }
-        // })
-        // this.goodlist[i].xxx3 = 'xxx';
-        // this.$forceUpdate()
+        this.children[i].formula = res;
+        this.children[i].valuetype = res.length ? '按公式' : '借贷差';
+        this.$forceUpdate()
       })
     },
     goKeMu(index) {
       this.$navigateTo({
         url: "/pages/my/subject/selectPage"
       }).then(res => {
-        // TODO:
-        this.goodlist[index].kemu_id = res.id;
-        // this.goodlist[index].subject_headings = res.name;
-        // this.goodlist[index].balance_status = res.balance_status == -1 ? true : false;
-        // let dataArr = res.hesuan_list.map(item => {
-        //   return {
-        //     name: item.name,
-        //     hs_id: item.id,
-        //     memberName: ""
-        //   }
-        // })
-        console.log('aaaa', res)
-        this.goodlist[index].xxx1 = res.name;
+        this.children[index].kemu_id = res.id;
+        this.children[index].kemu_name = res.name;
         this.$forceUpdate()
       })
     },
@@ -185,15 +121,15 @@ export default {
       this.isShowDialog1 = false;
       let index = id || this.list1[this.digestValue1.join()].id;
       if (index == 2) {
-        if(!this.currentIndex) this.currentIndex = 0;
-        this.goodlist.splice(this.currentIndex, 1)
+        if (!this.currentIndex) this.currentIndex = 0;
+        this.children.splice(this.currentIndex, 1)
       } else if (index == 1) {
-        // TODO:
-        this.goodlist.push({
+        this.children.push({
           kemu_id: '',
-          // xxx1: "",
-          // xxx2: "",
-          // xxx3: '',
+          kemu_name: '',
+          abstract: '',
+          direction: true,
+          valuetype: '',
         })
       }
       this.$forceUpdate()
@@ -202,49 +138,51 @@ export default {
       this.digestValue1 = e.detail.value;
     },
     sureBtn() {
-      if (this.remarks == '') {
+      if (!this.name) {
         uni.showToast({
-          title: "请输入摘要名称",
+          title: "请输入模板名称",
           icon: "none"
         })
         return
       }
-      // if (this.anchildreb == '请选择') {
-      //   uni.showToast({
-      //     title: "请添加按公式取值",
-      //     icon: "none"
-      //   })
-      //   return
-      // }
-      // if (this.anchildren == '请选择') {
-      //   uni.showToast({
-      //     title: "请添加自动平衡",
-      //     icon: "none"
-      //   })
-      //   return
-      // }
-      // // console.log(this.credentials,"GGGGGGGGGGGGGGGGGGGGG")
-      // let param = {
-      //   name: this.remarks,
-      //   flag: '',
-      //   children: this.credentials
-      // }
-      // console.log(param)
-      // this.$http("enterprise.Date_query/TemplateAdd", param, "post").then(res => {
-      //   if (res.data.code == 1) {
-      //     uni.showToast({
-      //       title: "新增成功",
-      //       icon: "none"
-      //     })
-      //     setTimeout(() => {
-      //       uni.navigateBack({
-      //         delta: 1
-      //       })
-      //     }, 500)
-      //   }
-      // })
+      let children = this.children.filter(item => {
+        return item.kemu_id && item.abstract && item.valuetype
+      })
+      if (!children.length) {
+        uni.showToast({
+          title: "请完善数据",
+          icon: "none"
+        })
+        return
+      }
+      let params = {
+        name: this.name,
+        flag: 1,
+        children: children.map(item => {
+          return {
+            kemu_id: item.kemu_id,
+            abstract: item.abstract,
+            formula: item.formula,
+            direction: item.direction ? -1 : 1,
+            valuetype: item.valuetype == '按公式' ? 1 : 2,
+          }
+        })
+      }
+      console.log('params-------------------------------')
+      console.log(params)
 
-    },
+      this.$http("/api/enterprise.Date_query/TemplateAdd", params, "post").then(res => {
+        if (res.data.code == 1) {
+          uni.showToast({
+            title: "保存成功",
+            icon: "none"
+          })
+          this.$navigateTo({
+            url: '/pages/workbench/finalBill/jzlist'
+          })
+        }
+      })
+    }
   }
 }
 </script>
@@ -314,44 +252,6 @@ export default {
       line-height: 80rpx;
     }
   }
-
-  // 	.financial-popup-main {
-  // 		padding: 0 32rpx;
-
-  // 		.financial-popup-item {
-  // 			margin-top: 32rpx;
-  // 			display: flex;
-  // 			flex-direction: column;
-  // 			border-bottom: 1px solid #EEF2FF;
-  // 			padding-bottom: 32rpx;
-
-  // 			.financial-popup-item-hd {
-  // 				display: flex;
-  // 				align-items: center;
-
-  // 				.financial-popup-hd-status {
-  // 					background: #FF253D;
-  // 					border-radius: 48rpx;
-  // 					padding: 4rpx 8rpx;
-  // 					color: #fff;
-  // 					font-size: 24rpx;
-  // 					margin-left: 16rpx;
-  // 				}
-
-  // 				.financial-popup-hd-txt {
-  // 					font-size: 32rpx;
-  // 					color: #150E33;
-  // 					font-weight: bold;
-  // 				}
-  // 			}
-
-  // 			.financial-popup-item-bd {
-  // 				color: #7A7C94;
-  // 				font-size: 28rpx;
-  // 				margin-top: 30rpx;
-  // 			}
-  // 		}
-  // 	}
 }
 .picker-view {
   .item {
@@ -384,7 +284,7 @@ export default {
   color: #fff;
   margin: 32rpx auto;
 }
-.charu-btn{
+.charu-btn {
   width: 90%;
   height: 80rpx;
   background: #4396f7;
