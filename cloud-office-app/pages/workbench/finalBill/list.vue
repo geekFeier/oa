@@ -171,7 +171,7 @@ export default {
       console.log('params-------------------------------')
       console.log(params)
 
-      this.$http("/api/enterprise.Date_query/TemplateAdd", params, "post").then(res => {
+      this.$http("/enterprise.Date_query/TemplateAdd", params, "post").then(res => {
         if (res.data.code == 1) {
           uni.showToast({
             title: "保存成功",
