@@ -6,8 +6,9 @@
 					添加模板
 			</view>
 		</u-navbar>
+    <!-- @click="gdetail(item.id)" -->
 		<view class="mainBox">
-				<view class="may" v-for="(item,index) in credentials" :key="index" @click="gdetail(item.id)">
+				<view class="may" v-for="(item,index) in credentials" :key="index" >
 					<view class="view-flx">
 						<view>{{item.name}}</view>
 					</view>

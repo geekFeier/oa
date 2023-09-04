@@ -7,7 +7,7 @@
       <view class="kemu">{{formula.kemu_name}}</view>
       <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
     </view>
-    <view class="view-list">
+    <!-- <view class="view-list">
       <view>方向:</view>
       <view class="kemu"></view>
       <view class="flex flex-ac">
@@ -15,7 +15,7 @@
         <u-switch space="2" v-model="formula.direction" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) " :disabled="formula.valuetype">
         </u-switch>
       </view>
-    </view>
+    </view> -->
     <view class="view-list" @click="ruleF()">
       <view>数据来源:</view>
       <view class="kemu">{{formula.rule}}</view>
@@ -56,20 +56,30 @@ export default {
       },
       show: false,
       show2: false,
-      list2: [{
-        value: 1,
-        label: '期初'
-      },
+      list2: [
       {
-        value: 2,
-        label: '本期'
-      },
-      {
-        value: 3,
+        value: 'period_end',
         label: '期末'
       },
       ]
     };
+  },
+  onLoad(e) {
+    console.log(e.from)
+    if(e.from === 'edit'){
+      let data = JSON.parse(e.data)
+      if(data.length){
+        let obj = data[0]
+         this.formula.valuetype = false
+          this.formula.kemu_id = obj.kemu_id
+          this.formula.kemu_name = obj.Course_content || '请选择科目'
+          this.formula.rule = obj.rule == 'period_end' ? '期末' : '请选择数据来源'
+          // this.formula.direction = obj.direction == -1 ? true : false
+
+      }else{
+        this.formula.valuetype = true
+      }
+    }
   },
   methods: {
     selectname() {
@@ -113,7 +123,8 @@ export default {
       }
       let formula = [{
         kemu_id: this.formula.kemu_id,
-        rule: this.formula.rule,
+        rule: 'period_end',
+        "operation": "+", // 操作符默认
         // direction: this.formula.direction ? 1 : 2 // 暂时不传 TODO:
       }]
 

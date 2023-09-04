@@ -164,12 +164,10 @@ export default {
             abstract: item.abstract,
             formula: item.formula,
             direction: item.direction ? -1 : 1,
-            valuetype: item.valuetype == '按公式' ? 1 : 2,
+            valuetype: item.valuetype == '按公式' ? -1 : 1,
           }
         })
-      }
-      console.log('params-------------------------------')
-      console.log(params)
+      } 
 
       this.$http("/enterprise.Date_query/TemplateAdd", params, "post").then(res => {
         if (res.data.code == 1) {
