@@ -216,6 +216,7 @@ export default {
       },
       userInfo: {},
       listData: [],
+      cuttnetName: ""
     };
   },
   onLoad(e) {
@@ -247,6 +248,11 @@ export default {
       return dayjs(val).format("YYYY年MM月")
     }
   },
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo,
+    })
+  },
   methods: {
     getUserInfo() {
       this.$http("/User/getUser", {}, "post").then(res => {
@@ -268,14 +274,15 @@ export default {
       this.$http("enterprise.Account_books/index", params, "post").then(res => {
         if (res.data.code == 1) {
           this.listData = res.data.data.rows;
-          if (this.userInfo.account_books_id) {
-            this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
-              .account_books_id);
+          this.cuttnetId = this.userInfo.jobs.account_books_id;
+          this.defaultId = this.userInfo.jobs.account_books_id;
+
+          if (this.userInfo.jobs.account_books_id) {
+            this.accountText = this.listData.find(item => Number(item.id) === this.userInfo.jobs.account_books_id);
             this.accountText = this.accountText ? this.accountText.name : "请选择"
           } else {
             if (this.userInfo.is_admin == 'staff') {
-              this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
-                .jobs.account_books_id);
+              this.accountText = this.listData.find(item => Number(item.id) === this.userInfo.jobs.account_books_id);
               this.accountText = this.accountText ? this.accountText.name : "请选择"
             } else {
               this.accountText = "请选择";
@@ -344,6 +351,8 @@ export default {
       let params = {
         akid: this.cuttnetId
       }
+      this.accountText = this.cuttnetName
+      this.defaultId = this.cuttnetId
       uni.showLoading({
         title: '切换中'
       })
@@ -357,8 +366,9 @@ export default {
         }
       })
     },
-    selectAccount(id) {
+    selectAccount(id,name) {
       this.cuttnetId = id;
+      this.cuttnetName = name
     },
   }
 }

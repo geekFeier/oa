@@ -148,6 +148,7 @@ export default {
         akid: this.cuttnetId
       }
       this.accountText = this.cuttnetName
+      this.defaultId = this.cuttnetId
       uni.showLoading({
         title: '切换中'
       })

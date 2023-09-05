@@ -122,7 +122,6 @@
 					} else {
 						this.listData = [];
 					}
-					console.log(res, "++++++++++++++++++++++++++++++");
 				})
 			},
 			jumpTo(val) {
