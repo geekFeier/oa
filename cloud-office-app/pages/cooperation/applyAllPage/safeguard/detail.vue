@@ -175,7 +175,7 @@
           — 选择账套 —
         </view>
         <view class="financial-popup-main">
-          <view class="financial-popup-item " v-for="(item,index) in listData" @click="selectAccount(item.id,index)" :key="index">
+          <view class="financial-popup-item " v-for="(item,index) in listData" @click="selectAccount(item.id,item.name)" :key="index">
             <view class="popup-item-l">
               <view class="financial-popup-item-hd">
                 <text class="financial-popup-hd-txt">{{item.name}}</text>
@@ -234,7 +234,13 @@ export default {
       },
       userInfo: {},
       listData: [],
+      cuttnetName: ""
     };
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo
+    })
   },
   filters: {
     filterStatus(val) {
@@ -287,14 +293,15 @@ export default {
       this.$http("enterprise.Account_books/index", params, "post").then(res => {
         if (res.data.code == 1) {
           this.listData = res.data.data.rows;
-          if (this.userInfo.account_books_id) {
-            this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
-              .account_books_id);
+          this.cuttnetId = this.userInfo.jobs.account_books_id;
+          this.defaultId = this.userInfo.jobs.account_books_id;
+          if (this.userInfo.jobs.account_books_id) {
+            this.accountText = this.listData.find(item => Number(item.id) === this.userInfo.jobs.account_books_id);
             this.accountText = this.accountText ? this.accountText.name : "请选择"
+
           } else {
             if (this.userInfo.is_admin == 'staff') {
-              this.accountText = this.listData.find(item => Number(item.id) === this.userInfo
-                .jobs.account_books_id);
+              this.accountText = this.listData.find(item => Number(item.id) === this.userInfo.jobs.account_books_id);
               this.accountText = this.accountText ? this.accountText.name : "请选择"
             } else {
               this.accountText = "请选择";
@@ -363,6 +370,7 @@ export default {
       let params = {
         akid: this.cuttnetId
       }
+      this.accountText = this.cuttnetName
       uni.showLoading({
         title: '切换中'
       })
@@ -376,8 +384,9 @@ export default {
         }
       })
     },
-    selectAccount(id) {
+    selectAccount(id, name) {
       this.cuttnetId = id;
+      this.cuttnetName = name
     },
   }
 }
