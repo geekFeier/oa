@@ -121,7 +121,7 @@
 				defaultId: "",
 				isShowPopop: false,
 				zhangtaoListData: [],
-				accountText: '请选择' // 账套获取
+				accountText: '选择账套' // 账套获取
 			};
 		},
 		filters: {
@@ -174,6 +174,7 @@
 					sort: "serial",
 					order: "asc",
 					loading_type: "init_set"
+          // TODO:
 				}
 				this.$http("enterprise.Subject/getIndex", params, "get").then(res => {
 					if (res.data.code == 1) {

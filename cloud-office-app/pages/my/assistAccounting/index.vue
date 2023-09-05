@@ -88,7 +88,7 @@
 				defaultId: "",
 				isShowPopop: false,
 				zhangtaoListData: [],
-				accountText: '请选择' // 账套获取
+				accountText: '选择账套' // 账套获取
 			};
 		},
 		onLoad() {
@@ -129,7 +129,8 @@
 			getCate() {
 				let params = {
 					pid: 0,
-					search: ""
+					search: "",
+          // TODO:
 				}
 				this.$http("enterprise.Accounting/list?search&pid=0", params, "get").then(res => {
 					this.listData = res.data.data.rows;
@@ -169,7 +170,7 @@
 				let params = {
 					offset: 0,
 					page: 1,
-					limit: 50
+					limit: 50,
 				}
 				this.$http("enterprise.Account_books/index", params, "post").then(res => {
 					if (res.data.code == 1) {
