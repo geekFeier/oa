@@ -18,7 +18,7 @@
       <view class="flex1">选择方向</view>
       <view class="flex1">金额</view>
     </view>
-    <view v-for="(item,index) in children" :key="index">
+    <view v-for="(item,index) in children" :key="index" style="pointer-events:none;opacity:.5">
       <view class="view-lista">
         <view class="flex1"><u-input v-model="item.abstract" type="input" placeholder="请输入摘要" /></view>
         <view class="flex1"><u-input disabled v-model="item.kemu_name" @click="goKeMu(index)" type="input" placeholder="请选择科目" /></view>
@@ -183,18 +183,18 @@ export default {
       let params = {
         pro_id: this.id,
         name: this.name,
-        flag: 1,
-        children: children.map(item => {
-          return {
-            kemu_id: item.kemu_id,
-            abstract: item.abstract,
-            formula: item.formula,
-            direction: item.direction ? -1 : 1,
-            valuetype: item.valuetype == '按公式' ? -1 : 1,
-          }
-        })
+        // flag: 1,
+        // children: children.map(item => {
+        //   return {
+        //     kemu_id: item.kemu_id,
+        //     abstract: item.abstract,
+        //     formula: item.formula,
+        //     direction: item.direction ? -1 : 1,
+        //     valuetype: item.valuetype == '按公式' ? -1 : 1,
+        //   }
+        // })
       }
-//  TODO:
+//  TODO: 一期先仅支持改名称
       this.$http("/enterprise.Date_query/TemplateSaveOne", params, "post").then(res => {
         if (res.data.code == 1) {
           uni.showToast({
