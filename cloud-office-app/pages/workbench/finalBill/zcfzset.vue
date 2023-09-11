@@ -65,7 +65,6 @@ export default {
     };
   },
   onLoad(e) {
-    console.log(e.from)
     if(e.from === 'edit'){
       let data = JSON.parse(e.data)
       if(data.length){

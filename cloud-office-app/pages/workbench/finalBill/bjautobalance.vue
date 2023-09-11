@@ -39,7 +39,7 @@
 					abstract: '',
 					kemu_id: '',
 					valuetype: 1,
-					direction: false,
+					direction: true,
 					ratevalue:100,
 					formula: []
 				},
@@ -51,7 +51,7 @@
 		},
 		onLoad(e) {
 			this.credentials = JSON.parse(e.detail)
-			if(JSON.parse(e.detail).direction == 1){
+			if(JSON.parse(e.detail).direction == -1){
 				this.credentials.direction = true
 			}else{
 				this.credentials.direction = false
@@ -78,9 +78,9 @@
 				}
 				let task
 				if(this.credentials.direction){
-					task = 1
-				}else{
 					task = -1
+				}else{
+					task = 1
 				}
 				let param = {
 					direction:task,

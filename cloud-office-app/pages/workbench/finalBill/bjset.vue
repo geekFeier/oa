@@ -44,7 +44,7 @@
 				jk:'已选择',
 				credentials: {
 					Course_content: '',
-					direction: false,
+					direction: true,
 					kemu_id: '',
 					valuetype: 2,
 					ratevalue:0,
@@ -60,12 +60,11 @@
 		onLoad(e) {
 			this.credentials = JSON.parse(e.detail)
 			this.id = e.id
-			if(JSON.parse(e.detail).direction == 1){
+			if(JSON.parse(e.detail).direction == -1){
 				this.credentials.direction = true
 			}else{
 				this.credentials.direction = false
 			}
-			console.log(this.credentials)
 			this.ida = JSON.parse(e.detail).id
 		},
 		methods: {
@@ -80,7 +79,6 @@
 				this.$navigateTo({
 					url: "/pages/my/subject/selectPage"
 				}).then(res => {
-					console.log(res,">>>>>>>>")
 					this.credentials.kemu_id = res.id;
 					this.credentials.Course_content = res.name;
 				})
@@ -95,9 +93,9 @@
 				}
 				let task
 				if(this.credentials.direction){
-					task = 1
-				}else{
 					task = -1
+				}else{
+					task = 1
 				}
 				let param = {
 					direction:task,
