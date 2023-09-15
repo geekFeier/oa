@@ -134,6 +134,18 @@
 											url: "/pages/tabbar/tab-1/index"
 										})
 									}, 500)
+								} else if (res.data.code == 20001) {
+									setTimeout(() => {
+										this.$navigateTo({
+											url: "/pages/my/accountSet/index"
+										})
+									}, 500)
+								} else if (res.data.code == 20006) {
+									setTimeout(() => {
+										uni.reLaunch({
+											url: "/pages/tabbar/tab-1/index"
+										})
+									}, 500)
 								}
 							})
 						}

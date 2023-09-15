@@ -18,7 +18,7 @@
 		<view class="mainBox">
 			<view class="main-item" v-for="(item,index) in listData" :key="index">
 				<view class="main-item-header" @click="geiminhxi(item.kemu_id)">
-					<text>{{item.years}}</text>
+					<text>{{item.kemu_id}}</text>
 					<text>{{item.subject_headings}}</text>
 					<u-icon name="arrow-right" color="#B5BFDA"></u-icon>
 				</view>
