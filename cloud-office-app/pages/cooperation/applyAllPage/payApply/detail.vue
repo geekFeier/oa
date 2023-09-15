@@ -228,8 +228,8 @@ export default {
     this.enterprice = uni.getStorageSync('enterprise')
 
     if (this.personType == 1 || this.personType == 3) {
-      this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
-      this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
+      this.defaultId = this.userInfo ? this.userInfo.jobs.account_books_id : "";
+      this.cuttnetId = this.userInfo ? this.userInfo.jobs.account_books_id : "";
       this.getList();
     }
     this.getList();

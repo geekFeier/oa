@@ -67,8 +67,8 @@ import dayjs from '@/utils/dayjs';
 export default {
   data() {
     return {
-      selecta: "../../../../static/image/tab2/selecta.png",
-      select: "../../../../static/image/tab2/select.png",
+      selecta: "../../../static/image/tab2/selecta.png",
+      select: "../../../static/image/tab2/select.png",
       detailData: {},
       isShowPopop: false,
       cuttnetId: 0,
@@ -79,6 +79,7 @@ export default {
         page: 1,
         limit: 10
       },
+      userInfo:{},
       listData: [],
       cuttnetName: ""
     }
@@ -91,7 +92,6 @@ export default {
   computed: {
     ...mapState({
       personType: state => state.user.personType,
-      userInfo: state => state.user.userInfo,
     })
   },
   mounted() {
@@ -118,8 +118,8 @@ export default {
           this.userInfo = res.data.data
 
           this.$store.dispatch("user/GET_USER_INFO", res.data.data);
-          this.defaultId = this.userInfo ? this.userInfo.account_books_id : "";
-          this.cuttnetId = this.userInfo ? this.userInfo.account_books_id : "";
+          this.defaultId = this.userInfo ? this.userInfo.jobs.account_books_id : "";
+          this.cuttnetId = this.userInfo ? this.userInfo.jobs.account_books_id : "";
         }
       })
     },
@@ -145,8 +145,6 @@ export default {
       }
       console.log(111111111111111111111111111111111111111)
       this.$http("enterprise.Account_books/index", params, "post").then(res => {
-        console.log(res.data.data.rows)
-        console.log('--------------------------------------------')
         if (res.data.code == 1) {
           this.listData = res.data.data.rows;
           this.cuttnetId = this.userInfo.jobs.account_books_id;
