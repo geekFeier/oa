@@ -251,14 +251,14 @@ export default {
       this.$http("enterprise.Account_books/index", params, "post").then(res => {
         if (res.data.code == 1) {
           this.zhangtaoListData = res.data.data.rows;
-          this.cuttnetId = this.userInfo.jobs.account_books_id;
-          this.defaultId = this.userInfo.jobs.account_books_id;
-          if (this.userInfo.jobs.account_books_id) {
-            this.accountText = this.zhangtaoListData.find(item => Number(item.id) === this.userInfo.jobs.account_books_id);
+          this.cuttnetId = this.userInfo.account_books_id;
+          this.defaultId = this.userInfo.account_books_id;
+          if (this.userInfo.account_books_id) {
+            this.accountText = this.zhangtaoListData.find(item => Number(item.id) === this.userInfo.account_books_id);
             this.accountText = this.accountText ? this.accountText.name : "请选择"
           } else {
             if (this.userInfo.is_admin == 'staff') {
-              this.accountText = this.zhangtaoListData.find(item => Number(item.id) === this.userInfo.jobs.account_books_id);
+              this.accountText = this.zhangtaoListData.find(item => Number(item.id) === this.userInfo.account_books_id);
               this.accountText = this.accountText ? this.accountText.name : "请选择"
             } else {
               this.accountText = "请选择";

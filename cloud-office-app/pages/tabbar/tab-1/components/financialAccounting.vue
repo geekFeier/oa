@@ -110,7 +110,6 @@
 				})
 			},
 			getList() {
-				console.log(123)
 				let params = {
 					offset: (this.page - 1) * 10,
 					page: this.page,
