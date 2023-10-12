@@ -36,10 +36,10 @@
 					disabled />
 			</u-form-item>
 			<u-form-item label="年初余额" label-width="150">
-				<u-input disabled v-model="formData.value" type="input" placeholder="自动计算无需填写" />
+				<u-input  v-model="params.years_balance" type="input" placeholder="请输入年初余额" />
 			</u-form-item>
 			<u-form-item label="期初余额" label-width="150">
-				<u-input v-model="params.initial_balance" type="number" placeholder="请输入期初余额" />
+				<u-input disabled v-model="formData.value" type="number" placeholder="自动计算无需填写" />
 			</u-form-item>
 			<u-form-item label="借方累计" label-width="150">
 				<u-input v-model="params.debit_balance" type="input" placeholder="请输入借方累计" />
@@ -65,7 +65,7 @@
 		data() {
 			return {
 				params: {
-					initial_balance: "0",
+          years_balance: "0", 
 					debit_balance: "0",
 					creditor_balance: "0"
 				},
@@ -99,12 +99,12 @@
 			params: {
 				deep: true,
 				handler(val) {
-					this.formData.value = 0;
+					this.formData.value = this.formData.value || 0;
 					if (this.currentTypeName == '贷') {
-						this.formData.value = Number(this.params.initial_balance) + Number(this.params.debit_balance) -
+						this.formData.value = Number(this.params.years_balance) + Number(this.params.debit_balance) -
 							Number(this.params.creditor_balance)
 					} else {
-						this.formData.value = Number(this.params.initial_balance) - Number(this.params.debit_balance) +
+						this.formData.value = Number(this.params.years_balance) - Number(this.params.debit_balance) +
 							Number(this.params.creditor_balance)
 					}
 
@@ -132,11 +132,17 @@
 				this.$http("enterprise.Subject/initializeParam", params, "get").then(res => {
 					this.formData = res.data.data;
 					this.currentTypeName = this.formData.balance_status == -1 ? "借" : "贷"
-					this.currentIndex = this.formData.hesuan == "normal" ? 0 : 1
+					this.currentIndex = this.formData.hesuan == "normal" ? 0 : 1 
+          this.params.debit_balance= this.formData.debit_balance
+          this.params.creditor_balance= this.formData.creditor_balance
+          this.params.years_balance= this.formData.years_balance
 				})
 			},
 			sureBtn() {
-				this.$http("enterprise.Subject/initializeParam", this.params, "post").then(res => {
+				this.$http("enterprise.Subject/initializeParam", {
+          ...this.params,
+          initial_balance: this.formData.value,
+        }, "post").then(res => {
 					if (res.data.code == 1) {
 						uni.showToast({
 							title: "设置成功",

@@ -323,7 +323,11 @@
 					})
 					return
 				}
+        console.log('this.formData---------------------------------------------')
+        console.log(this.formData)
 				this.$http("enterprise.subject_balance/dateils", this.formData, "get").then(res => {
+          console.log('-----------------------')
+          console.log(res)
 					if (res.data.code == 1) {
 						this.kemu_name = res.data.data.kemu_name
 						this.listData = res.data.data.credentils;
