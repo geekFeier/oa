@@ -18,7 +18,7 @@
 		<view class="mainBox">
 			<view class="main-item" v-for="(item,index) in listData" :key="index">
 				<view class="main-item-header" @click="geiminhxi(item.kemu_id)">
-					<text>{{item.kemu_id}}</text>
+					<text>{{item.kemu_serial}}</text>
 					<text>{{item.subject_headings}}</text>
 					<u-icon name="arrow-right" color="#B5BFDA"></u-icon>
 				</view>
@@ -131,8 +131,8 @@
 					</view>
 					<view class="popup-bottom">
 						<view class="popup-bottom-item" @click="selectDate(index)"
-							:class="{active:month==index+1 || to_month==index+1,disable:monthArr.indexOf(item)<0}" v-for="(item,index) in seasonList"
-							:key="index">
+							:class="{active:month==index+1 || to_month==index+1,disable:monthArr.indexOf(item)<0}"
+							v-for="(item,index) in seasonList" :key="index">
 							{{item}}期
 						</view>
 					</view>
@@ -156,7 +156,7 @@
 	export default {
 		data() {
 			return {
-				monthArr:[],
+				monthArr: [],
 				month: "",
 				to_month: "",
 				isShowPopup: false,
@@ -193,9 +193,9 @@
 		},
 		methods: {
 			//跳转详情
-			geiminhxi(id){
+			geiminhxi(id) {
 				uni.navigateTo({
-					url:"/pages/workbench/detailAccount/list?id="+id
+					url: "/pages/workbench/detailAccount/list?id=" + id
 				})
 				// uni.navigateTo({
 				// 	url:'../detailAccount/index'
@@ -213,8 +213,8 @@
 							this.formData.month = currentData[0].month
 							this.formData.to_month = currentData[0].month
 						} else {
-							this.formData.to_month = dayjs().month()+1;
-							this.formData.month = dayjs().month()+1;
+							this.formData.to_month = dayjs().month() + 1;
+							this.formData.month = dayjs().month() + 1;
 						}
 						this.monthArr = currentData.map(item => {
 							return this.formatNum(item.month)
@@ -271,8 +271,17 @@
 				}
 				this.$http("enterprise.subject_balance/SubjectsIndex", this.formData, "get").then(res => {
 					if (res.data.code == 1) {
-						this.listData = res.data.data.rows;
-						console.log(this.listData,">>>>>>>>>>>>")
+						res.data.data.rows = res.data.data.rows || []
+						this.listData = res.data.data.rows.sort((x, y) => {
+							if (x.kemu_serial < y.kemu_serial) {
+								return -1;
+							}
+							if (x.kemu_serial > y.kemu_serial) {
+								return 1;
+							}
+							return 0;
+						});
+						console.log(this.listData, ">>>>>>>>>>>>")
 						this.totalData = res.data.data.totalData;
 					}
 				})
@@ -291,6 +300,7 @@
 		background: #FBFCFF;
 		color: #150E33;
 	}
+
 	.disable {
 		color: #dfdfdf !important;
 	}

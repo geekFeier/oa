@@ -2,30 +2,63 @@
   <view>
     <u-navbar :is-back="true" title="公式添加" :border-bottom="false" back-icon-color="#000" :background="background" title-color="#000" :height="55">
     </u-navbar>
-    <view class="view-list" @click="selectname()">
-      <view>科目名称:</view>
-      <view class="kemu">{{account}}</view>
-      <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
-    </view>
-    <view class="view-list">
-      <view>方向:</view>
-      <view class="kemu"></view>
-      <view class="flex flex-ac">
-        <view style="padding-right:5rpx">{{ direction ? '借' : '贷' }}</view>
-        <u-switch space="2" v-model="direction" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
-        </u-switch>
+
+    <view class="view-listaa">
+      <view class="view-list" @click="selectname()">
+        <view>科目名称:</view>
+        <view class="kemu">{{account}}</view>
+        <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
+      </view>
+      <view class="view-list">
+        <view>方向:</view>
+        <view class="kemu"></view>
+        <view class="flex flex-ac">
+          <view style="padding-right:5rpx">{{ direction ? '借' : '贷' }}</view>
+          <u-switch space="2" v-model="direction" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
+          </u-switch>
+        </view>
+      </view>
+      <view class="view-list" @click="add()">
+        <view>运算符号:</view>
+        <view class="kemu">{{operator}}</view>
+        <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
+      </view>
+      <view class="view-list" @click="sourceF()">
+        <view>数据来源(累计金额):</view>
+        <view class="kemu">{{source}}</view>
+        <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
       </view>
     </view>
-    <view class="view-list" @click="add()">
-      <view>运算符号:</view>
-      <view class="kemu">{{operator}}</view>
-      <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
+
+     <view  class="view-listaa">
+      <view class="view-list" @click="selectname()">
+        <view>科目名称:</view>
+        <view class="kemu">{{account}}</view>
+        <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
+      </view>
+      <view class="view-list">
+        <view>方向:</view>
+        <view class="kemu"></view>
+        <view class="flex flex-ac">
+          <view style="padding-right:5rpx">{{ direction ? '借' : '贷' }}</view>
+          <u-switch space="2" v-model="direction" size="30" inactiveColor="rgb(245, 108, 108)" activeColor="rgb(90, 199, 37) ">
+          </u-switch>
+        </view>
+      </view>
+      <view class="view-list" @click="add()">
+        <view>运算符号:</view>
+        <view class="kemu">{{operator}}</view>
+        <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
+      </view>
+      <view class="view-list" @click="sourceF()">
+        <view>数据来源(本期金额):</view>
+        <view class="kemu">{{source}}</view>
+        <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
+      </view>
     </view>
-    <view class="view-list" @click="sourceF()">
-      <view>数据来源:</view>
-      <view class="kemu">{{source}}</view>
-      <u-icon class="item-hd-r" name="arrow-right" color="#7A7C94" size="28"></u-icon>
-    </view>
+
+
+
     <button type="default" class="sure_btn" @click="sureBtn">添加</button>
     <u-select v-model="show" mode="single-column" :list="list" @confirm="confirm"></u-select>
     <u-select v-model="show2" mode="single-column" :list="list2" @confirm="confirm2"></u-select>
@@ -182,5 +215,10 @@ export default {
     text-align: right;
     flex: 1;
   }
+}
+
+.view-listaa{
+  margin:20rpx 20rpx;
+   border: 1px solid #f5f5f5;
 }
 </style>
