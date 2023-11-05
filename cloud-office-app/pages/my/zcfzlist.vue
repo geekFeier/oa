@@ -10,21 +10,12 @@
       <view class="flex1">数据来源</view>
       <view>操作</view>
     </view>
-    <view v-for="(item,index) in goodlist" :key="index"  class="view-listaa">
-      <view  class="view-lista">
-        <view>{{item.kemu_info.name || '-'}}</view>
-        <view>{{item.direction | filterDirection}}</view>
-        <view>{{item.operator || '-'}}</view>
-        <view>{{item.source | filterSource}}</view>
-        <view style="color: red;" @click="deleta(item.id)">删除</view>
-      </view>
-     <view  class="view-lista">
-       <view>{{item.kemu_info.name || '-'}}</view>
-        <view>{{item.direction | filterDirection}}</view>
-        <view>{{item.operator || '-'}}</view>
-        <view>{{item.source | filterSource}}</view>
-        <view style="color: red;" @click="deleta(item.id)">删除</view>
-     </view>
+    <view v-for="(item,index) in goodlist" :key="index" class="view-lista">
+      <view>{{item.kemu_info.name || '-'}}</view>
+      <view>{{item.direction | filterDirection}}</view>
+      <view>{{item.operator || '-'}}</view>
+      <view>{{item.source | filterSource}}</view>
+      <view style="color: red;" @click="deleta(item.id)">删除</view>
     </view>
   </view>
   </view>
@@ -134,15 +125,11 @@ export default {
   padding: 10rpx 20rpx;
   display: flex;
   align-items: center;
- 
+  border-bottom: 1px solid #f5f5f5;
   view {
     flex:1;
     text-align: center;
     line-height: 66rpx;
   }
-}
-.view-listaa{
-  margin:20rpx 20rpx;
-   border: 1px solid #f5f5f5;
 }
 </style>

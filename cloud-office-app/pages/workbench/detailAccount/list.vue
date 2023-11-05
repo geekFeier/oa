@@ -14,7 +14,7 @@
 			<view class="title">
 				科目名称： {{listData.kemu_name}}
 			</view>
-			<view class="main-itema" v-for="(item,index) in listData" :key="index" v-if="index!=='kemu_name'">
+			<view class="main-itema" v-for="(item,index) in listDataArr" :key="index" v-if="index!=='kemu_name'">
 
 				<view class="view-top" v-if="item.credentials_id" @click="getmaytime(item.credentials_id)">
 					<view class="view-time">
@@ -216,6 +216,7 @@
 				to_month: "",
 				isShowPopup: false,
 				listData: [],
+				listDataArr:[],
 				monthArr: '', //
 				background: {
 					backgroundColor: "#FFFFFF",
@@ -323,22 +324,29 @@
 					})
 					return
 				}
-        console.log('this.formData---------------------------------------------')
-        console.log(this.formData)
+     
 				this.$http("enterprise.subject_balance/dateils", this.formData, "get").then(res => {
-          console.log('-----------------------')
-          console.log(res)
+           
 					if (res.data.code == 1) {
 						this.kemu_name = res.data.data.kemu_name
 						this.listData = res.data.data.credentils;
-						// this.listData = res.data.data.rows;
-						// this.totalData = res.data.data.totalData;
+						let obj = JSON.parse(JSON.stringify(this.listData))
+						this.listDataArr = []
+						for(let key in obj){
+							if((typeof obj[key] === 'object') && obj[key]){
+								this.listDataArr.push(obj[key])
+							}
+						} 
+						function getTimestamp(dateStr) {
+						  return new Date(dateStr).getTime();
+						}
+						this.listDataArr.sort((a, b) => getTimestamp(a.createtime) - getTimestamp(b.createtime));
+						console.log(this.listDataArr)
 					}
 				})
 			},
 			tabsChange(index) {
 				this.swiperCurrent = index;
-				// this.formData.level = index;
 				this.getListData();
 			}
 		}
@@ -530,43 +538,6 @@
 				line-height: 80rpx;
 			}
 		}
-
-		// 	.financial-popup-main {
-		// 		padding: 0 32rpx;
-
-		// 		.financial-popup-item {
-		// 			margin-top: 32rpx;
-		// 			display: flex;
-		// 			flex-direction: column;
-		// 			border-bottom: 1px solid #EEF2FF;
-		// 			padding-bottom: 32rpx;
-
-		// 			.financial-popup-item-hd {
-		// 				display: flex;
-		// 				align-items: center;
-
-		// 				.financial-popup-hd-status {
-		// 					background: #FF253D;
-		// 					border-radius: 48rpx;
-		// 					padding: 4rpx 8rpx;
-		// 					color: #fff;
-		// 					font-size: 24rpx;
-		// 					margin-left: 16rpx;
-		// 				}
-
-		// 				.financial-popup-hd-txt {
-		// 					font-size: 32rpx;
-		// 					color: #150E33;
-		// 					font-weight: bold;
-		// 				}
-		// 			}
-
-		// 			.financial-popup-item-bd {
-		// 				color: #7A7C94;
-		// 				font-size: 28rpx;
-		// 				margin-top: 30rpx;
-		// 			}
-		// 		}
-		// 	}
+ 
 	}
 </style>
