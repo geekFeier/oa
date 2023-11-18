@@ -400,6 +400,8 @@ export default {
       }
       this.$http("enterprise.dashboard.dashboard/Money", params, "get").then(res => {
         if (res.data.data) {
+          console.log('----------------------------------------------------------')
+          console.log(res.data.data)
           this.ziJinData = res.data.data;
         }
 

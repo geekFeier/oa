@@ -18,7 +18,8 @@
 
 				<view class="view-top" v-if="item.credentials_id" @click="getmaytime(item.credentials_id)">
 					<view class="view-time">
-						{{item.createtime}}
+						{{item.code}}
+						<!-- {{item.createtime}} -->
 					</view>
 					<u-icon name="arrow-right" color="#B5BFDA"></u-icon>
 				</view>

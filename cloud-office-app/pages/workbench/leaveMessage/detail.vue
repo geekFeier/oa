@@ -94,10 +94,10 @@
 					to_user_id: this.currentId,
 					content:this.inputText 
 				}
-
+       
 				this.$http("enterprise.message/addMessage", params, "post").then(res => {
 					this.chatList.push({
-						avatar: '../../../static/avatar.png',
+						avatar: this.userInfo.avatar,
 						content: this.inputText,
 						type: 'right'
 					});
