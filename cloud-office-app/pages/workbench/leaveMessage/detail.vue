@@ -134,11 +134,11 @@
 
 						if (item.own == 1) {
 							item.type = 'right'
-							item.avatar= '../../../static/avatar.png'
+							
 						} else {
-							item.type = 'left'
-							item.avatar= '../../../static/avatar.png'
+							item.type = 'left' 
 						}
+            item.avatar= item.userInfo ? (item.userInfo.userinfo.avatar ? item.userInfo.userinfo.avatar : '../../../static/avatar.png') : '../../../static/avatar.png'
 					})
 					this.chatList.unshift(...data)
 				})

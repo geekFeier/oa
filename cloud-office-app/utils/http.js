@@ -12,6 +12,7 @@ function request(url, data, method = 'get', contentType = 1, Authorization) {
 	let tokenData = ""
 	if (!Authorization) { //不是登陆，不用token
 		tokenData = uni.getStorageSync('token') || "";
+		console.log('tokenData',tokenData)
 	}
 	let header = {
 		'content-type': contentType === 1 ? 'application/json' : 'application/x-www-form-urlencoded',
