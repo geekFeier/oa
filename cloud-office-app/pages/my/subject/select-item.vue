@@ -9,6 +9,22 @@
           {{item.name}}
         </view>
       </view> 
+      <view class="main-item" @click="selectBtn(item)" v-else-if="!item.hesuan && item.status === 'normal'" >
+        <view class="main-item-l">
+          {{item.serial}}
+        </view>
+        <view class="main-item-r">
+          {{item.name}}
+        </view>
+      </view> 
+      <view class="main-item main-item-disabled"  v-else>
+        <view class="main-item-l">
+          {{item.serial}}
+        </view>
+        <view class="main-item-r">
+          {{item.name}}
+        </view>
+      </view> 
     </template>
     <view class="main-item" @click="selectBtn(item)" v-else>
         <view class="main-item-l">
@@ -65,4 +81,7 @@
 		padding: 32rpx 0;
 		font-size: 32rpx;
 	}
+  .main-item-disabled{
+    color:#999999;
+  }
 </style>

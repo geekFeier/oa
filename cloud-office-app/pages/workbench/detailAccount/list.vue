@@ -18,8 +18,8 @@
 
 				<view class="view-top" v-if="item.credentials_id" @click="getmaytime(item.credentials_id)">
 					<view class="view-time">
-						{{item.code}}
-						<!-- {{item.createtime}} -->
+						
+						{{item.createtime.split(' ')[0]}}&nbsp;记账：{{item.code || '-'}}号
 					</view>
 					<u-icon name="arrow-right" color="#B5BFDA"></u-icon>
 				</view>

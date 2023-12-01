@@ -7,10 +7,10 @@
 		<view class="comBox">
 			<view class="headerBox">
 				<view style="font-size: 30rpx;">
-					{{detailData.years}}-{{Math.abs(detailData.month)}}-{{detailData.day}}
-				</view>
+					日期：{{detailData.years}}-{{Math.abs(detailData.month)}}-{{detailData.day}}
+				</view> 
 				<view style="color: #4396F7;margin-top: 20rpx;">
-					摘要：{{detailData.abstract}}
+					<text>摘要：{{detailData.abstract}}</text> <text style="float:right"> 凭证编号：{{detailData.code || '-'}}</text>
 				</view>
 			</view>
 

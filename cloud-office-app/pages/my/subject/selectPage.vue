@@ -106,7 +106,6 @@
 				this.$http("enterprise.Subject/getIndex", params, "get").then(res => {
 					console.log(res, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 					if (res.data.code == 1) {
-
 						this.listData = res.data.data.rows;
 					}
 				})
