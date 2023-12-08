@@ -240,6 +240,15 @@
 					this.formData.to_month = this.month;
 					this.formData.month = this.to_month
 				}
+        console.log('this.formData.to_month,this.formData.month')
+        console.log(this.formData.to_month,this.formData.month)
+        if (!this.formData.month || !this.formData.to_month) {
+					uni.showToast({
+						title: "请选择您要查询的期间",
+						icon: "none"
+					})
+					return
+				}
 				this.isShowPopup = false;
 				this.getListData();
 			},
@@ -262,13 +271,14 @@
 				this.isShowPopup = true;
 			},
 			getListData() {
-				if (this.formData.month == '') {
+				if (!this.formData.month || !this.formData.to_month) {
 					uni.showToast({
 						title: "请选择您要查询的期间",
 						icon: "none"
 					})
 					return
 				}
+        console.log('this.formData------------------------------')
 				this.$http("enterprise.subject_balance/SubjectsIndex", this.formData, "get").then(res => {
 					if (res.data.code == 1) {
 						res.data.data.rows = res.data.data.rows || []

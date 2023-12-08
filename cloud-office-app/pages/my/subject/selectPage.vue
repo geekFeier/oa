@@ -26,7 +26,7 @@
 				</view>
 			</view> --> 
 			<view v-for="(item,index) in listData" :key="index">
-        <selectItem :item="item" :flag="2" :from="from"></selectItem>
+        <selectItem :item="item" :flag="2" :from="from" :level="1"></selectItem>
 			</view>
 		</view>
 

@@ -1,15 +1,16 @@
 <template>
 	<view class="itemBox">
 		<template v-if="from === 'addPage'">
-      <view class="main-item" @click="selectBtn(item)" v-if="(item.is_have_children == '-1') || (item.hesuan === 'normal')">
-        <view class="main-item-l">
+      <!--  || (level != 1 && item.is_have_children == '-1') || (item.hesuan === 'normal')  -->
+      <view class="main-item" v-if="(level === 1 && item.is_have_children != '-1') ">
+        <view class="main-item-l-disabled">
           {{item.serial}}
         </view>
         <view class="main-item-r">
           {{item.name}}
         </view>
       </view>  
-      <view class="main-item main-item-disabled"  v-else>
+      <view class="main-item main-item"  @click="selectBtn(item)"  v-else>
         <view class="main-item-l">
           {{item.serial}}
         </view>
@@ -46,6 +47,10 @@
       from:{
         default:'',
         type:String
+      },
+      level:{
+        default:null,
+        type:Number
       }
 		},
 		

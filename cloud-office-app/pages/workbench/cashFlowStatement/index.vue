@@ -375,17 +375,18 @@
 				// 	this.formData.month = this.to_month
 				// }
 				this.formData.num = this.num;
+        
 				this.isShowPopup = false;
 				this.getListData();
 			},
 			getListData() {
-				if (this.formData.month == '') {
-					uni.showToast({
-						title: "请选择您要查询的期间",
-						icon: "none"
-					})
-					return
-				}
+				// if (this.formData.month == '') {
+				// 	uni.showToast({
+				// 		title: "请选择您要查询的期间",
+				// 		icon: "none"
+				// 	})
+				// 	return
+				// }
 				this.$http("enterprise.report/cash_flow_statement", this.formData, "get").then(res => {
 					if (res.data.code == 1) {
 						console.log(res.data.data, "?????????????")
